@@ -25,4 +25,9 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function cycles()
+    {
+        return view('admin.cycles.index');
+    }
 }

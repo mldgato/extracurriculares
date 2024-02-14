@@ -14,9 +14,17 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+         \App\Models\User::factory()->create([
+             'name' => 'Manuel Lisandro',
+             'surname' => 'Dardón López',
+             'email' => 'mdardon@colegiodeinfantes.edu.gt',
+            'password' => 'Alejandro31$',
+        ]);
+
+        $this->call(CycleSeeder::class);
+        $this->call(LevelSeeder::class);
+        $this->call(GradeSeeder::class);
+        $this->call(SectionSeeder::class);
+        $this->call(ClassroomSeeder::class);
     }
 }
