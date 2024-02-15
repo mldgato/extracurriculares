@@ -17,6 +17,7 @@ class ShowCycles extends Component
     public $direction = 'desc';
     public $cant = '10';
     public $readyToLoad = false;
+    public $theOrder = 0;
 
     protected $paginationTheme = "bootstrap";
     protected $queryString = [
@@ -80,6 +81,20 @@ class ShowCycles extends Component
             'cycle_name'
         ]);
     }
+
+    public function save()
+    {
+        $this->validate();
+        Cycle::create(
+            [
+                'cycle_name' => $this->cycle_name,
+                'order' => $this->theOrder
+            ]
+        );
+        $this->resetFields();
+        $this->dispatch('closeModalMessaje', 'Información guardada', 'Ciclo creado exitosamente.', 'success', 'CreateNewCycle');
+    }
+
     public function edit($id)
     {
         $cycle = Cycle::where('id', $id)->first();
