@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,5 +20,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/admin/cycles/index', [App\Http\Controllers\HomeController::class, 'cycles'])->name('admin.cycles.index');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/admin/cycles', [HomeController::class, 'cycles'])->name('admin.cycles.index');
+Route::get('/admin/cycles/order', [HomeController::class, 'order'])->name('admin.cycles.order');
+Route::get('/admin/qr/index', [HomeController::class, 'qrgenerator'])->name('admin.qr.index');
+Route::get('/admin/qr/scan-qr', [HomeController::class, 'scanQr'])->name('admin.qr.scan-qr');

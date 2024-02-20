@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -29,5 +31,43 @@ class HomeController extends Controller
     public function cycles()
     {
         return view('admin.cycles.index');
+    }
+
+    public function order()
+    {
+        return view('admin.cycles.order');
+    }
+
+    public function qrgenerator()
+    {
+        $alumnos = [
+            '20240108' => ['Nombres' => 'Río Felipe ', 'Apellidos' => 'Carrillo Herrero'],
+            '20240003' => ['Nombres' => 'Fabio Giancarlo ', 'Apellidos' => 'García Ortíz'],
+            '20240099' => ['Nombres' => 'Santiago Alexander ', 'Apellidos' => 'López López'],
+            '20240097' => ['Nombres' => 'Evan Yared ', 'Apellidos' => 'Martinez López'],
+            '20240162' => ['Nombres' => 'Federico Esteban ', 'Apellidos' => 'Mérida Cobox'],
+            '20240011' => ['Nombres' => 'Angel David  ', 'Apellidos' => 'Pérez Echeverría'],
+            '20240007' => ['Nombres' => 'Diego Julián ', 'Apellidos' => 'Rodríguez Villatoro'],
+            '20240002' => ['Nombres' => 'Mateo Andrés ', 'Apellidos' => 'Sazo Comparini'],
+        ];
+        $contador = 1;
+        foreach ($alumnos as $codigo => $infoAlumno) {
+            // Formar el nombre del archivo con el código, apellido y nombre
+            $nombreArchivo = $contador . "_" . $codigo . '_' . $infoAlumno['Apellidos'] . '_' . $infoAlumno['Nombres'] . '.png';
+            $rutaArchivo = 'public/qrcodes/' . $nombreArchivo;
+
+            QrCode::format('png')->size(500)->generate((string)$codigo, storage_path('app/' . $rutaArchivo));
+            $contador++;
+            // Puedes guardar la ruta del archivo y la información del alumno en tu base de datos si es necesario
+            // Por ejemplo, puedes guardar $rutaArchivo, $codigo, $infoAlumno['Nombres'], $infoAlumno['Apellidos'] en la base de datos
+        }
+
+        return view('admin.qr.index', compact('alumnos'));
+    }
+
+
+    public function scanQr()
+    {
+        return view('admin.qr.scan-qr');
     }
 }

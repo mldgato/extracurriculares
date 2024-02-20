@@ -174,9 +174,10 @@
                                             Editar</span><span class="d-lg-none"><i
                                                 class="fas fa-edit fa-fw"></i></span></button>
 
-                                    <button wire:click="delete({{ $cycle->id }})" class="btn btn-danger btn-sm">
-                                        <i class="fas fa-trash"></i> Eliminar
-                                    </button>
+                                    <button wire:click="$dispatch('deleteCycle', {{ $cycle->id }})"
+                                        class="btn btn-danger btn-sm"><span class="d-none d-lg-block"><i
+                                                class="fas fa-trash"></i> Eliminar</span><span class="d-lg-none"><i
+                                                class="fas fa-trash"></i></span></button>
                                 </td>
                             </tr>
                         @endforeach
@@ -214,7 +215,9 @@
                     confirmButtonText: 'Si, elimiar!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        Livewire.dispatchTo('admin.cycles.show-cycles', 'delete', cycleId);
+                        Livewire.dispatchTo('admin.cycles.show-cycles', 'delete', {
+                            cycle: cycleId
+                        });
                     }
                 });
             });
