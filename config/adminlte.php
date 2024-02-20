@@ -297,6 +297,18 @@ return [
             'icon'        => 'fas fa-calendar-alt fa-fw',
             'icon_color' => 'primary',
         ],
+        [
+            'text'        => 'Niveles',
+            'route'         => 'admin.levels.index',
+            'icon' => 'fas fa-forward fa-fw',
+            'icon_color' => 'warning',
+        ],
+        [
+            'text' => 'Grados',
+            'route'         => 'admin.grades.index',
+            'icon' => 'fas fa-graduation-cap fa-fw',
+            'icon_color' => 'info',
+        ],
         // Navbar items:
         /* [
             'type'         => 'navbar-search',

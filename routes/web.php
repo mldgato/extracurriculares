@@ -21,7 +21,20 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
 Route::get('/admin/cycles', [HomeController::class, 'cycles'])->name('admin.cycles.index');
-Route::get('/admin/cycles/order', [HomeController::class, 'order'])->name('admin.cycles.order');
+Route::get('/admin/cycles/order', [HomeController::class, 'orderCycles'])->name('admin.cycles.order');
+
+Route::get('/admin/levels', [HomeController::class, 'levels'])->name('admin.levels.index');
+Route::get('/admin/levels/order', [HomeController::class, 'orderLevels'])->name('admin.levels.order');
+
+Route::get('/admin/grades', [HomeController::class, 'grades'])->name('admin.grades.index');
+Route::get('/admin/grades/order', [HomeController::class, 'orderGrades'])->name('admin.grades.order');
+
+
+
+
+
+
 Route::get('/admin/qr/index', [HomeController::class, 'qrgenerator'])->name('admin.qr.index');
 Route::get('/admin/qr/scan-qr', [HomeController::class, 'scanQr'])->name('admin.qr.scan-qr');

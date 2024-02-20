@@ -7,8 +7,8 @@
                 </div>
                 <div class="col-12 col-lg-6">
                     <div class="d-flex justify-content-end">
-                        <a href="{{ route('admin.cycles.index') }}" class="btn btn-outline-success btn-lg">
-                            <i class="fas fa-cogs fa-fw"></i> Administrar ciclos
+                        <a href="{{ route('admin.levels.index') }}" class="btn btn-outline-success btn-lg">
+                            <i class="fas fa-cogs fa-fw"></i> Administrar niveles
                         </a>
                     </div>
                 </div>
@@ -24,10 +24,10 @@
             <div class="row">
                 <div class="col-6">
                     <ul wire:sortable="updateTaskOrder" wire:sortable.options="{ animation: 100 }" class="list-group">
-                        @foreach ($cycles as $cycle)
-                            <li wire:sortable.item="{{ $cycle->id }}" wire:key="cycle-{{ $cycle->id }}"
+                        @foreach ($levels as $level)
+                            <li wire:sortable.item="{{ $level->id }}" wire:key="level-{{ $level->id }}"
                                 class="list-group-item list-group-item-action list-group-item-light d-flex justify-content-between align-items-center">
-                                <h4>{{ $cycle->cycle_name }}</h4>
+                                <h4>{{ $level->level_name }}</h4>
                                 <h4 wire:sortable.handle class="badge badge-primary" style="cursor: move;"><i
                                         class="fas fa-arrows-alt"></i></h4>
                             </li>

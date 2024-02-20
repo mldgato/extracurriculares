@@ -1,11 +1,11 @@
-<div wire:init="loadCycles">
+<div wire:init="loadLevels">
     <!-- Modal -->
-    <div wire:ignore.self class="modal fade" id="UpdateNewCycle" tabindex="-1" role="dialog"
-        aria-labelledby="UpdateNewCycle" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="UpdateNewLevel" tabindex="-1" role="dialog"
+        aria-labelledby="UpdateNewLevelLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="UpdateNewCycle">Actualizar un ciclo</h5>
+                    <h5 class="modal-title" id="UpdateNewLevelLabel">Actualizar un nivel</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -14,16 +14,16 @@
                     <form>
                         @csrf
                         <div class="form-group">
-                            <label for="exampleFormControlInput1">Ciclo:</label>
+                            <label for="exampleFormControlInput1">Nivel:</label>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i
-                                            class="fas fa-calendar-alt"></i></span>
+                                            class="fas fa-forward"></i></span>
                                 </div>
                                 <input type="text" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="Escriba el nombre del nivel" wire:model="cycle_name">
+                                    placeholder="Escriba el nombre del nivel" wire:model="level_name">
                             </div>
-                            @error('cycle_name')
+                            @error('namlevel_namee')
                                 <span class="text-danger error">{{ $message }}</span>
                             @enderror
                         </div>
@@ -47,59 +47,61 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="d-flex justify-content-end">
-                        <a href="{{ route('admin.cycles.order') }}" class="btn btn-outline-warning btn-lg">
+                        <a href="{{ route('admin.levels.order') }}" class="btn btn-outline-warning btn-lg">
                             <i class="fas fa-sort"></i> Ordenar
                         </a>
-                        <!-- Button -->
-                        <button type="button" class="btn btn-outline-primary btn-lg ml-2" data-toggle="modal"
-                            data-target="#CreateNewCycle">
-                            <i class="fas fa-plus-circle"></i> Nuevo ciclo
-                        </button>
+                        <div>
+                            <!-- Button -->
+                            <button type="button" class="btn btn-outline-primary btn-lg ml-2" data-toggle="modal"
+                                data-target="#CreateNewLevel">
+                                <i class="fas fa-plus-circle"></i> Nuevo nivel
+                            </button>
 
-                        <!-- Modal -->
-                        <div wire:ignore.self class="modal fade" id="CreateNewCycle" data-bs-backdrop="static"
-                            data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="CreateNewCycleLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="CreateNewCycleLabel">Crear un ciclo</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true close-btn">×</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form>
-                                            @csrf
-                                            <div class="form-group">
-                                                <label for="cicleNew">Ciclo:</label>
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="basic-addon1"><i
-                                                                class="fas fa-calendar-alt"></i></span>
+                            <!-- Modal -->
+                            <div wire:ignore.self class="modal fade" id="CreateNewLevel" data-bs-backdrop="static"
+                                data-bs-keyboard="false" tabindex="-1" role="dialog"
+                                aria-labelledby="CreateNewLevelLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="CreateNewLevelLabel">Crear un nivel</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true close-btn">×</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                @csrf
+                                                <div class="form-group">
+                                                    <label for="levelNew">Nivel:</label>
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text" id="basic-addon1"><i
+                                                                    class="fas fa-forward"></i></span>
+                                                        </div>
+                                                        <input type="text" class="form-control" id="levelNew"
+                                                            placeholder="Escriba el nombre del nivel"
+                                                            wire:model="level_name" />
                                                     </div>
-                                                    <input type="text" class="form-control" id="cicleNew"
-                                                        placeholder="Escriba el nivel escolar con 4 dígitos"
-                                                        wire:model="cycle_name" />
+                                                    @error('level_name')
+                                                        <span class="text-danger error">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
-                                                @error('cycle_name')
-                                                    <span class="text-danger error">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger close-btn" data-dismiss="modal"
-                                            wire:click="resetFields"><i class="fas fa-window-close"></i>
-                                            Cerrar</button>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger close-btn" data-dismiss="modal"
+                                                wire:click="resetFields"><i class="fas fa-window-close"></i>
+                                                Cerrar</button>
 
-                                        <button type="button" class="btn btn-success" wire:click="save"
-                                            wire:loading.attr="disabled" wire:loading.class.remove="btn-success"
-                                            wire:loading.class="btn btn-warning" wire:target="save"><span
-                                                wire:loading.remove wire:target="save"><i class="fas fa-save"></i>
-                                                Guardar</span><span wire:loading wire:target="save"><i
-                                                    class="fas fa-spinner fa-pulse"></i>
-                                                Guardando</span></button>
+                                            <button type="button" class="btn btn-success" wire:click="save"
+                                                wire:loading.attr="disabled" wire:loading.class.remove="btn-success"
+                                                wire:loading.class="btn btn-warning" wire:target="save"><span
+                                                    wire:loading.remove wire:target="save"><i class="fas fa-save"></i>
+                                                    Guardar</span><span wire:loading wire:target="save"><i
+                                                        class="fas fa-spinner fa-pulse"></i> Guardando</span></button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -128,14 +130,14 @@
                             <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
                         </div>
                         <input wire:model="search" id="searcher" type="text" class="form-control"
-                            placeholder="Escriba nombre del ciclo" autofocus="autofocus" />
+                            placeholder="Escriba nombre del nivel" autofocus="autofocus" />
                     </div>
                 </div>
             </div>
         </div>
-        @if (count($cycles))
+        @if (count($levels))
             <div class="card-body">
-                <table id="CyclesTable" class="table table-striped table-hover table-sm">
+                <table id="LevelsTable" class="table table-striped table-hover table-sm">
                     <thead>
                         <tr>
                             <th style="cursor: pointer" wire:click="order('order')">
@@ -150,9 +152,9 @@
                                     <i class="fas fa-sort ml-4"></i>
                                 @endif
                             </th>
-                            <th style="cursor: pointer" wire:click="order('cycle_name')">
+                            <th style="cursor: pointer" wire:click="order('level_name')">
                                 Nivel
-                                @if ($sort == 'cycle_name')
+                                @if ($sort == 'level_name')
                                     @if ($direction == 'asc')
                                         <i class="fas fa-sort-up ml-4"></i>
                                     @else
@@ -166,18 +168,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($cycles as $cycle)
+                        @foreach ($levels as $level)
                             <tr>
-                                <td>{{ $cycle->order }}</td>
-                                <td>{{ $cycle->cycle_name }}</td>
+                                <td>{{ $level->order }}</td>
+                                <td>{{ $level->level_name }}</td>
                                 <td class="text-right">
-                                    <button wire:click="edit({{ $cycle->id }})" data-toggle="modal"
-                                        data-target="#UpdateNewCycle" class="btn btn-primary btn-sm mr-2"><span
+                                    <button wire:click="edit({{ $level->id }})" data-toggle="modal"
+                                        data-target="#UpdateNewLevel" class="btn btn-primary btn-sm mr-2"><span
                                             class="d-none d-lg-block"><i class="fas fa-edit fa-fw"></i>
                                             Editar</span><span class="d-lg-none"><i
                                                 class="fas fa-edit fa-fw"></i></span></button>
 
-                                    <button wire:click="$dispatch('deleteCycle', {{ $cycle->id }})"
+                                    <button wire:click="$dispatch('deleteLevel', {{ $level->id }})"
                                         class="btn btn-danger btn-sm"><span class="d-none d-lg-block"><i
                                                 class="fas fa-trash"></i> Eliminar</span><span class="d-lg-none"><i
                                                 class="fas fa-trash"></i></span></button>
@@ -194,9 +196,9 @@
                     </tfoot>
                 </table>
             </div>
-            @if ($cycles->hasPages())
+            @if ($levels->hasPages())
                 <div class="card-footer">
-                    <div class="d-flex justify-content-end">{{ $cycles->links() }}</div>
+                    <div class="d-flex justify-content-end">{{ $levels->links() }}</div>
                 </div>
             @endif
         @else
@@ -207,10 +209,10 @@
     </div>
     @section('js')
         <script type="text/javascript">
-            Livewire.on('deleteCycle', cycleId => {
+            Livewire.on('deleteLevel', levelId => {
                 Swal.fire({
                     title: 'Eiminar registro',
-                    html: "<p><strong>¿Está seguro que quiere eliminar el ciclo?</strong></p><p>Tome en cuenta que no se podrá eliminar si el ciclo se encuentra en una asignación.</p>",
+                    html: "<p><strong>¿Está seguro que quiere eliminar el nivel?</strong></p><p>Tome en cuenta que no se podrá eliminar si el nivel se encuentra en una asignación.</p>",
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -218,8 +220,8 @@
                     confirmButtonText: 'Si, elimiar!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        Livewire.dispatchTo('admin.cycles.show-cycles', 'delete', {
-                            cycle: cycleId
+                        Livewire.dispatchTo('admin.levels.show-levels', 'delete', {
+                            level: levelId
                         });
                     }
                 });

@@ -7,8 +7,8 @@
                 </div>
                 <div class="col-12 col-lg-6">
                     <div class="d-flex justify-content-end">
-                        <a href="{{ route('admin.cycles.index') }}" class="btn btn-outline-success btn-lg">
-                            <i class="fas fa-cogs fa-fw"></i> Administrar ciclos
+                        <a href="{{ route('admin.grades.index') }}" class="btn btn-outline-success btn-lg">
+                            <i class="fas fa-cogs fa-fw"></i> Administrar grados
                         </a>
                     </div>
                 </div>
@@ -23,11 +23,11 @@
             </div>
             <div class="row">
                 <div class="col-6">
-                    <ul wire:sortable="updateTaskOrder" wire:sortable.options="{ animation: 100 }" class="list-group">
-                        @foreach ($cycles as $cycle)
-                            <li wire:sortable.item="{{ $cycle->id }}" wire:key="cycle-{{ $cycle->id }}"
+                    <ul wire:sortable="updateTaskOrder" class="list-group">
+                        @foreach ($grades as $grade)
+                            <li wire:sortable.item="{{ $grade->id }}" wire:key="level-{{ $grade->id }}"
                                 class="list-group-item list-group-item-action list-group-item-light d-flex justify-content-between align-items-center">
-                                <h4>{{ $cycle->cycle_name }}</h4>
+                                <h4>{{ $grade->grade_name }}</h4>
                                 <h4 wire:sortable.handle class="badge badge-primary" style="cursor: move;"><i
                                         class="fas fa-arrows-alt"></i></h4>
                             </li>
@@ -55,9 +55,9 @@
         Livewire.on('showAlert', (title, message, type) => {
             Swal.fire({
                 position: 'top-end',
-                icon: title[2],
-                title: title[0],
-                text: title[1],
+                icon: type,
+                title: title,
+                text: message,
                 showConfirmButton: false,
                 timer: 3000
             });

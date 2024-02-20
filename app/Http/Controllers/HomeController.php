@@ -33,9 +33,29 @@ class HomeController extends Controller
         return view('admin.cycles.index');
     }
 
-    public function order()
+    public function orderCycles()
     {
         return view('admin.cycles.order');
+    }
+
+    public function levels()
+    {
+        return view('admin.levels.index');
+    }
+
+    public function orderLevels()
+    {
+        return view('admin.levels.order');
+    }
+
+    public function grades()
+    {
+        return view('admin.grades.index');
+    }
+
+    public function orderGrades()
+    {
+        return view('admin.grades.order');
     }
 
     public function qrgenerator()
