@@ -190,7 +190,7 @@
                     <div class="d-flex align-items-center">
                         <span><strong>Mostrar</strong></span>
                         <span class="ml-2">
-                            <select wire:model="cant" class="form-control">
+                            <select wire:model.live="cant" class="form-control">
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -205,7 +205,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
                         </div>
-                        <input wire:model="search" id="searcher" type="text" class="form-control"
+                        <input wire:model.live="search" id="searcher" type="text" class="form-control"
                             placeholder="Escriba nombre del grado" autofocus="autofocus" />
                     </div>
                 </div>
