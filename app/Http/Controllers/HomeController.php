@@ -58,6 +58,21 @@ class HomeController extends Controller
         return view('admin.grades.order');
     }
 
+    public function sections()
+    {
+        return view('admin.sections.index');
+    }
+
+    public function orderSections()
+    {
+        return view('admin.sections.order');
+    }
+
+    public function classroom()
+    {
+        return view('admin.classroom.index');
+    }
+
     public function qrgenerator()
     {
         $alumnos = [

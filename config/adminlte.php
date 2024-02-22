@@ -309,6 +309,18 @@ return [
             'icon' => 'fas fa-graduation-cap fa-fw',
             'icon_color' => 'info',
         ],
+        [
+            'text' => 'Secciones',
+            'route'         => 'admin.sections.index',
+            'icon' => 'fas fa-grip-horizontal fa-fw',
+            'icon_color' => 'danger',
+        ],
+        [
+            'text' => 'Asignación de grados',
+            'route'         => 'admin.classroom.index',
+            'icon' => 'fas fa-th-list fa-fw',
+            'icon_color' => 'secundary',
+        ],
         // Navbar items:
         /* [
             'type'         => 'navbar-search',

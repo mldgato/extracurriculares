@@ -31,9 +31,10 @@ Route::get('/admin/levels/order', [HomeController::class, 'orderLevels'])->name(
 Route::get('/admin/grades', [HomeController::class, 'grades'])->name('admin.grades.index');
 Route::get('/admin/grades/order', [HomeController::class, 'orderGrades'])->name('admin.grades.order');
 
+Route::get('/admin/sections', [HomeController::class, 'sections'])->name('admin.sections.index');
+Route::get('/admin/sections/order', [HomeController::class, 'orderSections'])->name('admin.sections.order');
 
-
-
+Route::get('/admin/classroom', [HomeController::class, 'classroom'])->name('admin.classroom.index');
 
 
 Route::get('/admin/qr/index', [HomeController::class, 'qrgenerator'])->name('admin.qr.index');
