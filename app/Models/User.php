@@ -42,4 +42,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    //Relación muchos a muchos
+    public function activities()
+    {
+        return $this->belongsToMany(Activity::class);
+    }
 }

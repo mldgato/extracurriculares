@@ -333,6 +333,12 @@ return [
             'icon' => 'fas fa-child fa-fw',
             'icon_color' => 'info',
         ],
+        [
+            'text' => 'Actividades',
+            'route'         => 'admin.activities.index',
+            'icon' => 'fas fa-drum fa-fw',
+            'icon_color' => 'orange',
+        ],
         // Navbar items:
         /* [
             'type'         => 'navbar-search',

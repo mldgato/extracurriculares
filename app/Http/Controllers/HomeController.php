@@ -85,6 +85,10 @@ class HomeController extends Controller
     {
         return view('admin.users.index');
     }
+    public function activities()
+    {
+        return view('admin.activities.index');
+    }
 
     public function qrgenerator()
     {
