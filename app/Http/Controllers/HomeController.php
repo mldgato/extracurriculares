@@ -73,6 +73,19 @@ class HomeController extends Controller
         return view('admin.classroom.index');
     }
 
+    public function students()
+    {
+        return view('admin.students.index');
+    }
+    public function showStudents()
+    {
+        return view('admin.students.show');
+    }
+    public function users()
+    {
+        return view('admin.users.index');
+    }
+
     public function qrgenerator()
     {
         $alumnos = [

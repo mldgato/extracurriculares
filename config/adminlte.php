@@ -292,6 +292,12 @@ return [
     'menu' => [
         ['header' => 'Configuración'],
         [
+            'text'        => 'Usuarios',
+            'route'         => 'admin.users.index',
+            'icon'        => 'fas fa-users fa-fw',
+            'icon_color' => 'purple',
+        ],
+        [
             'text'        => 'Ciclos',
             'route'         => 'admin.cycles.index',
             'icon'        => 'fas fa-calendar-alt fa-fw',
@@ -320,6 +326,12 @@ return [
             'route'         => 'admin.classroom.index',
             'icon' => 'fas fa-th-list fa-fw',
             'icon_color' => 'secundary',
+        ],
+        [
+            'text' => 'Estudiantes',
+            'route'         => 'admin.students.index',
+            'icon' => 'fas fa-child fa-fw',
+            'icon_color' => 'info',
         ],
         // Navbar items:
         /* [

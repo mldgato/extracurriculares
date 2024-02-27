@@ -36,6 +36,10 @@ Route::get('/admin/sections/order', [HomeController::class, 'orderSections'])->n
 
 Route::get('/admin/classroom', [HomeController::class, 'classroom'])->name('admin.classroom.index');
 
+Route::get('/admin/students', [HomeController::class, 'students'])->name('admin.students.index');
+Route::get('/admin/students/show', [HomeController::class, 'showStudents'])->name('admin.students.show');
+
+Route::get('/admin/users', [HomeController::class, 'users'])->name('admin.users.index');
 
 Route::get('/admin/qr/index', [HomeController::class, 'qrgenerator'])->name('admin.qr.index');
 Route::get('/admin/qr/scan-qr', [HomeController::class, 'scanQr'])->name('admin.qr.scan-qr');

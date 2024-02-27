@@ -3,7 +3,7 @@
 @section('title', 'Sistema de Gestión de Colegios')
 
 @section('content_header')
-    <h1>Sistema de Gestión de Colegios</h1>
+    <h1>Administración de clases</h1>
 @stop
 
 @section('content')

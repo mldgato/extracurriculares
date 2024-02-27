@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
+            $table->integer('codschool')->unique();
+            $table->string('firstname');
+            $table->string('lastname');
             $table->timestamps();
         });
     }

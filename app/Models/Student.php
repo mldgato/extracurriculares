@@ -11,6 +11,7 @@ class Student extends Model
 
     protected $guarded = ['id', 'create_at', 'update_at'];
 
+    //Relación uno a muchos
     public function classroomstudents()
     {
         return $this->hasMany(ClassroomStudent::class);
