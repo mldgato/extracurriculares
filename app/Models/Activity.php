@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Activity extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id', 'create_at', 'update_at'];
     
     //relación muchos a muchos
     public function users()

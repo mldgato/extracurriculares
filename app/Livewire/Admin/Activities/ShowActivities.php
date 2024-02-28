@@ -8,10 +8,12 @@ use Livewire\WithPagination;
 
 class ShowActivities extends Component
 {
+    use WithPagination;
+
     public $activity, $activity_id;
     public $search;
-    public $sort = 'order';
-    public $direction = 'desc';
+    public $sort = 'activity';
+    public $direction = 'asc';
     public $cant = '10';
     public $readyToLoad = false;
 
@@ -48,6 +50,7 @@ class ShowActivities extends Component
     {
         if ($this->readyToLoad) {
             $activities = Activity::where('activity', 'LIKE', '%' . $this->search . '%')
+                ->where('status', '1')
                 ->orderBy($this->sort, $this->direction)
                 ->paginate($this->cant);
         } else {
@@ -98,7 +101,7 @@ class ShowActivities extends Component
     public function update()
     {
         $this->validate();
-        if ($this->cycle_id) {
+        if ($this->activity_id) {
             $activity = Activity::find($this->activity_id);
             $activity->update([
                 'activity' => $this->activity,

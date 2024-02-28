@@ -72,7 +72,7 @@
                                                 <div class="input-group mb-3">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text" id="basic-addon1"><i
-                                                                class="fas fa-calendar-alt"></i></span>
+                                                                class="fas fa-drum"></i></span>
                                                     </div>
                                                     <input type="text" class="form-control" id="cicleNew"
                                                         placeholder="Escriba el nombre de la actividad"
@@ -146,9 +146,9 @@
                                     <i class="fas fa-sort ml-4"></i>
                                 @endif
                             </th>
-                            <th style="cursor: pointer" wire:click="order('cycle_name')">
-                                Nivel
-                                @if ($sort == 'cycle_name')
+                            <th style="cursor: pointer" wire:click="order('activity')">
+                                Actividad
+                                @if ($sort == 'activity')
                                     @if ($direction == 'asc')
                                         <i class="fas fa-sort-up ml-4"></i>
                                     @else
@@ -164,16 +164,16 @@
                     <tbody>
                         @foreach ($activities as $activity)
                             <tr>
-                                <td>{{ $cycle->order }}</td>
-                                <td>{{ $cycle->cycle_name }}</td>
+                                <td>{{ $activity->id }}</td>
+                                <td>{{ $activity->activity }}</td>
                                 <td class="text-right">
-                                    <button wire:click="edit({{ $cycle->id }})" data-toggle="modal"
+                                    <button wire:click="edit({{ $activity->id }})" data-toggle="modal"
                                         data-target="#UpdateNewCycle" class="btn btn-primary btn-sm mr-2"><span
                                             class="d-none d-lg-block"><i class="fas fa-edit fa-fw"></i>
                                             Editar</span><span class="d-lg-none"><i
                                                 class="fas fa-edit fa-fw"></i></span></button>
 
-                                    <button wire:click="$dispatch('deleteCycle', {{ $cycle->id }})"
+                                    <button wire:click="$dispatch('deleteActivity', {{ $activity->id }})"
                                         class="btn btn-danger btn-sm"><span class="d-none d-lg-block"><i
                                                 class="fas fa-trash"></i> Eliminar</span><span class="d-lg-none"><i
                                                 class="fas fa-trash"></i></span></button>
@@ -184,7 +184,7 @@
                     <tfoot>
                         <tr>
                             <th>#</th>
-                            <th>Nivel</th>
+                            <th>Actividad</th>
                             <th>&nbsp;</th>
                         </tr>
                     </tfoot>
@@ -203,10 +203,10 @@
     </div>
     @section('js')
         <script type="text/javascript">
-            Livewire.on('deleteCycle', cycleId => {
+            Livewire.on('deleteActivity', activityId => {
                 Swal.fire({
                     title: 'Eiminar registro',
-                    html: "<p><strong>¿Está seguro que quiere eliminar el ciclo?</strong></p><p>Tome en cuenta que no se podrá eliminar si el ciclo se encuentra en una asignación.</p>",
+                    html: "<p><strong>¿Está seguro que quiere eliminar la actividad?</strong></p><p>Tome en cuenta que no se podrá eliminar si en la actividad se encuentran estudiantes inscritos.</p>",
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -214,8 +214,8 @@
                     confirmButtonText: 'Si, elimiar!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        Livewire.dispatchTo('admin.cycles.show-cycles', 'delete', {
-                            cycle: cycleId
+                        Livewire.dispatchTo('admin.activities.show-activities', 'delete', {
+                            activity: activityId
                         });
                     }
                 });
