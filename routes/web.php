@@ -42,6 +42,7 @@ Route::get('/admin/students/show', [HomeController::class, 'showStudents'])->nam
 Route::get('/admin/users', [HomeController::class, 'users'])->name('admin.users.index');
 
 Route::get('/admin/activities', [HomeController::class, 'activities'])->name('admin.activities.index');
+Route::get('/admin/activities/show/{activity}', [HomeController::class, 'show'])->name('admin.activities.show');
 
 
 

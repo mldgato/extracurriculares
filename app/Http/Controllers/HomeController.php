@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Activity;
 
 class HomeController extends Controller
 {
@@ -88,6 +89,10 @@ class HomeController extends Controller
     public function activities()
     {
         return view('admin.activities.index');
+    }
+    public function show(Activity $activity)
+    {
+        return view('admin.activities.show', compact('activity'));
     }
 
     public function qrgenerator()

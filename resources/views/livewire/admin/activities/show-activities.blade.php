@@ -168,13 +168,18 @@
                                 <td>{{ $activity->activity }}</td>
                                 <td class="text-right">
                                     <button wire:click="edit({{ $activity->id }})" data-toggle="modal"
-                                        data-target="#UpdateNewCycle" class="btn btn-primary btn-sm mr-2"><span
+                                        data-target="#UpdateNewCycle" class="btn btn-primary btn-sm mr-2 mt-1"><span
                                             class="d-none d-lg-block"><i class="fas fa-edit fa-fw"></i>
                                             Editar</span><span class="d-lg-none"><i
                                                 class="fas fa-edit fa-fw"></i></span></button>
 
+                                    <a href="{{ route('admin.activities.show', $activity->id) }}"
+                                        class="btn btn-warning btn-sm mr-2 mt-1"><span class="d-none d-lg-block"><i
+                                                class="fas fa-user-graduate"></i> Encargados</span><span
+                                            class="d-lg-none"><i class="fas fa-user-graduate"></i></span></a>
+
                                     <button wire:click="$dispatch('deleteActivity', {{ $activity->id }})"
-                                        class="btn btn-danger btn-sm"><span class="d-none d-lg-block"><i
+                                        class="btn btn-danger btn-sm mt-1"><span class="d-none d-lg-block"><i
                                                 class="fas fa-trash"></i> Eliminar</span><span class="d-lg-none"><i
                                                 class="fas fa-trash"></i></span></button>
                                 </td>
