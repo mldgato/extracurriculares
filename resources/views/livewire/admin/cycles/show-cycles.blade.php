@@ -218,7 +218,7 @@
                     confirmButtonText: 'Si, elimiar!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        Livewire.dispatchTo('admin.cycles.show-cycles', 'delete', {
+                        Livewire.dispatchTo('admin.activities.activity-info', 'delete', {
                             cycle: cycleId
                         });
                     }

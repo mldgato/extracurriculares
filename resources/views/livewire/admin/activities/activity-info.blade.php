@@ -1,4 +1,4 @@
-<div>
+<div wire:init="loadUsers">
     <div class="card card-outline card-primary mb-3">
         <div class="card-header">
             <form>
@@ -35,25 +35,64 @@
                 </div>
             </form>
         </div>
-        <div class="card-body">
-        </div>
+        @if (count($activityUsers))
+            <div class="card-body">
+                <table id="CyclesTable" class="table table-striped table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Apellidos</th>
+                            <th>Nombres</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($activityUsers as $activityUser)
+                            <tr>
+                                <td>{{ $activityUser->id }}</td>
+                                <td>{{ $activityUser->surname }}</td>
+                                <td>{{ $activityUser->name }}</td>
+                                <td class="text-right">
+                                    <button wire:click="confirmDelete({{ $activityUser->id }})"
+                                        class="btn btn-danger btn-sm">
+                                        <span class="d-none d-lg-block"><i class="fas fa-trash"></i> Eliminar</span>
+                                        <span class="d-lg-none"><i class="fas fa-trash"></i></span>
+                                    </button>
+
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Apellidos</th>
+                            <th>Nombres</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        @else
+            <div class="card-body">
+                <strong class="text-danger">No se han encontrado registros...</strong>
+            </div>
+        @endif
     </div>
     @section('js')
         <script type="text/javascript">
-            Livewire.on('Gradeassignments', classroomId => {
+            Livewire.on('confirmDelete', () => {
                 Swal.fire({
-                    title: 'Eiminar registro',
+                    title: 'Eliminar registro',
                     html: "<p><strong>¿Está seguro que quiere eliminar la asignación?</strong></p><p>Tome en cuenta que no se podrá eliminar si en la asignación hay estudiantes inscritos.</p>",
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, elimiar!'
+                    confirmButtonText: 'Si, eliminar!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        Livewire.dispatchTo('admin.classroom.show-classroom', 'delete', {
-                            classroom: classroomId
-                        });
+                        Livewire.dispatchTo('delete'); // Llama al método delete directamente
                     }
                 });
             });

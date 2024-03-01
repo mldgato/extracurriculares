@@ -134,9 +134,9 @@
                 <table id="CyclesTable" class="table table-striped table-hover table-sm">
                     <thead>
                         <tr>
-                            <th style="cursor: pointer" wire:click="order('order')">
+                            <th style="cursor: pointer" wire:click="order('id')">
                                 #
-                                @if ($sort == 'order')
+                                @if ($sort == 'id')
                                     @if ($direction == 'asc')
                                         <i class="fas fa-sort-up ml-4"></i>
                                     @else

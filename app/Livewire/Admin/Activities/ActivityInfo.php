@@ -4,20 +4,22 @@ namespace App\Livewire\Admin\Activities;
 
 use Livewire\Component;
 use App\Models\User;
+use App\Models\Activity;
 
 class ActivityInfo extends Component
 {
     public $activity;
     public $user_id;
-    public $search;
-    public $sort = 'order';
-    public $direction = 'desc';
-    public $cant = '10';
     public $readyToLoad = false;
+    public $deleteUserId;
     public function render()
     {
+        $activity = Activity::with(['users' => function ($query) {
+            $query->orderBy('surname');
+        }])->find($this->activity->id);
+        $activityUsers = $activity->users;
         $users = User::all();
-        return view('livewire.admin.activities.activity-info', compact('users'));
+        return view('livewire.admin.activities.activity-info', compact('users', 'activityUsers'));
     }
     protected $paginationTheme = "bootstrap";
     protected $queryString = [
@@ -31,39 +33,12 @@ class ActivityInfo extends Component
     {
         $this->validateOnly($propertyName);
     }
-    public function updatingSearch()
-    {
-        $this->resetPage();
-    }
-    public function updatingCant()
-    {
-        $this->resetPage();
-    }
-    public function updatingSort()
-    {
-        $this->resetPage();
-    }
-    public function updatingDirection()
-    {
-        $this->resetPage();
-    }
+
     public function loadUsers()
     {
         $this->readyToLoad = true;
     }
-    public function order($sort)
-    {
-        if ($this->sort == $sort) {
-            if ($this->direction == 'desc') {
-                $this->direction = 'asc';
-            } else {
-                $this->direction = 'desc';
-            }
-        } else {
-            $this->sort = $sort;
-            $this->direction = 'asc';
-        }
-    }
+
     public function resetFields()
     {
         $this->reset([
@@ -80,5 +55,20 @@ class ActivityInfo extends Component
         } else {
             $this->dispatch('closeModalMessaje', '¡Error!', 'Está intentando crear una asignación que ya existe.', 'error', 'null');
         }
+    }
+    public function confirmDelete($userId)
+    {
+        $this->deleteUserId = $userId;
+        $this->dispatch('confirmDelete'); // Dispara un evento para confirmar la eliminación
+    }
+
+    public function delete()
+    {
+        // Utiliza $this->deleteUserId para realizar la eliminación
+        $userId = $this->deleteUserId;
+
+        $activity = Activity::find($this->activity->id);
+        $activity->users()->detach($userId);
+        $this->dispatch('closeModalMessaje', 'Información eliminada', 'Se ha quitado el usuario como encargado.', 'success', 'null');
     }
 }
