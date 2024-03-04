@@ -1,5 +1,12 @@
 <div>
-    <div id="reader" width="600px"></div>
+    <div class="card card-outline card-primary mb-3">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+            <div id="reader" width="600px"></div>
+        </div>
+    </div>
+
     @section('js')
         <script type="text/javascript">
             function onScanSuccess(decodedText, decodedResult) {
@@ -10,7 +17,7 @@
             function onScanFailure(error) {
                 // handle scan failure, usually better to ignore and keep scanning.
                 // for example:
-                console.warn(`Code scan error = ${error}`);
+                console.warn(`Code scan error = ${error}`); 
             }
 
             let html5QrcodeScanner = new Html5QrcodeScanner(
