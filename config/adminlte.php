@@ -339,6 +339,12 @@ return [
             'icon' => 'fas fa-drum fa-fw',
             'icon_color' => 'orange',
         ],
+        [
+            'text' => 'Registro de Actividades',
+            'route'         => 'admin.activities.register',
+            'icon' => 'fas fa-user-plus fa-fw',
+            'icon_color' => 'purple',
+        ],
         // Navbar items:
         /* [
             'type'         => 'navbar-search',
@@ -501,6 +507,16 @@ return [
                     'type' => 'css',
                     'asset' => false,
                     'location' => '//cdn.jsdelivr.net/npm/select2-bootstrap-theme@0.1.0-beta.10/dist/select2-bootstrap.min.css',
+                ],
+            ],
+        ],
+        'QRcode' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => 'https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js',
                 ],
             ],
         ],

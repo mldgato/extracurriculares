@@ -95,6 +95,11 @@ class HomeController extends Controller
         return view('admin.activities.show', compact('activity'));
     }
 
+    public function register()
+    {
+        return view('admin.activities.register');
+    }
+
     public function qrgenerator()
     {
         $alumnos = [

@@ -43,7 +43,7 @@ Route::get('/admin/users', [HomeController::class, 'users'])->name('admin.users.
 
 Route::get('/admin/activities', [HomeController::class, 'activities'])->name('admin.activities.index');
 Route::get('/admin/activities/show/{activity}', [HomeController::class, 'show'])->name('admin.activities.show');
-
+Route::get('/admin/activities/register', [HomeController::class, 'register'])->name('admin.activities.register');
 
 
 
