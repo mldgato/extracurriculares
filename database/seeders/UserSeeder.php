@@ -19,6 +19,12 @@ class UserSeeder extends Seeder
             'email' => 'mdardon@colegiodeinfantes.edu.gt',
             'password' => 'Alejandro31$',
         ]);
+        User::create([
+            'name' => 'Oscar Adolfo',
+            'surname' => 'Orozco y Orozco',
+            'email' => 'administracion@colegiodeinfantes.edu.gt',
+            'password' => '123456',
+        ]);
         User::factory(10)->create();
 
         $users = User::all();

@@ -1,6 +1,7 @@
 <div>
     <div class="card card-outline card-primary mb-3">
         <div class="card-header">
+            <h1>Escaneo <i class="fas fa-qrcode"></i></h1>
         </div>
         <div class="card-body">
             <div id="reader" width="600px"></div>
