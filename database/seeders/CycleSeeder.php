@@ -14,12 +14,8 @@ class CycleSeeder extends Seeder
     public function run(): void
     {
         Cycle::create([
-            'cycle_name' => 2023,
-            'order' => 1
-        ]);
-        Cycle::create([
             'cycle_name' => 2024,
-            'order' => 2
+            'order' => 1
         ]);
     }
 }

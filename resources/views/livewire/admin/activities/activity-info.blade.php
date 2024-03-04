@@ -58,7 +58,6 @@
                                         <span class="d-none d-lg-block"><i class="fas fa-trash"></i> Eliminar</span>
                                         <span class="d-lg-none"><i class="fas fa-trash"></i></span>
                                     </button>
-
                                 </td>
                             </tr>
                         @endforeach
@@ -79,9 +78,10 @@
             </div>
         @endif
     </div>
+
     @section('js')
         <script type="text/javascript">
-            Livewire.on('confirmDelete', () => {
+            Livewire.on('confirmDelete', userId => {
                 Swal.fire({
                     title: 'Eliminar registro',
                     html: "<p><strong>¿Está seguro que quiere eliminar la asignación?</strong></p><p>Tome en cuenta que no se podrá eliminar si en la asignación hay estudiantes inscritos.</p>",
@@ -92,9 +92,9 @@
                     confirmButtonText: 'Si, eliminar!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        Livewire.dispatchTo('delete'); // Llama al método delete directamente
+                        Livewire.dispatch('delete', userId);
                     }
-                });
+                })
             });
             Livewire.on('closeModalMessaje', (title, message, type, mymodal) => {
                 if (title[3] != 'null') {

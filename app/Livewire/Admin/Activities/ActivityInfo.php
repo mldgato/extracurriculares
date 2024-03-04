@@ -8,10 +8,9 @@ use App\Models\Activity;
 
 class ActivityInfo extends Component
 {
-    public $activity;
+    public $activity; //Esta propiedad es la que tiene la información de la actividad como el id por ejemplo
     public $user_id;
     public $readyToLoad = false;
-    public $deleteUserId;
     public function render()
     {
         $activity = Activity::with(['users' => function ($query) {
@@ -58,17 +57,12 @@ class ActivityInfo extends Component
     }
     public function confirmDelete($userId)
     {
-        $this->deleteUserId = $userId;
-        $this->dispatch('confirmDelete'); // Dispara un evento para confirmar la eliminación
+        $this->dispatch('confirmDelete', $userId);
     }
 
-    public function delete()
+    public function delete($userId)
     {
-        // Utiliza $this->deleteUserId para realizar la eliminación
-        $userId = $this->deleteUserId;
-
-        $activity = Activity::find($this->activity->id);
-        $activity->users()->detach($userId);
-        $this->dispatch('closeModalMessaje', 'Información eliminada', 'Se ha quitado el usuario como encargado.', 'success', 'null');
+        User::find($userId)->activities()->detach($this->activity->id);
+        $this->dispatch('closeModalMessaje', 'Información eliminada', 'Asignación eliminada exitosamente.', 'success', 'DeleteGradeassignment');
     }
 }
