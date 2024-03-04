@@ -25,17 +25,12 @@
     @section('js')
         <script type="text/javascript">
             function onScanSuccess(decodedText, decodedResult) {
-                // handle the scanned code as you like, for example:
-                //console.log(`Code matched = ${decodedText}`, decodedResult);
                 Livewire.dispatchTo('admin.activities.register-activities', 'enroll', {
                     codschool: decodedText
                 });
             }
 
             function onScanFailure(error) {
-                // handle scan failure, usually better to ignore and keep scanning.
-                // for example:
-                //console.warn(`Code scan error = ${error}`);
             }
 
             let html5QrcodeScanner = new Html5QrcodeScanner(
