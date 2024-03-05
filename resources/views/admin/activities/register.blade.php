@@ -23,6 +23,9 @@
 @section('js')
     <script type="text/javascript">
         function onScanSuccess(decodedText, decodedResult) {
+            // Detén el escáner inmediatamente después de una lectura exitosa
+            html5QrcodeScanner.clear();
+
             var activity = $('#activity').val();
             var codschool = decodedText;
             var token = $('meta[name="csrf-token"]').attr('content');
@@ -38,13 +41,24 @@
                 },
                 success: function(response) {
                     if (response == 1) {
-                        showSuccessAlert();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Éxito',
+                            text: 'Operación exitosa',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
                     } else {
-                        showErrorAlert();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Ha ocurrido un problema',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
                     }
-                    // Agrega una pausa de 3 segundos antes de permitir la próxima lectura
+                    // Reinicia el escáner después de una pausa de 3 segundos
                     setTimeout(function() {
-                        html5QrcodeScanner.clear();
                         html5QrcodeScanner.render(onScanSuccess, onScanFailure);
                     }, 3000);
                 },
@@ -54,28 +68,6 @@
                 }
             });
         }
-
-
-        function showSuccessAlert() {
-            Swal.fire({
-                icon: 'success',
-                title: 'Éxito',
-                text: 'Operación exitosa',
-                showConfirmButton: false,
-                timer: 2000
-            });
-        }
-
-        function showErrorAlert() {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Ha ocurrido un problema',
-                showConfirmButton: false,
-                timer: 2000
-            });
-        }
-
         function onScanFailure(error) {}
 
         let html5QrcodeScanner = new Html5QrcodeScanner(
