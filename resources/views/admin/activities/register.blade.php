@@ -24,7 +24,7 @@
     <script type="text/javascript">
         function onScanSuccess(decodedText, decodedResult) {
             var activity = $('#activity').val();
-            var codschool = 'tu-codigo-de-escuela'; // Reemplaza esto con el código de tu escuela
+            var codschool = {{ $activity->id }}; // Reemplaza esto con el código de tu escuela
 
             $.ajax({
                 url: '/admin/activities/enrollment/' + codschool + '/' + activity,

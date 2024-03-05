@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Activity;
+use App\Models\Student;
+use App\Models\Enrollment;
 
 class HomeController extends Controller
 {
@@ -104,6 +106,29 @@ class HomeController extends Controller
     public function register(Activity $activity)
     {
         return view('admin.activities.register', compact('activity'));
+    }
+
+    public function enrollment($codschool, Activity $activity)
+    {
+        $student = Student::where('codschool', $codschool)->first();
+        if ($student) {
+            $enrollment = Enrollment::where('student_id', $student->id)
+                ->where('activity_id', $activity->id)
+                ->exists();
+            if (!$enrollment) {
+                Enrollment::create(
+                    [
+                        'student_id' => $student->id,
+                        'user_id' => auth()->user()->id,
+                        'activity_id' => $activity->id,
+                        'registrationdate' => date('Y-m-d H:i:s')
+                    ]
+                );
+                //$this->dispatch('closeModalMessaje', 'Información guardada', 'Estudiantes registrado exitosamente.', 'success', 'CreateNewCycle');
+            }
+        } else {
+            //$this->dispatch('closeModalMessaje', 'Información', 'No se ha podido registrar al estudiante, el código no ha sido encontrado en el sistema.', 'info', 'null');
+        }
     }
 
     public function qrgenerator()
