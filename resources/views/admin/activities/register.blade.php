@@ -14,9 +14,6 @@
             <input type="hidden" id="activity" value="{{ $activity->id }}">
         </div>
     </div>
-    <audio id="audioPlayer" controls style="display: none;">
-        <source src="" type="audio/mp3" id="audioSource">
-    </audio>
 @stop
 
 @section('css')
@@ -40,35 +37,37 @@
                     'X-CSRF-TOKEN': token
                 },
                 success: function(response) {
-                    console.log(response);
-
                     if (response.status === 'success') {
-                        playSuccessSound();
+                        showSuccessAlert();
                     } else {
-                        playErrorSound();
+                        showErrorAlert();
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(textStatus, errorThrown);
-                    playErrorSound();
+                    showErrorAlert();
                 }
             });
         }
 
-        function playSuccessSound() {
-            playSound('bip.mp3');
+        function showSuccessAlert() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: 'Operación exitosa',
+                showConfirmButton: false,
+                timer: 2000
+            });
         }
 
-        function playErrorSound() {
-            playSound('error.mp3');
-        }
-
-        function playSound(soundFile) {
-            var audio = document.getElementById('audioPlayer');
-            var source = document.getElementById('audioSource');
-            source.src = '/sounds/' + soundFile;
-            audio.load();
-            audio.play();
+        function showErrorAlert() {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ha ocurrido un problema',
+                showConfirmButton: false,
+                timer: 2000
+            });
         }
 
         function onScanFailure(error) {}
