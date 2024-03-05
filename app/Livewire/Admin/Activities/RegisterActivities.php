@@ -11,9 +11,7 @@ class RegisterActivities extends Component
     public $activity;
 
     protected $listeners = ['render', 'enroll'];
-    protected $rules = [
-        'activity_id' => 'required',
-    ];
+    
 
     public function render()
     {
@@ -30,7 +28,6 @@ class RegisterActivities extends Component
                 ->where('activity_id', $this->activity->id)
                 ->exists();
             if (!$enrollment) {
-                $this->validate();
                 Enrollment::create(
                     [
                         'student_id' => $student->id,
