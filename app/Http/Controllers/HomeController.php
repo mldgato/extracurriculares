@@ -141,6 +141,7 @@ class HomeController extends Controller
 
     public function enrollment(Request $request)
     {
+        $currentYear = Carbon::now()->year;
         $codschool = $request->input('codschool');
         $activity = Activity::find($request->input('activity'));
         $student = Student::where('codschool', $codschool)->first();
@@ -154,6 +155,7 @@ class HomeController extends Controller
                         'student_id' => $student->id,
                         'user_id' => auth()->user()->id,
                         'activity_id' => $activity->id,
+                        'cycle_id' => $currentYear,
                         'registrationdate' => date('Y-m-d H:i:s')
                     ]
                 );
