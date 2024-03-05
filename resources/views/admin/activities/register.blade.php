@@ -44,8 +44,8 @@
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(textStatus, errorThrown);
-                    showErrorAlert();
+                    /* console.log(textStatus, errorThrown);
+                    showErrorAlert(); */
                 }
             });
         }
