@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
             $table->string('activity');
+            $table->string('class');
             $table->enum('status', [0, 1])->default(1);
             $table->timestamps();
         });

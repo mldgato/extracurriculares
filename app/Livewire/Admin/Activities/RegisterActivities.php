@@ -8,7 +8,7 @@ use App\Models\Enrollment;
 
 class RegisterActivities extends Component
 {
-    public $activity_id;
+    public $activity;
 
     protected $listeners = ['render', 'enroll'];
     protected $rules = [
@@ -27,7 +27,7 @@ class RegisterActivities extends Component
 
         if ($student) {
             $enrollment = Enrollment::where('student_id', $student->id)
-                ->where('activity_id', $this->activity_id)
+                ->where('activity_id', $this->activity->id)
                 ->exists();
             if (!$enrollment) {
                 $this->validate();
@@ -35,7 +35,7 @@ class RegisterActivities extends Component
                     [
                         'student_id' => $student->id,
                         'user_id' => auth()->user()->id,
-                        'activity_id' => $this->activity_id,
+                        'activity_id' => $this->activity->id,
                         'registrationdate' => date('Y-m-d H:i:s')
                     ]
                 );

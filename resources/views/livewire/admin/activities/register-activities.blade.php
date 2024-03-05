@@ -1,21 +1,7 @@
 <div>
     <div class="card card-outline card-primary mb-3">
         <div class="card-header">
-            <div class="row">
-                <div class="col-sm-12 col-md-6">
-                    <h2>Escaneo <i class="fas fa-qrcode"></i></h2>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <div class="d-flex justify-content-end">
-                        <select wire:model="activity_id" name="activity" id="activity" class="form-control">
-                            <option value="">- Seleccione -</option>
-                            @foreach ($activities as $activity)
-                                <option value="{{ $activity->id }}">{{ $activity->activity }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-            </div>
+            <h2>Escaneo <i class="fas fa-qrcode"></i></h2>
         </div>
         <div class="card-body">
             <div id="reader" width="600px"></div>
@@ -24,26 +10,38 @@
 
     @section('js')
         <script type="text/javascript">
-            function onScanSuccess(decodedText, decodedResult) {
-                Livewire.dispatchTo('admin.activities.register-activities', 'enroll', {
-                    codschool: decodedText
-                });
+            document.addEventListener('livewire:updated', function() {
+                // Limpia el contenido actual del div "reader"
+                document.getElementById('reader').innerHTML = '';
+
+                // Vuelve a ejecutar el código para inicializar el lector QR
+                initializeQRCodeScanner();
+            });
+
+            function initializeQRCodeScanner() {
+                function onScanSuccess(decodedText, decodedResult) {
+                    Livewire.dispatchTo('admin.activities.register-activities', 'enroll', {
+                        codschool: decodedText
+                    });
+                }
+
+                function onScanFailure(error) {}
+
+                let html5QrcodeScanner = new Html5QrcodeScanner(
+                    "reader", {
+                        fps: 10,
+                        qrbox: {
+                            width: 250,
+                            height: 250
+                        }
+                    },
+                    /* verbose= */
+                    false);
+                html5QrcodeScanner.render(onScanSuccess, onScanFailure);
             }
 
-            function onScanFailure(error) {
-            }
-
-            let html5QrcodeScanner = new Html5QrcodeScanner(
-                "reader", {
-                    fps: 10,
-                    qrbox: {
-                        width: 250,
-                        height: 250
-                    }
-                },
-                /* verbose= */
-                false);
-            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+            // Inicializa el lector QR al cargar la página
+            initializeQRCodeScanner();
 
             Livewire.on('closeModalMessaje', (title, message, type, mymodal) => {
                 if (title[3] != 'null') {

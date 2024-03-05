@@ -18,6 +18,7 @@ class ActivityFactory extends Factory
     {
         return [
             'activity' => $this->faker->words(),
+            'class' => $this->faker->words(),
         ];
     }
 }

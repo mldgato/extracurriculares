@@ -341,7 +341,7 @@ return [
         ],
         [
             'text' => 'Registro de Actividades',
-            'route'         => 'admin.activities.register',
+            'route'         => 'admin.activities.work',
             'icon' => 'fas fa-user-plus fa-fw',
             'icon_color' => 'purple',
         ],

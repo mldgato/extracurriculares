@@ -95,9 +95,15 @@ class HomeController extends Controller
         return view('admin.activities.show', compact('activity'));
     }
 
-    public function register()
+    public function work()
     {
-        return view('admin.activities.register');
+        $activities = auth()->user()->activities;
+        return view('admin.activities.work', compact('activities'));
+    }
+
+    public function register(Activity $activity)
+    {
+        return view('admin.activities.register', compact('activity'));
     }
 
     public function qrgenerator()

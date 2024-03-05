@@ -14,37 +14,48 @@ class ActivitySeeder extends Seeder
     public function run(): void
     {
         Activity::create([
-            'activity' => 'Futsala'
+            'activity' => 'Futsala',
+            'class' => 'primary'
         ]);
         Activity::create([
-            'activity' => 'Baloncesto'
+            'activity' => 'Baloncesto',
+            'class' => 'danger'
         ]);
         Activity::create([
-            'activity' => 'Marimba'
+            'activity' => 'Marimba',
+            'class' => 'info'
         ]);
         Activity::create([
-            'activity' => 'Vértice'
+            'activity' => 'Vértice',
+            'class' => 'warning'
         ]);
         Activity::create([
-            'activity' => 'Futbol 11'
+            'activity' => 'Futbol 11',
+            'class' => 'success'
         ]);
         Activity::create([
-            'activity' => 'Banda Marcial'
+            'activity' => 'Banda Marcial',
+            'class' => 'indigo'
         ]);
         Activity::create([
-            'activity' => 'Banda Escolar'
+            'activity' => 'Banda Escolar',
+            'class' => 'purple'
         ]);
         Activity::create([
-            'activity' => 'Béisbol'
+            'activity' => 'Béisbol',
+            'class' => 'orange'
         ]);
         Activity::create([
-            'activity' => 'Gastadores'
+            'activity' => 'Gastadores',
+            'class' => 'primary'
         ]);
         Activity::create([
-            'activity' => 'Escoltas/Banderas'
+            'activity' => 'Escoltas/Banderas',
+            'class' => 'danger'
         ]);
         Activity::create([
-            'activity' => 'Estandartes'
+            'activity' => 'Estandartes',
+            'class' => 'info'
         ]);
     }
 }

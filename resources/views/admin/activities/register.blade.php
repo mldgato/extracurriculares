@@ -5,7 +5,7 @@
 @stop
 
 @section('content')
-    @livewire('admin.activities.register-activities')
+    @livewire('admin.activities.register-activities', ['activity' => $activity])
 @stop
 
 @section('css')
