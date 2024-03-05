@@ -10,38 +10,25 @@
 
     @section('js')
         <script type="text/javascript">
-            document.addEventListener('livewire:updated', function() {
-                // Limpia el contenido actual del div "reader"
-                document.getElementById('reader').innerHTML = '';
-
-                // Vuelve a ejecutar el código para inicializar el lector QR
-                initializeQRCodeScanner();
-            });
-
-            function initializeQRCodeScanner() {
-                function onScanSuccess(decodedText, decodedResult) {
-                    Livewire.dispatchTo('admin.activities.register-activities', 'enroll', {
-                        codschool: decodedText
-                    });
-                }
-
-                function onScanFailure(error) {}
-
-                let html5QrcodeScanner = new Html5QrcodeScanner(
-                    "reader", {
-                        fps: 10,
-                        qrbox: {
-                            width: 250,
-                            height: 250
-                        }
-                    },
-                    /* verbose= */
-                    false);
-                html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+            function onScanSuccess(decodedText, decodedResult) {
+                Livewire.dispatchTo('admin.activities.register-activities', 'enroll', {
+                    codschool: decodedText
+                });
             }
 
-            // Inicializa el lector QR al cargar la página
-            initializeQRCodeScanner();
+            function onScanFailure(error) {}
+
+            let html5QrcodeScanner = new Html5QrcodeScanner(
+                "reader", {
+                    fps: 10,
+                    qrbox: {
+                        width: 250,
+                        height: 250
+                    }
+                },
+                /* verbose= */
+                false);
+            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
 
             Livewire.on('closeModalMessaje', (title, message, type, mymodal) => {
                 if (title[3] != 'null') {

@@ -46,6 +46,9 @@ Route::get('/admin/activities/show/{activity}', [HomeController::class, 'show'])
 Route::get('/admin/activities/work', [HomeController::class, 'work'])->name('admin.activities.work');
 Route::get('/admin/activities/register/{activity}', [HomeController::class, 'register'])->name('admin.activities.register');
 
+Route::get('/admin/activities/enrollment/{codschool}/{activity}', [HomeController::class, 'enrollment'])->name('admin.activities.enrollment');
+
+
 
 
 Route::get('/admin/qr/index', [HomeController::class, 'qrgenerator'])->name('admin.qr.index');
