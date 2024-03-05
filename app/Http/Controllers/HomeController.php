@@ -126,10 +126,10 @@ class HomeController extends Controller
                         'registrationdate' => date('Y-m-d H:i:s')
                     ]
                 );
-                //$this->dispatch('closeModalMessaje', 'Información guardada', 'Estudiantes registrado exitosamente.', 'success', 'CreateNewCycle');
+                //Mensaje que se envía a la vista si todo está OK
             }
         } else {
-            //$this->dispatch('closeModalMessaje', 'Información', 'No se ha podido registrar al estudiante, el código no ha sido encontrado en el sistema.', 'info', 'null');
+            //Mensaje que se envía a la vista si no está bien
         }
     }
 
