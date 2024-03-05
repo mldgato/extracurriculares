@@ -16,12 +16,14 @@ return new class extends Migration
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('activity_id');
+            $table->unsignedBigInteger('cycle_id');
             $table->enum('enrollment', [0, 1])->default(1);
             $table->dateTime('registrationdate');
 
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
+            $table->foreign('cycle_id')->references('id')->on('cycles')->onDelete('cascade');
 
             $table->timestamps();
         });

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Activity;
 use App\Models\Student;
 use App\Models\Enrollment;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -106,6 +107,36 @@ class HomeController extends Controller
     public function register(Activity $activity)
     {
         return view('admin.activities.register', compact('activity'));
+    }
+
+    public function studentsList(Activity $activity)
+    {
+        $currentYear = Carbon::now()->year;
+
+        $enrollments = Enrollment::join('students', 'enrollments.student_id', '=', 'students.id')
+            ->join('classroom_students', 'students.id', '=', 'classroom_students.student_id')
+            ->join('classrooms', 'classroom_students.classroom_id', '=', 'classrooms.id')
+            ->join('cycles', 'classrooms.cycle_id', '=', 'cycles.id')
+            ->join('levels', 'classrooms.level_id', '=', 'levels.id')
+            ->join('grades', 'classrooms.grade_id', '=', 'grades.id')
+            ->join('sections', 'classrooms.section_id', '=', 'sections.id')
+            ->select(
+                'students.codschool',
+                'students.firstname',
+                'students.lastname',
+                'levels.level_name',
+                'grades.grade_name',
+                'sections.section_name',
+                'enrollments.registrationdate'
+            )
+            ->whereYear('cycles.cycle_name', $currentYear) // Filtrar por el año actual
+            ->orderBy('levels.order')
+            ->orderBy('grades.order')
+            ->orderBy('sections.order')
+            ->orderBy('students.lastname')
+            ->orderBy('students.firstname')
+            ->get();
+        return view('admin.activities.students', compact('activity', 'enrollments'));
     }
 
     public function enrollment(Request $request)
