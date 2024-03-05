@@ -38,22 +38,33 @@
                 },
                 success: function(response) {
                     console.log(response);
+
                     if (response.status === 'success') {
-                        playSound('bip.mp3');
+                        playSuccessSound();
                     } else {
-                        playSound('error.mp3');
+                        playErrorSound();
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    // Aquí puedes manejar los errores
-                    /* console.log(textStatus, errorThrown);
-                    playSound('error.mp3'); */
+                    console.log(textStatus, errorThrown);
+                    playErrorSound();
                 }
             });
         }
 
+        function playSuccessSound() {
+            playSound('bip.mp3');
+        }
+
+        function playErrorSound() {
+            playSound('error.mp3');
+        }
+
         function playSound(soundFile) {
-            var audio = new Audio('/sounds/' + soundFile);
+            var audio = document.getElementById('audioPlayer');
+            var source = document.getElementById('audioSource');
+            source.src = '/sounds/' + soundFile;
+            audio.load();
             audio.play();
         }
 
