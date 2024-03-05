@@ -22,23 +22,19 @@
 
 @section('js')
     <script type="text/javascript">
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
         function onScanSuccess(decodedText, decodedResult) {
             var activity = $('#activity').val();
-            var codschool = {{ $activity->id }};
-
+            var codschool = decodedText;
+            var token = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
                 url: '/admin/activities/enrollment',
                 type: 'POST',
                 data: {
                     codschool: codschool,
-                    activity: activity,
-                    qr_code: decodedText
+                    activity: activity
+                },
+                headers: {
+                    'X-CSRF-TOKEN': token
                 },
                 success: function(response) {
                     // Aquí puedes manejar la respuesta del servidor
