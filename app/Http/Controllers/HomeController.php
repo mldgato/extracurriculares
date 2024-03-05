@@ -126,10 +126,10 @@ class HomeController extends Controller
                         'registrationdate' => date('Y-m-d H:i:s')
                     ]
                 );
-                return response()->json(['status' => 'success']);
+                return response()->plain(1);
             }
         } else {
-            return response()->json(['status' => 'error'], 422);
+            return response()->plain(0);
         }
     }
 
