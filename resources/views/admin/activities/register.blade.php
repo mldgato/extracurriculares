@@ -37,7 +37,7 @@
                     'X-CSRF-TOKEN': token
                 },
                 success: function(response) {
-                    if (response.status === 'success') {
+                    if (response == 1) {
                         showSuccessAlert();
                     } else {
                         showErrorAlert();
