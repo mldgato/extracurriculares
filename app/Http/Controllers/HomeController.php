@@ -126,10 +126,10 @@ class HomeController extends Controller
                         'registrationdate' => date('Y-m-d H:i:s')
                     ]
                 );
-                //Mensaje que se envía a la vista si todo está OK
+                return response()->json(['status' => 'success']);
             }
         } else {
-            //Mensaje que se envía a la vista si no está bien
+            return response()->json(['status' => 'error'], 422);
         }
     }
 

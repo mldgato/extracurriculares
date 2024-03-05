@@ -37,14 +37,24 @@
                     'X-CSRF-TOKEN': token
                 },
                 success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor
                     console.log(response);
+                    if (response.status === 'success') {
+                        playSound('bip.mp3');
+                    } else {
+                        playSound('error.mp3');
+                    }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     // Aquí puedes manejar los errores
                     console.log(textStatus, errorThrown);
+                    playSound('error.mp3');
                 }
             });
+        }
+
+        function playSound(soundFile) {
+            var audio = new Audio('/sounds/' + soundFile);
+            audio.play();
         }
 
         function onScanFailure(error) {}
