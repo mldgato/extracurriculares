@@ -14,6 +14,9 @@
             <input type="hidden" id="activity" value="{{ $activity->id }}">
         </div>
     </div>
+    <audio id="audioPlayer" controls style="display: none;">
+        <source src="" type="audio/mp3" id="audioSource">
+    </audio>
 @stop
 
 @section('css')
