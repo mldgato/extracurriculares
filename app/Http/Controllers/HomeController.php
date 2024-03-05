@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Activity;
 use App\Models\Student;
 use App\Models\Enrollment;
+use App\Models\Cycle;
 use Carbon\Carbon;
 
 class HomeController extends Controller
@@ -142,6 +143,7 @@ class HomeController extends Controller
     public function enrollment(Request $request)
     {
         $currentYear = Carbon::now()->year;
+        $cycle = Cycle::where('cycle_name', $currentYear)->first();
         $codschool = $request->input('codschool');
         $activity = Activity::find($request->input('activity'));
         $student = Student::where('codschool', $codschool)->first();
@@ -155,7 +157,7 @@ class HomeController extends Controller
                         'student_id' => $student->id,
                         'user_id' => auth()->user()->id,
                         'activity_id' => $activity->id,
-                        'cycle_id' => $currentYear,
+                        'cycle_id' => $cycle->id,
                         'registrationdate' => date('Y-m-d H:i:s')
                     ]
                 );
