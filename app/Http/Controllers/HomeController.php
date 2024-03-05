@@ -108,8 +108,10 @@ class HomeController extends Controller
         return view('admin.activities.register', compact('activity'));
     }
 
-    public function enrollment($codschool, Activity $activity)
+    public function enrollment(Request $request)
     {
+        $codschool = $request->input('codschool');
+        $activity = Activity::find($request->input('activity'));
         $student = Student::where('codschool', $codschool)->first();
         if ($student) {
             $enrollment = Enrollment::where('student_id', $student->id)
