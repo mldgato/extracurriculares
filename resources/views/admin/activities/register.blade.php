@@ -11,6 +11,7 @@
         </div>
         <div class="card-body">
             <div id="reader" width="600px"></div>
+            <input type="hidden" id="activity" value="{{ $activity->id }}">
         </div>
     </div>
 @stop
@@ -22,8 +23,20 @@
 @section('js')
     <script type="text/javascript">
         function onScanSuccess(decodedText, decodedResult) {
-            Livewire.dispatchTo('admin.activities.register-activities', 'enroll', {
-                codschool: decodedText
+            var activity = $('#activity').val();
+            var codschool = 'tu-codigo-de-escuela'; // Reemplaza esto con el código de tu escuela
+
+            $.ajax({
+                url: '/admin/activities/enrollment/' + codschool + '/' + activity,
+                type: 'GET',
+                success: function(response) {
+                    // Aquí puedes manejar la respuesta del servidor
+                    console.log(response);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Aquí puedes manejar los errores
+                    console.log(textStatus, errorThrown);
+                }
             });
         }
 
