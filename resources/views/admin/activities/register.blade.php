@@ -42,6 +42,11 @@
                     } else {
                         showErrorAlert();
                     }
+                    // Agrega una pausa de 3 segundos antes de permitir la próxima lectura
+                    setTimeout(function() {
+                        html5QrcodeScanner.clear();
+                        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+                    }, 3000);
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     /* console.log(textStatus, errorThrown);
@@ -49,6 +54,7 @@
                 }
             });
         }
+
 
         function showSuccessAlert() {
             Swal.fire({
