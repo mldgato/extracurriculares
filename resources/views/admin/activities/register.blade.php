@@ -63,6 +63,26 @@
             });
         }
 
+        function showSuccessAlert() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: 'Operación exitosa',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+
+        function showErrorAlert() {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ha ocurrido un problema',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+
         function onScanFailure(error) {}
 
         let html5QrcodeScanner = new Html5QrcodeScanner(
