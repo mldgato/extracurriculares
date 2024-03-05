@@ -22,9 +22,15 @@
 
 @section('js')
     <script type="text/javascript">
+        var isScanning = true;
+
         function onScanSuccess(decodedText, decodedResult) {
+            if (!isScanning) {
+                return;
+            }
+
             // Detén el escáner inmediatamente después de una lectura exitosa
-            html5QrcodeScanner.clear();
+            isScanning = false;
 
             var activity = $('#activity').val();
             var codschool = decodedText;
@@ -41,25 +47,13 @@
                 },
                 success: function(response) {
                     if (response == 1) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Éxito',
-                            text: 'Operación exitosa',
-                            showConfirmButton: false,
-                            timer: 2000
-                        });
+                        showSuccessAlert();
                     } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Ha ocurrido un problema',
-                            showConfirmButton: false,
-                            timer: 2000
-                        });
+                        showErrorAlert();
                     }
                     // Reinicia el escáner después de una pausa de 3 segundos
                     setTimeout(function() {
-                        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+                        isScanning = true;
                     }, 3000);
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -68,6 +62,7 @@
                 }
             });
         }
+
         function onScanFailure(error) {}
 
         let html5QrcodeScanner = new Html5QrcodeScanner(
