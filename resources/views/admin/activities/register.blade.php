@@ -46,8 +46,8 @@
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     // Aquí puedes manejar los errores
-                    console.log(textStatus, errorThrown);
-                    playSound('error.mp3');
+                    /* console.log(textStatus, errorThrown);
+                    playSound('error.mp3'); */
                 }
             });
         }
