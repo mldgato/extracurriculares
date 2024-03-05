@@ -24,11 +24,16 @@
     <script type="text/javascript">
         function onScanSuccess(decodedText, decodedResult) {
             var activity = $('#activity').val();
-            var codschool = {{ $activity->id }}; // Reemplaza esto con el código de tu escuela
+            var codschool = {{ $activity->id }};
 
             $.ajax({
-                url: '/admin/activities/enrollment/' + codschool + '/' + activity,
-                type: 'GET',
+                url: '/admin/activities/enrollment',
+                type: 'POST',
+                data: {
+                    codschool: codschool,
+                    activity: activity,
+                    qr_code: decodedText
+                },
                 success: function(response) {
                     // Aquí puedes manejar la respuesta del servidor
                     console.log(response);
