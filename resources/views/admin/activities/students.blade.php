@@ -13,31 +13,37 @@
             <table id="Enrollments" class="table table-striped table-hover table-sm">
                 <thead>
                     <tr>
-                        <th>Carné</th>
-                        <th>Apellidos</th>
-                        <th>Nombres</th>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
                         <th>Nivel</th>
                         <th>Grado</th>
-                        <th>Secc.</th>
-                        <th>Refistro</th>
+                        <th>Sección</th>
+                        <th>Fecha de Registro</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($enrollments as $enrollment)
                         <tr>
                             <td>{{ $enrollment->codschool }}</td>
+                            <td>{{ $enrollment->firstname }}</td>
+                            <td>{{ $enrollment->lastname }}</td>
+                            <td>{{ $enrollment->level_name }}</td>
+                            <td>{{ $enrollment->grade_name }}</td>
+                            <td>{{ $enrollment->section_name }}</td>
+                            <td>{{ $enrollment->registrationdate }}</td>
                         </tr>
                     @endforeach
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th>Carné</th>
-                        <th>Apellidos</th>
-                        <th>Nombres</th>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
                         <th>Nivel</th>
                         <th>Grado</th>
-                        <th>Secc.</th>
-                        <th>Refistro</th>
+                        <th>Sección</th>
+                        <th>Fecha de Registro</th>
                     </tr>
                 </tfoot>
             </table>
