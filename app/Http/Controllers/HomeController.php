@@ -10,6 +10,7 @@ use App\Models\Student;
 use App\Models\Enrollment;
 use App\Models\Cycle;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -113,8 +114,13 @@ class HomeController extends Controller
     public function studentsList(Activity $activity)
     {
         $currentYear = Carbon::now()->year;
+        $userId = Auth::id();
+        $enrollments = Enrollment::where('activity_id', $activity->id)
+            ->where('user_id', $userId)
+            ->whereYear('registrationdate', $currentYear)
+            ->get();
 
-        $enrollments = Enrollment::join('students', 'enrollments.student_id', '=', 'students.id')
+        /* $enrollments = Enrollment::join('students', 'enrollments.student_id', '=', 'students.id')
             ->join('classroom_students', 'students.id', '=', 'classroom_students.student_id')
             ->join('classrooms', 'classroom_students.classroom_id', '=', 'classrooms.id')
             ->join('cycles', 'classrooms.cycle_id', '=', 'cycles.id')
@@ -136,7 +142,7 @@ class HomeController extends Controller
             ->orderBy('sections.order')
             ->orderBy('students.lastname')
             ->orderBy('students.firstname')
-            ->get();
+            ->get(); */
         return view('admin.activities.students', compact('activity', 'enrollments'));
     }
 

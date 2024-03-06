@@ -14,8 +14,8 @@
                 <thead>
                     <tr>
                         <th>Código</th>
-                        <th>Nombre</th>
                         <th>Apellido</th>
+                        <th>Nombre</th>
                         <th>Nivel</th>
                         <th>Grado</th>
                         <th>Sección</th>
@@ -25,21 +25,33 @@
                 <tbody>
                     @foreach ($enrollments as $enrollment)
                         <tr>
-                            <td>{{ $enrollment->codschool }}</td>
-                            <td>{{ $enrollment->firstname }}</td>
-                            <td>{{ $enrollment->lastname }}</td>
-                            <td>{{ $enrollment->level_name }}</td>
-                            <td>{{ $enrollment->grade_name }}</td>
-                            <td>{{ $enrollment->section_name }}</td>
-                            <td>{{ $enrollment->registrationdate }}</td>
+                            <td>{{ $enrollment->student->codschool }}</td>
+                            <td>{{ $enrollment->student->lastname }}</td>
+                            <td>{{ $enrollment->student->firstname }}</td>
+                            <td>
+                                @foreach ($enrollment->student->classroomstudents as $classroomStudent)
+                                    {{ $classroomStudent->classroom->level->level_name }}
+                                @endforeach
+                            </td>
+                            <td>
+                                @foreach ($enrollment->student->classroomstudents as $classroomStudent)
+                                    {{ $classroomStudent->classroom->grade->grade_name }}
+                                @endforeach
+                            </td>
+                            <td>
+                                @foreach ($enrollment->student->classroomstudents as $classroomStudent)
+                                    {{ $classroomStudent->classroom->section->section_name }}
+                                @endforeach
+                            </td>
+                            <td>{{ $enrollment->formattedRegistrationDate() }}</td>
                         </tr>
                     @endforeach
                 </tbody>
                 <tfoot>
                     <tr>
                         <th>Código</th>
-                        <th>Nombre</th>
                         <th>Apellido</th>
+                        <th>Nombre</th>
                         <th>Nivel</th>
                         <th>Grado</th>
                         <th>Sección</th>
@@ -56,5 +68,14 @@
 @stop
 
 @section('js')
-
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var table = new DataTable('#Enrollments', {
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/2.0.1/i18n/es-ES.json',
+                },
+                "aaSorting": [ [3,'asc'], [4,'asc'], [5,'asc'], [1,'asc'], [2,'asc'] ],
+            });
+        });
+    </script>
 @stop

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Enrollment extends Model
 {
@@ -25,5 +26,11 @@ class Enrollment extends Model
     public function activity()
     {
         return $this->belongsTo(Activity::class);
+    }
+
+    //Otros métodos
+    public function formattedRegistrationDate()
+    {
+        return Carbon::parse($this->registrationdate)->format('d-m-Y H:i:s');
     }
 }
