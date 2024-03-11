@@ -141,13 +141,14 @@ class HomeController extends Controller
             if (!$enrollment) {
                 $dateNow = date('Y-m-d');
                 $timeNow = date('H:i:s');
+                $datetimenow = date('Y-m-d H:i:s');
                 $enrollment = Enrollment::create(
                     [
                         'student_id' => $student->id,
                         'user_id' => auth()->user()->id,
                         'activity_id' => $activity->id,
                         'cycle_id' => $cycle->id,
-                        'registrationdate' => $dateNow
+                        'registrationdate' => $datetimenow
                     ]
                 );
                 Attendance::create(
