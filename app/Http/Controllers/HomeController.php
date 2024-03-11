@@ -175,7 +175,7 @@ class HomeController extends Controller
             $enrollment = Enrollment::where('student_id', $student->id)
                 ->where('activity_id', $activity->id)
                 ->where('cycle_id', $cycle->id)
-                ->exists();
+                ->first();
 
             if ($enrollment) {
                 $registroExistente = Attendance::whereBetween('attendance_date', [
