@@ -173,13 +173,13 @@ class HomeController extends Controller
             $currentYear = Carbon::now()->year;
             $fechaHoraActual = Carbon::now();
             $cycle = Cycle::where('cycle_name', $currentYear)->first();
-            return response()->make($cycle->id, 200, ['Content-Type' => 'text/plain']);
-            /* $enrollment = Enrollment::where('student_id', $student->id)
+            
+            $enrollment = Enrollment::where('student_id', $student->id)
                 ->where('activity_id', $activity->id)
                 ->where('cycle_id', $cycle->id)
                 ->first();
-
-            if ($enrollment) {
+            return response()->make($enrollment->id, 200, ['Content-Type' => 'text/plain']);
+            /* if ($enrollment) {
                 $registroExistente = Attendance::where('enrollment_id', $enrollment->id)->whereBetween('attendance_date', [
                     $fechaHoraActual->startOfDay(),
                     $fechaHoraActual->endOfDay(),
