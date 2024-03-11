@@ -171,7 +171,7 @@ class HomeController extends Controller
             $student = Student::where('codschool', $codschool)->first();
 
             $currentYear = Carbon::now()->year;
-            $fechaHoraActual = Carbon::now();
+            $attendanceDate = date('Y-m-d');
             $cycle = Cycle::where('cycle_name', $currentYear)->first();
 
             $enrollment = Enrollment::where('student_id', $student->id)
@@ -180,11 +180,9 @@ class HomeController extends Controller
                 ->first();
             if ($enrollment) {
                 $registroExistente = Attendance::where('enrollment_id', $enrollment->id)
-                    ->whereBetween('attendance_date', [
-                        $fechaHoraActual->startOfDay(),
-                        $fechaHoraActual->endOfDay(),
-                    ])->first();
-                return response()->make("Registro encontrado: ".$registroExistente->id, 200, ['Content-Type' => 'text/plain']);
+                    ->whereDate('attendance_date', '=', $attendanceDate)
+                    ->first();
+                return response()->make("Registro encontrado: " . $registroExistente->id, 200, ['Content-Type' => 'text/plain']);
             } else {
                 return response()->make(0, 200, ['Content-Type' => 'text/plain']);
             }
