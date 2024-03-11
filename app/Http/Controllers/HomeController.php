@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Activity;
+use App\Models\Attendance;
 use App\Models\Student;
 use App\Models\Enrollment;
 use App\Models\Cycle;
@@ -138,13 +139,21 @@ class HomeController extends Controller
                 ->where('activity_id', $activity->id)
                 ->exists();
             if (!$enrollment) {
-                Enrollment::create(
+                $dateNow = date('Y-m-d H:i:s');
+                $enrollment = Enrollment::create(
                     [
                         'student_id' => $student->id,
                         'user_id' => auth()->user()->id,
                         'activity_id' => $activity->id,
                         'cycle_id' => $cycle->id,
-                        'registrationdate' => date('Y-m-d H:i:s')
+                        'registrationdate' => $dateNow
+                    ]
+                );
+                Attendance::create(
+                    [
+                        'enrollment_id' => $enrollment->id,
+                        'user_id' => auth()->user()->id,
+                        'attendance_date' => $dateNow
                     ]
                 );
                 return response()->make('1', 200, ['Content-Type' => 'text/plain']);

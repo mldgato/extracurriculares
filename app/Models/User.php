@@ -49,6 +49,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Activity::class);
     }
 
+    //Relación uno a muchos
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
     public function enrollments()
     {
         return $this->hasMany(Enrollment::class);

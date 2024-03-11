@@ -27,6 +27,11 @@ class Enrollment extends Model
     {
         return $this->belongsTo(Activity::class);
     }
+    //Relación uno a muchos
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
 
     //Otros métodos
     public function formattedRegistrationDate()

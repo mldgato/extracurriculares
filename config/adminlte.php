@@ -485,9 +485,9 @@ return [
                 ],
                 [
                     'type' => 'css',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/2.0.1/css/dataTables.dataTables.min.css',
-                ],
+                ]
             ],
         ],
         'Select2' => [
