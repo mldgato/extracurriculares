@@ -185,7 +185,9 @@ class HomeController extends Controller
                         $fechaHoraActual->startOfDay(),
                         $fechaHoraActual->endOfDay(),
                     ])->first();
-                return response()->make($registroExistente->id, 200, ['Content-Type' => 'text/plain']);
+                return response()->make("Attendance: " . $registroExistente->id, 200, ['Content-Type' => 'text/plain']);
+            } else {
+                return response()->make("enrollment: " . $enrollment->id, 200, ['Content-Type' => 'text/plain']);
             }
         } catch (\Exception $e) {
             // Manejar la excepción aquí, puedes registrarla, imprimir un mensaje de error, etc.
