@@ -169,7 +169,8 @@ class HomeController extends Controller
             $codschool = $request->input('codschool');
             $activity = Activity::find($request->input('activity'));
             $student = Student::where('codschool', $codschool)->first();
-            $currentYear = Carbon::now()->year;
+            return response()->make($student->id, 200, ['Content-Type' => 'text/plain']);
+            /* $currentYear = Carbon::now()->year;
             $fechaHoraActual = Carbon::now();
             $cycle = Cycle::where('cycle_name', $currentYear)->first();
             $enrollment = Enrollment::where('student_id', $student->id)
@@ -202,7 +203,7 @@ class HomeController extends Controller
         } catch (\Exception $e) {
             // Manejar la excepción aquí, puedes registrarla, imprimir un mensaje de error, etc.
             return response()->make($e->getMessage(), 500, ['Content-Type' => 'text/plain']);
-        }
+        } */
     }
 
 
