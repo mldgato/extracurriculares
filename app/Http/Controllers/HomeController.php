@@ -181,14 +181,10 @@ class HomeController extends Controller
                 ->where('activity_id', $activity->id)
                 ->where('cycle_id', $cycle->id)
                 ->first();
-            if ($enrollment) {
-                $registroExistente = Attendance::where('enrollment_id', $enrollment->id)
-                    ->where('attendance_date = ', $attendanceDate)
-                    ->first();
-                return response()->make("Registro encontrado: " . $registroExistente->id, 200, ['Content-Type' => 'text/plain']);
-            } else {
-                return response()->make(0, 200, ['Content-Type' => 'text/plain']);
-            }
+            
+                return response()->make($enrollment->id, 200, ['Content-Type' => 'text/plain']);
+
+
         } catch (\Exception $e) {
             // Manejar la excepción aquí, puedes registrarla, imprimir un mensaje de error, etc.
             return response()->make($e->getMessage(), 500, ['Content-Type' => 'text/plain']);
