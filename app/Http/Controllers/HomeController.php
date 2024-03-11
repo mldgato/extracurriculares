@@ -178,17 +178,16 @@ class HomeController extends Controller
                 ->where('activity_id', $activity->id)
                 ->where('cycle_id', $cycle->id)
                 ->first();
-            return response()->make("enrollment: " . $enrollment->id, 200, ['Content-Type' => 'text/plain']);
-            /* if ($enrollment != null) {
+            if ($enrollment != null) {
                 $registroExistente = Attendance::where('enrollment_id', $enrollment->id)
                     ->whereBetween('attendance_date', [
                         $fechaHoraActual->startOfDay(),
                         $fechaHoraActual->endOfDay(),
                     ])->first();
-                return response()->make("Attendance: " . $registroExistente->id, 200, ['Content-Type' => 'text/plain']);
+                return response()->make("Llegué hasta aquí", 200, ['Content-Type' => 'text/plain']);
             } else {
                 return response()->make("enrollment: " . $enrollment->id, 200, ['Content-Type' => 'text/plain']);
-            } */
+            }
         } catch (\Exception $e) {
             // Manejar la excepción aquí, puedes registrarla, imprimir un mensaje de error, etc.
             return response()->make($e->getMessage(), 500, ['Content-Type' => 'text/plain']);
