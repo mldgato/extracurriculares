@@ -38,6 +38,7 @@ Route::get('/admin/activities/students/{activity}', [HomeController::class, 'stu
 Route::get('/admin/activities/attendance/{activity}', [HomeController::class, 'attendance'])->name('admin.activities.attendance');
 
 Route::post('/admin/activities/enrollment', [HomeController::class, 'enrollment'])->name('admin.activities.enrollment');
+Route::post('/admin/activities/registerAttendance', [HomeController::class, 'registerAttendance'])->name('admin.activities.registerAttendance');
 
 
 

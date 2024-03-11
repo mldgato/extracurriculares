@@ -36,6 +36,6 @@ class Enrollment extends Model
     //Otros métodos
     public function formattedRegistrationDate()
     {
-        return Carbon::parse($this->registrationdate)->format('d-m-Y H:i:s');
+        return Carbon::parse($this->registrationdate)->format('d/m/Y H:i:s');
     }
 }

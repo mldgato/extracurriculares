@@ -36,7 +36,7 @@
             var codschool = decodedText;
             var token = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
-                url: '/admin/activities/enrollment',
+                url: '/admin/activities/registerAttendance',
                 type: 'POST',
                 data: {
                     codschool: codschool,
