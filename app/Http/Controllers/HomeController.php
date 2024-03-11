@@ -178,7 +178,7 @@ class HomeController extends Controller
                 ->first();
 
             if ($enrollment) {
-                $registroExistente = Attendance::whereBetween('attendance_date', [
+                $registroExistente = Attendance::where('enrollment_id', $enrollment->id)->whereBetween('attendance_date', [
                     $fechaHoraActual->startOfDay(),
                     $fechaHoraActual->endOfDay(),
                 ])->first();
