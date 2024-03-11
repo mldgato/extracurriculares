@@ -165,47 +165,32 @@ class HomeController extends Controller
 
     public function registerAttendance(Request $request)
     {
-        /* try { */
-        $codschool = $request->input('codschool');
-        $activity = Activity::find($request->input('activity'));
-        $student = Student::where('codschool', $codschool)->first();
+        try {
+            $codschool = $request->input('codschool');
+            $activity = Activity::find($request->input('activity'));
+            $student = Student::where('codschool', $codschool)->first();
 
-        $currentYear = Carbon::now()->year;
-        $fechaHoraActual = Carbon::now();
-        $cycle = Cycle::where('cycle_name', $currentYear)->first();
+            $currentYear = Carbon::now()->year;
+            $fechaHoraActual = Carbon::now();
+            $cycle = Cycle::where('cycle_name', $currentYear)->first();
 
-        $enrollment = Enrollment::where('student_id', $student->id)
-            ->where('activity_id', $activity->id)
-            ->where('cycle_id', $cycle->id)
-            ->first();
-        return response()->make($enrollment->id, 200, ['Content-Type' => 'text/plain']);
-        if ($enrollment) {
-            $registroExistente = Attendance::where('enrollment_id', $enrollment->id)->whereBetween('attendance_date', [
-                $fechaHoraActual->startOfDay(),
-                $fechaHoraActual->endOfDay(),
-            ])->first();
-            return response()->make($enrollment->id, 200, ['Content-Type' => 'text/plain']); 
-        }
-        /* if (!$registroExistente) {
-                    $dateNow = date('Y-m-d H:i:s');
-                    Attendance::create(
-                        [
-                            'enrollment_id' => $enrollment->id,
-                            'user_id' => auth()->user()->id,
-                            'attendance_date' => $dateNow
-                        ]
-                    );
-                    return response()->make($enrollment->id, 200, ['Content-Type' => 'text/plain']);
-                } else {
-                    return response()->make($enrollment->id, 200, ['Content-Type' => 'text/plain']);
-                }
-            } else {
-                return response()->make($enrollment->id, 200, ['Content-Type' => 'text/plain']);
+            $enrollment = Enrollment::where('student_id', $student->id)
+                ->where('activity_id', $activity->id)
+                ->where('cycle_id', $cycle->id)
+                ->first();
+
+            if ($enrollment != null) {
+                $registroExistente = Attendance::where('enrollment_id', $enrollment->id)
+                    ->whereBetween('attendance_date', [
+                        $fechaHoraActual->startOfDay(),
+                        $fechaHoraActual->endOfDay(),
+                    ])->first();
+                return response()->make($registroExistente->id, 200, ['Content-Type' => 'text/plain']);
             }
         } catch (\Exception $e) {
             // Manejar la excepción aquí, puedes registrarla, imprimir un mensaje de error, etc.
             return response()->make($e->getMessage(), 500, ['Content-Type' => 'text/plain']);
-        } */
+        }
     }
 
 
