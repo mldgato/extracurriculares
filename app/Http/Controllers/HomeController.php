@@ -197,7 +197,7 @@ class HomeController extends Controller
                     return response()->make($enrollment->id, 200, ['Content-Type' => 'text/plain']);
                 }
             } else {
-                return response()->make('0', 200, ['Content-Type' => 'text/plain']);
+                return response()->make($enrollment->id, 200, ['Content-Type' => 'text/plain']);
             }
         } catch (\Exception $e) {
             // Manejar la excepción aquí, puedes registrarla, imprimir un mensaje de error, etc.
