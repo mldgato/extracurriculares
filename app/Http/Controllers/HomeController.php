@@ -165,7 +165,7 @@ class HomeController extends Controller
 
     public function registerAttendance(Request $request)
     {
-        try {
+        /* try { */
             $codschool = $request->input('codschool');
             $activity = Activity::find($request->input('activity'));
             $student = Student::where('codschool', $codschool)->first();
