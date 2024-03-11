@@ -180,7 +180,7 @@ class HomeController extends Controller
                 ->first();
             if ($enrollment) {
                 $registroExistente = Attendance::where('enrollment_id', $enrollment->id)
-                    ->whereDate('attendance_date', '=', $attendanceDate)
+                    ->whereRaw('DATE(attendance_date) = ?', [$attendanceDate])
                     ->first();
                 return response()->make("Registro encontrado: " . $registroExistente->id, 200, ['Content-Type' => 'text/plain']);
             } else {
