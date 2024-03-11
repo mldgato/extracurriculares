@@ -193,6 +193,8 @@ class HomeController extends Controller
                         ]
                     );
                     return response()->make('1', 200, ['Content-Type' => 'text/plain']);
+                } else {
+                    return response()->make('0', 200, ['Content-Type' => 'text/plain']);
                 }
             } else {
                 return response()->make('0', 200, ['Content-Type' => 'text/plain']);
