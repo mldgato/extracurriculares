@@ -178,13 +178,13 @@ class HomeController extends Controller
                 ->where('activity_id', $activity->id)
                 ->where('cycle_id', $cycle->id)
                 ->first();
-            if ($enrollment != null) {
+            if ($enrollment) {
                 $registroExistente = Attendance::where('enrollment_id', $enrollment->id)
                     ->whereBetween('attendance_date', [
                         $fechaHoraActual->startOfDay(),
                         $fechaHoraActual->endOfDay(),
                     ])->first();
-                return response()->make($registroExistente->id, 200, ['Content-Type' => 'text/plain']);
+                return response()->make("Registro encontrado: ".$registroExistente->id, 200, ['Content-Type' => 'text/plain']);
             } else {
                 return response()->make(0, 200, ['Content-Type' => 'text/plain']);
             }
