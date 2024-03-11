@@ -192,9 +192,9 @@ class HomeController extends Controller
                             'attendance_date' => $dateNow
                         ]
                     );
-                    return response()->make('1', 200, ['Content-Type' => 'text/plain']);
+                    return response()->make($enrollment->id, 200, ['Content-Type' => 'text/plain']);
                 } else {
-                    return response()->make('0', 200, ['Content-Type' => 'text/plain']);
+                    return response()->make($enrollment->id, 200, ['Content-Type' => 'text/plain']);
                 }
             } else {
                 return response()->make('0', 200, ['Content-Type' => 'text/plain']);
