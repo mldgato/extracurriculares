@@ -139,7 +139,8 @@ class HomeController extends Controller
                 ->where('activity_id', $activity->id)
                 ->exists();
             if (!$enrollment) {
-                $dateNow = date('Y-m-d H:i:s');
+                $dateNow = date('Y-m-d');
+                $timeNow = date('H:i:s');
                 $enrollment = Enrollment::create(
                     [
                         'student_id' => $student->id,
@@ -153,7 +154,8 @@ class HomeController extends Controller
                     [
                         'enrollment_id' => $enrollment->id,
                         'user_id' => auth()->user()->id,
-                        'attendance_date' => $dateNow
+                        'attendance_date' => $dateNow,
+                        'attendance_time' => $timeNow
                     ]
                 );
                 return response()->make('1', 200, ['Content-Type' => 'text/plain']);
@@ -180,7 +182,7 @@ class HomeController extends Controller
                 ->first();
             if ($enrollment) {
                 $registroExistente = Attendance::where('enrollment_id', $enrollment->id)
-                    ->whereRaw('DATE(attendance_date) = ?', [$attendanceDate])
+                    ->where('attendance_date = ', $attendanceDate)
                     ->first();
                 return response()->make("Registro encontrado: " . $registroExistente->id, 200, ['Content-Type' => 'text/plain']);
             } else {
