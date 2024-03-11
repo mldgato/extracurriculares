@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Attendance extends Model
 {
     use HasFactory;
-    protected $fillable = ['enrollment_id', 'user_id', 'attendance_date'];
+    protected $fillable = ['enrollment_id', 'user_id', 'attendance_date', 'attendance_time'];
 
     // Relación muchos a uno inversa con Enrollment
     public function enrollment()
