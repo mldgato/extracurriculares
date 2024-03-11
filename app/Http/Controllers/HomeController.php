@@ -169,11 +169,12 @@ class HomeController extends Controller
             $codschool = $request->input('codschool');
             $activity = Activity::find($request->input('activity'));
             $student = Student::where('codschool', $codschool)->first();
-            return response()->make($student->id, 200, ['Content-Type' => 'text/plain']);
-            /* $currentYear = Carbon::now()->year;
+            
+            $currentYear = Carbon::now()->year;
             $fechaHoraActual = Carbon::now();
             $cycle = Cycle::where('cycle_name', $currentYear)->first();
-            $enrollment = Enrollment::where('student_id', $student->id)
+            return response()->make($cycle->id, 200, ['Content-Type' => 'text/plain']);
+            /* $enrollment = Enrollment::where('student_id', $student->id)
                 ->where('activity_id', $activity->id)
                 ->where('cycle_id', $cycle->id)
                 ->first();
