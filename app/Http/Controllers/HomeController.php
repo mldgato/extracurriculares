@@ -184,7 +184,7 @@ class HomeController extends Controller
                 $fechaHoraActual->startOfDay(),
                 $fechaHoraActual->endOfDay(),
             ])->first();
-            return response()->make($enrollment->id." ".$registroExistente->id, 200, ['Content-Type' => 'text/plain']);
+            return response()->make($enrollment->id." - ".$registroExistente->id, 200, ['Content-Type' => 'text/plain']);
         }
         /* if (!$registroExistente) {
                     $dateNow = date('Y-m-d H:i:s');
