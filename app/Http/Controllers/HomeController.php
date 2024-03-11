@@ -165,38 +165,44 @@ class HomeController extends Controller
 
     public function registerAttendance(Request $request)
     {
-        $codschool = $request->input('codschool');
-        $activity = Activity::find($request->input('activity'));
-        $student = Student::where('codschool', $codschool)->first();
-        $currentYear = Carbon::now()->year;
-        $fechaHoraActual = Carbon::now();
-        $cycle = Cycle::where('cycle_name', $currentYear)->first();
-        $enrollment = Enrollment::where('student_id', $student->id)
-            ->where('activity_id', $activity->id)
-            ->where('cycle_id', $cycle->id)
-            ->exists();
-        if ($enrollment) {
+        try {
+            $codschool = $request->input('codschool');
+            $activity = Activity::find($request->input('activity'));
+            $student = Student::where('codschool', $codschool)->first();
+            $currentYear = Carbon::now()->year;
+            $fechaHoraActual = Carbon::now();
+            $cycle = Cycle::where('cycle_name', $currentYear)->first();
+            $enrollment = Enrollment::where('student_id', $student->id)
+                ->where('activity_id', $activity->id)
+                ->where('cycle_id', $cycle->id)
+                ->exists();
 
-            $registroExistente = Attendance::whereBetween('attendance_date', [
-                $fechaHoraActual->startOfDay(),
-                $fechaHoraActual->endOfDay(),
-            ])->first();
+            if ($enrollment) {
+                $registroExistente = Attendance::whereBetween('attendance_date', [
+                    $fechaHoraActual->startOfDay(),
+                    $fechaHoraActual->endOfDay(),
+                ])->first();
 
-            if (!$registroExistente) {
-                $dateNow = date('Y-m-d H:i:s');
-                Attendance::create(
-                    [
-                        'enrollment_id' => $enrollment->id,
-                        'user_id' => auth()->user()->id,
-                        'attendance_date' => $dateNow
-                    ]
-                );
-                return response()->make('1', 200, ['Content-Type' => 'text/plain']);
+                if (!$registroExistente) {
+                    $dateNow = date('Y-m-d H:i:s');
+                    Attendance::create(
+                        [
+                            'enrollment_id' => $enrollment->id,
+                            'user_id' => auth()->user()->id,
+                            'attendance_date' => $dateNow
+                        ]
+                    );
+                    return response()->make('1', 200, ['Content-Type' => 'text/plain']);
+                }
+            } else {
+                return response()->make('0', 200, ['Content-Type' => 'text/plain']);
             }
-        } else {
-            return response()->make('0', 200, ['Content-Type' => 'text/plain']);
+        } catch (\Exception $e) {
+            // Manejar la excepción aquí, puedes registrarla, imprimir un mensaje de error, etc.
+            return response()->make($e->getMessage(), 500, ['Content-Type' => 'text/plain']);
         }
     }
+
 
     public function qrgenerator()
     {
