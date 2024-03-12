@@ -181,11 +181,7 @@ class HomeController extends Controller
                 ->where('activity_id', $activity->id)
                 ->where('cycle_id', $cycle->id)
                 ->first();
-            if ($enrollment->id != null) {
-                return response()->make("Si está inscrito", 200, ['Content-Type' => 'text/plain']);
-            } else {
-                return response()->make("Si está inscrito", 200, ['Content-Type' => 'text/plain']);
-            }
+            return response()->make($enrollment->id, 200, ['Content-Type' => 'text/plain']);
         } catch (\Exception $e) {
             // Manejar la excepción aquí, puedes registrarla, imprimir un mensaje de error, etc.
             return response()->make($e->getMessage(), 500, ['Content-Type' => 'text/plain']);
