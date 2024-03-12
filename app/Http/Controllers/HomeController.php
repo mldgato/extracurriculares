@@ -177,14 +177,17 @@ class HomeController extends Controller
             $attendanceDate = date('Y-m-d');
             $cycle = Cycle::where('cycle_name', $currentYear)->first();
 
-            $enrollment = Enrollment::where('student_id', $student->id)
-                ->where('activity_id', $activity->id)
-                ->where('cycle_id', $cycle->id)
-                ->first();
-            if (isset($enrollment->id)) {
-                return response()->make("Si está inscrito", 200, ['Content-Type' => 'text/plain']);
+            $enrollment = Enrollment::where([
+                'student_id' => $student->id,
+                'activity_id' => $activity->id,
+                'cycle_id' => $cycle->id,
+            ])->first();
+
+            if ($enrollment) {
+                $enrollmentId = $enrollment->id;
+                return response()->make("Si está inscrito (ID de inscripción: $enrollmentId)", 200, ['Content-Type' => 'text/plain']);
             } else {
-                return response()->make("Si está inscrito", 200, ['Content-Type' => 'text/plain']);
+                return response()->make("No está inscrito", 200, ['Content-Type' => 'text/plain']);
             }
         } catch (\Exception $e) {
             // Manejar la excepción aquí, puedes registrarla, imprimir un mensaje de error, etc.
