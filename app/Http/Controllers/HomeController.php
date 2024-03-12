@@ -183,19 +183,27 @@ class HomeController extends Controller
             ])->first();
 
             if ($enrollment) {
-                $enrollmentId = $enrollment->id;
                 $attendanceDate = date('Y-m-d');
-                $attendanceTime = date('H:i:s');
-                Attendance::create(
-                    [
+                $enrollmentId = $enrollment->id;
+                $existingAttendance = Attendance::where([
+                    'enrollment_id' => $enrollmentId,
+                    'attendance_date' => $attendanceDate,
+                ])->first();
+
+                if (!$existingAttendance) {
+                    // La fecha de asistencia no existe en la base de datos, crea el registro
+                    $attendanceTime = date('H:i:s');
+                    Attendance::create([
                         'enrollment_id' => $enrollmentId,
                         'user_id' => auth()->user()->id,
                         'attendance_date' => $attendanceDate,
-                        'attendance_date' => $attendanceTime
-                    ]
-                );
+                        'attendance_time' => $attendanceTime,
+                    ]);
 
-                return response()->make("1", 200, ['Content-Type' => 'text/plain']);
+                    return response()->make("1", 200, ['Content-Type' => 'text/plain']);
+                } else {
+                    return response()->make("La asistencia ya está registrada para esta fecha", 200, ['Content-Type' => 'text/plain']);
+                }
             } else {
                 return response()->make("No está inscrito", 200, ['Content-Type' => 'text/plain']);
             }
