@@ -174,7 +174,6 @@ class HomeController extends Controller
             $student = Student::where('codschool', $codschool)->first();
 
             $currentYear = Carbon::now()->year;
-            $attendanceDate = date('Y-m-d');
             $cycle = Cycle::where('cycle_name', $currentYear)->first();
 
             $enrollment = Enrollment::where([
@@ -185,7 +184,18 @@ class HomeController extends Controller
 
             if ($enrollment) {
                 $enrollmentId = $enrollment->id;
-                return response()->make("Si está inscrito (ID de inscripción: $enrollmentId)", 200, ['Content-Type' => 'text/plain']);
+                $attendanceDate = date('Y-m-d');
+                $attendanceTime = date('H:i:s');
+                Attendance::create(
+                    [
+                        'enrollment_id' => $enrollmentId,
+                        'user_id' => auth()->user()->id,
+                        'attendance_date' => $attendanceDate,
+                        'attendance_date' => $attendanceTime
+                    ]
+                );
+
+                return response()->make("1", 200, ['Content-Type' => 'text/plain']);
             } else {
                 return response()->make("No está inscrito", 200, ['Content-Type' => 'text/plain']);
             }
