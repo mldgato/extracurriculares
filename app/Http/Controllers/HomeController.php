@@ -181,7 +181,7 @@ class HomeController extends Controller
                 ->where('activity_id', $activity->id)
                 ->where('cycle_id', $cycle->id)
                 ->first();
-            if ($enrollment != "") {
+            if ($enrollment->id != null) {
                 return response()->make("Si está inscrito", 200, ['Content-Type' => 'text/plain']);
             } else {
                 return response()->make("Si está inscrito", 200, ['Content-Type' => 'text/plain']);
