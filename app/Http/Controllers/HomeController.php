@@ -147,7 +147,15 @@ class HomeController extends Controller
                 ->pluck('id')
                 ->first();
             if ($classroomStudentId) {
-                return response()->make('El Estudiante si está asignado a un grado en el año actual', 200, ['Content-Type' => 'text/plain']);
+                $activityUserId = ActivityUser::where('activity_id', $activity)
+                    ->where('user_id', $user)
+                    ->pluck('id')
+                    ->first();
+                if ($activityUserId) {
+                    return response()->make('Si tiene una actividad asignada', 200, ['Content-Type' => 'text/plain']);
+                } else {
+                    return response()->make('No tiene una actividad asignada', 200, ['Content-Type' => 'text/plain']);
+                }
             } else {
                 return response()->make('El Estudiante no está asignado a un grado en el año actual', 200, ['Content-Type' => 'text/plain']);
             }
