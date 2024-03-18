@@ -132,16 +132,17 @@ class HomeController extends Controller
     {
         $currentYear = Carbon::now()->year;
         $cycle = Cycle::where('cycle_name', $currentYear)->first();
+        $cycleId = $cycle->id;
         $codschool = $request->input('codschool');
         $activity = Activity::find($request->input('activity'));
         $student = Student::where('codschool', $codschool)->first();
         $user = Auth::id();
 
         if ($student) {
-            $classroomStudentId = Student::findOrFail($student)
+            $classroomStudentId = Student::findOrFail($student->id)
                 ->classroomStudents()
-                ->whereHas('classroom', function ($query) use ($cycle) {
-                    $query->where('cycle_id', $cycle);
+                ->whereHas('classroom', function ($query) use ($cycleId) {
+                    $query->where('cycle_id', $cycleId);
                 })
                 ->pluck('id')
                 ->first();
