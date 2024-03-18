@@ -146,7 +146,11 @@ class HomeController extends Controller
                 })
                 ->pluck('id')
                 ->first();
-            return response()->make('El Estudiante si existe', 200, ['Content-Type' => 'text/plain']);
+            if ($classroomStudentId) {
+                return response()->make('El Estudiante si está asignado a un grado en el año actual', 200, ['Content-Type' => 'text/plain']);
+            } else {
+                return response()->make('El Estudiante no está asignado a un grado en el año actual', 200, ['Content-Type' => 'text/plain']);
+            }
         } else {
             return response()->make('El Estudiante no existe', 200, ['Content-Type' => 'text/plain']);
         }
