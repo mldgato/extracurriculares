@@ -152,7 +152,33 @@ class HomeController extends Controller
                     ->pluck('id')
                     ->first();
                 if ($activityUserId) {
-                    return response()->make('Si tiene una actividad asignada', 200, ['Content-Type' => 'text/plain']);
+                    $enrollment = Enrollment::where('classroom_students_id', $classroomStudentId)
+                        ->where('activity_user_id', $activityUserId)
+                        ->where('status', '1')
+                        ->first();
+                    if (!$enrollment) {
+                        $dateNow = date('Y-m-d');
+                        $timeNow = date('H:i:s');
+                        $datetimenow = date('Y-m-d H:i:s');
+                        $enrollment = Enrollment::create(
+                            [
+                                'classroom_students_id' => $classroomStudentId,
+                                'activity_user_id' => $activityUserId,
+                                'registrationdate' => $datetimenow
+                            ]
+                        );
+
+                        Attendance::create(
+                            [
+                                'enrollment_id' => $enrollment->id,
+                                'attendance_date' => $dateNow,
+                                'attendance_time' => $timeNow
+                            ]
+                        );
+                        return response()->make('1', 200, ['Content-Type' => 'text/plain']);
+                    } else {
+                        return response()->make('El Estudiante no está registrado a una actividad', 200, ['Content-Type' => 'text/plain']);
+                    }
                 } else {
                     return response()->make('No tiene una actividad asignada', 200, ['Content-Type' => 'text/plain']);
                 }
