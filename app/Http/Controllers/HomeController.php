@@ -130,7 +130,25 @@ class HomeController extends Controller
 
     public function enrollment(Request $request)
     {
-        return response()->make('El Estudiante no está asignado a un grado en el año actual', 200, ['Content-Type' => 'text/plain']);
+        $currentYear = Carbon::now()->year;
+        $cycle = Cycle::where('cycle_name', $currentYear)->first();
+        $codschool = $request->input('codschool');
+        $activity = Activity::find($request->input('activity'));
+        $student = Student::where('codschool', $codschool)->first();
+        $user = Auth::id();
+
+        if ($student) {
+            $classroomStudentId = Student::findOrFail($student)
+                ->classroomStudents()
+                ->whereHas('classroom', function ($query) use ($cycle) {
+                    $query->where('cycle_id', $cycle);
+                })
+                ->pluck('id')
+                ->first();
+            return response()->make('El Estudiante si existe', 200, ['Content-Type' => 'text/plain']);
+        } else {
+            return response()->make('El Estudiante no existe', 200, ['Content-Type' => 'text/plain']);
+        }
     }
 
     public function registerAttendance(Request $request)
