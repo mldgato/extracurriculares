@@ -175,11 +175,17 @@ class HomeController extends Controller
                             ]
                         );
                         return response()->make('1', 200, ['Content-Type' => 'text/plain']);
+                    } else {
+                        return response()->make('El Estudiante no está registrado a una actividad', 200, ['Content-Type' => 'text/plain']);
                     }
+                } else {
+                    return response()->make('No tiene una actividad asignada', 200, ['Content-Type' => 'text/plain']);
                 }
+            } else {
+                return response()->make('El Estudiante no está asignado a un grado en el año actual', 200, ['Content-Type' => 'text/plain']);
             }
         } else {
-            return response()->make('0', 200, ['Content-Type' => 'text/plain']);
+            return response()->make('El Estudiante no existe', 200, ['Content-Type' => 'text/plain']);
         }
     }
 

@@ -49,7 +49,7 @@
                     if (response == 1) {
                         showSuccessAlert();
                     } else {
-                        showErrorAlert();
+                        showErrorAlert(response);
                     }
                     // Reinicia el escáner después de una pausa de 3 segundos
                     setTimeout(function() {
@@ -73,11 +73,11 @@
             });
         }
 
-        function showErrorAlert() {
+        function showErrorAlert(response) {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Ha ocurrido un problema',
+                text: response,
                 showConfirmButton: false,
                 timer: 2000
             });
