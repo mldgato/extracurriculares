@@ -12,6 +12,7 @@ use App\Models\Enrollment;
 use App\Models\Cycle;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ActivityUser;
 
 class HomeController extends Controller
 {
@@ -134,32 +135,48 @@ class HomeController extends Controller
         $codschool = $request->input('codschool');
         $activity = Activity::find($request->input('activity'));
         $student = Student::where('codschool', $codschool)->first();
+        $user = Auth::id();
+
         if ($student) {
-            $enrollment = Enrollment::where('student_id', $student->id)
-                ->where('activity_id', $activity->id)
-                ->exists();
-            if (!$enrollment) {
-                $dateNow = date('Y-m-d');
-                $timeNow = date('H:i:s');
-                $datetimenow = date('Y-m-d H:i:s');
-                $enrollment = Enrollment::create(
-                    [
-                        'student_id' => $student->id,
-                        'user_id' => auth()->user()->id,
-                        'activity_id' => $activity->id,
-                        'cycle_id' => $cycle->id,
-                        'registrationdate' => $datetimenow
-                    ]
-                );
-                Attendance::create(
-                    [
-                        'enrollment_id' => $enrollment->id,
-                        'user_id' => auth()->user()->id,
-                        'attendance_date' => $dateNow,
-                        'attendance_time' => $timeNow
-                    ]
-                );
-                return response()->make('1', 200, ['Content-Type' => 'text/plain']);
+            $classroomStudentId = Student::findOrFail($student)
+                ->classroomStudents()
+                ->whereHas('classroom', function ($query) use ($cycle) {
+                    $query->where('cycle_id', $cycle);
+                })
+                ->pluck('id')
+                ->first();
+            if ($classroomStudentId) {
+                $activityUserId = ActivityUser::where('activity_id', $activity)
+                    ->where('user_id', $user)
+                    ->pluck('id')
+                    ->first();
+                if ($activityUserId) {
+                    $enrollment = Enrollment::where('classroom_students_id', $classroomStudentId)
+                        ->where('activity_user_id', $activityUserId)
+                        ->where('status', '1')
+                        ->first();
+                    if (!$enrollment) {
+                        $dateNow = date('Y-m-d');
+                        $timeNow = date('H:i:s');
+                        $datetimenow = date('Y-m-d H:i:s');
+                        $enrollment = Enrollment::create(
+                            [
+                                'classroom_students_id' => $classroomStudentId,
+                                'activity_user_id' => $activityUserId,
+                                'registrationdate' => $datetimenow
+                            ]
+                        );
+
+                        Attendance::create(
+                            [
+                                'enrollment_id' => $enrollment->id,
+                                'attendance_date' => $dateNow,
+                                'attendance_time' => $timeNow
+                            ]
+                        );
+                        return response()->make('1', 200, ['Content-Type' => 'text/plain']);
+                    }
+                }
             }
         } else {
             return response()->make('0', 200, ['Content-Type' => 'text/plain']);

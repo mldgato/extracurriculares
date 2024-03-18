@@ -13,21 +13,16 @@ class Enrollment extends Model
     protected $guarded = ['id', 'create_at', 'update_at'];
 
     //Relación uno a muchos inversa
-    public function student()
+    public function classroomStudent()
     {
-        return $this->belongsTo(Student::class);
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(ClassroomStudent::class);
     }
 
     public function activity()
     {
         return $this->belongsTo(Activity::class);
     }
-    //Relación uno a muchos
+
     public function attendances()
     {
         return $this->hasMany(Attendance::class);

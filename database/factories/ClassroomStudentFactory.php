@@ -21,7 +21,7 @@ class ClassroomStudentFactory extends Factory
         return [
             'student_id' => Student::all()->random()->id,
             'classroom_id' => Classroom::all()->random()->id,
-            'enrollment' => '1',
+            'status' => '1',
         ];
     }
 }

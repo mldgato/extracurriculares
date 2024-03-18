@@ -12,13 +12,18 @@ class ClassroomStudent extends Model
     protected $guarded = ['id', 'create_at', 'update_at'];
 
     //Relación uno a muchos inversa
+    public function classroom()
+    {
+        return $this->belongsTo(Classroom::class);
+    }
+
     public function student()
     {
         return $this->belongsTo(Student::class);
     }
 
-    public function classroom()
+    public function enrollments()
     {
-        return $this->belongsTo(Classroom::class);
+        return $this->hasMany(Enrollment::class);
     }
 }

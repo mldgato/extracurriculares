@@ -15,12 +15,10 @@ return new class extends Migration
             $table->id();
 
             $table->unsignedBigInteger('enrollment_id');
-            $table->unsignedBigInteger('user_id');
             $table->date('attendance_date');
             $table->time('attendance_time');
 
             $table->foreign('enrollment_id')->references('id')->on('enrollments')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             
 
             $table->timestamps();

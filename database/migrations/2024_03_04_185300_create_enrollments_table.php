@@ -13,17 +13,14 @@ return new class extends Migration
     {
         Schema::create('enrollments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('student_id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('activity_id');
-            $table->unsignedBigInteger('cycle_id');
-            $table->enum('enrollment', [0, 1])->default(1);
+            
+            $table->unsignedBigInteger('classroom_students_id');
+            $table->unsignedBigInteger('activity_user_id');
+            $table->enum('status', [0, 1])->default(1);
             $table->dateTime('registrationdate');
 
-            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
-            $table->foreign('cycle_id')->references('id')->on('cycles')->onDelete('cascade');
+            $table->foreign('classroom_students_id')->references('id')->on('classroom_students')->onDelete('cascade');
+            $table->foreign('activity_user_id')->references('id')->on('activity_user')->onDelete('cascade');
 
             $table->timestamps();
         });

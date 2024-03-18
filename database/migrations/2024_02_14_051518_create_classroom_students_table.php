@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('classroom_id');
-            $table->enum('enrollment', [0, 1])->default(1);
+            $table->enum('status', [0, 1])->default(1);
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
             $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade');
             $table->timestamps();

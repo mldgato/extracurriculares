@@ -34,7 +34,7 @@ class Classroom extends Model
     }
 
     //Relación uno a muchos
-    public function classroomStudent()
+    public function classroomStudents()
     {
         return $this->hasMany(ClassroomStudent::class);
     }
