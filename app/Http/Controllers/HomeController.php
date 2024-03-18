@@ -147,7 +147,7 @@ class HomeController extends Controller
                 ->pluck('id')
                 ->first();
             if ($classroomStudentId) {
-                $activityUserId = ActivityUser::where('activity_id', $activity)
+                $activityUserId = ActivityUser::where('activity_id', $activity->id)
                     ->where('user_id', $user)
                     ->pluck('id')
                     ->first();
