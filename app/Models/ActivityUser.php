@@ -8,23 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class ActivityUser extends Model
 {
     use HasFactory;
-
     protected $table = 'activity_user'; 
-    
     protected $fillable = [
         'user_id',
         'activity_id',
     ];
-
-    // Relación con el modelo User
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-
-    // Relación con el modelo Activity
     public function activity()
     {
         return $this->belongsTo(Activity::class);
+    }
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
     }
 }

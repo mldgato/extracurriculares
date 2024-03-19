@@ -9,26 +9,19 @@ use Carbon\Carbon;
 class Enrollment extends Model
 {
     use HasFactory;
-
     protected $guarded = ['id', 'create_at', 'update_at'];
-
-    //Relación uno a muchos inversa
     public function classroomStudent()
     {
         return $this->belongsTo(ClassroomStudent::class);
     }
-
-    public function activity()
+    public function activityUser()
     {
-        return $this->belongsTo(Activity::class);
+        return $this->belongsTo(ActivityUser::class);
     }
-
     public function attendances()
     {
         return $this->hasMany(Attendance::class);
     }
-
-    //Otros métodos
     public function getFormattedRegistrationDateAttribute()
     {
         return Carbon::parse($this->registrationdate)->format('d/m/Y H:i:s');

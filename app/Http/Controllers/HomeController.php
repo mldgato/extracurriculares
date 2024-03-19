@@ -121,11 +121,14 @@ class HomeController extends Controller
     public function studentsList(Activity $activity)
     {
         $currentYear = Carbon::now()->year;
+        $cycle = Cycle::where('cycle_name', $currentYear)->first();
         $userId = Auth::id();
 
-        $enrollments = Enrollment::with('ClassroomStudent.student')->get();
-
-        
+        $enrollments = Enrollment::with('classroomStudent.student')
+            ->whereHas('activityUser', function ($query) use ($userId, $cycle) {
+                $query->where('user_id', $userId)
+                    ->where('activity_id', $cycle->id);
+            })->get();
 
         return view('admin.activities.students', compact('activity', 'enrollments'));
     }
