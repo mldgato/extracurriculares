@@ -13,7 +13,7 @@ class Enrollment extends Model
     protected $guarded = ['id', 'create_at', 'update_at'];
 
     //Relación uno a muchos inversa
-    public function classroomStudent()
+    public function ClassroomStudent()
     {
         return $this->belongsTo(ClassroomStudent::class);
     }
@@ -29,7 +29,7 @@ class Enrollment extends Model
     }
 
     //Otros métodos
-    public function formattedRegistrationDate()
+    public function getFormattedRegistrationDateAttribute()
     {
         return Carbon::parse($this->registrationdate)->format('d/m/Y H:i:s');
     }

@@ -13,6 +13,7 @@ use App\Models\Cycle;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ActivityUser;
+use App\Models\ClassroomStudent;
 
 class HomeController extends Controller
 {
@@ -121,23 +122,18 @@ class HomeController extends Controller
     {
         $currentYear = Carbon::now()->year;
         $userId = Auth::id();
-        $enrollments = Enrollment::with('classroomStudent.student', 'classroomStudent.classroom.level', 'classroomStudent.classroom.grade', 'classroomStudent.classroom.section')
-            ->join('classroom_students', 'enrollments.classroom_students_id', '=', 'classroom_students.id')
-            ->join('students', 'classroom_students.student_id', '=', 'students.id')
-            ->join('classrooms', 'classroom_students.classroom_id', '=', 'classrooms.id')
-            ->join('levels', 'classrooms.level_id', '=', 'levels.id')
-            ->join('grades', 'classrooms.grade_id', '=', 'grades.id')
-            ->join('sections', 'classrooms.section_id', '=', 'sections.id')
-            ->join('activity_user', 'enrollments.activity_user_id', '=', 'activity_user.id')
-            ->where('activity_user.user_id', $userId)
-            ->where('activity_user.activity_id', $activity)
-            ->orderBy('levels.order')
-            ->orderBy('grades.order')
-            ->orderBy('sections.order')
-            ->orderBy('students.lastname')
-            ->orderBy('students.firstname')
-            ->get();
-        return view('admin.activities.students', compact('activity', 'enrollments'));
+
+        // Obtener los estudiantes registrados en enrollments con sus relaciones
+        $enrollments = Enrollment::with('classroomStudent.student')->get();
+
+        // Filtrar solo los estudiantes válidos
+        $students = $enrollments->filter(function ($enrollment) {
+            return $enrollment->classroomStudent && $enrollment->classroomStudent->student;
+        })->pluck('classroomStudent.student');
+
+        dd($students);
+
+        return view('admin.activities.students', compact('activity', 'students'));
     }
 
     public function enrollment(Request $request)
