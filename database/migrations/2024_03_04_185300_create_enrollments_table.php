@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('status', [0, 1])->default(1);
             $table->dateTime('registrationdate');
 
-            $table->foreign('classroom_students_id')->references('id')->on('classroom_students')->onDelete('cascade');
+            $table->foreign('classroom_student_id')->references('id')->on('classroom_students')->onDelete('cascade');
             $table->foreign('activity_user_id')->references('id')->on('activity_user')->onDelete('cascade');
 
             $table->timestamps();
