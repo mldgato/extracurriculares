@@ -29,6 +29,7 @@
                                 <td>{{ $enrollment->ClassroomStudent->student->codschool }}</td>
                                 <td>{{ $enrollment->ClassroomStudent->student->lastname  }}</td>
                                 <td>{{ $enrollment->ClassroomStudent->student->firstname  }}</td>
+                                <td>{{ $enrollment->ClassroomStudent->classroom->level->level_name  }}</td>
                                 
                             </tr>
                         @endforeach
