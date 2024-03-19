@@ -125,7 +125,7 @@ class HomeController extends Controller
 
         $enrollments = Enrollment::with('ClassroomStudent.student')->get();
 
-        //dd($enrollments);
+        dd($enrollments);
 
         return view('admin.activities.students', compact('activity', 'enrollments'));
     }
@@ -154,7 +154,7 @@ class HomeController extends Controller
                     ->pluck('id')
                     ->first();
                 if ($activityUserId) {
-                    $enrollment = Enrollment::where('classroom_students_id', $classroomStudentId)
+                    $enrollment = Enrollment::where('classroom_student_id', $classroomStudentId)
                         ->where('activity_user_id', $activityUserId)
                         ->where('status', '1')
                         ->first();
@@ -164,7 +164,7 @@ class HomeController extends Controller
                         $datetimenow = date('Y-m-d H:i:s');
                         $enrollment = Enrollment::create(
                             [
-                                'classroom_students_id' => $classroomStudentId,
+                                'classroom_student_id' => $classroomStudentId,
                                 'activity_user_id' => $activityUserId,
                                 'registrationdate' => $datetimenow
                             ]
