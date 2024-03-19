@@ -123,17 +123,11 @@ class HomeController extends Controller
         $currentYear = Carbon::now()->year;
         $userId = Auth::id();
 
-        // Obtener los estudiantes registrados en enrollments con sus relaciones
-        $enrollments = Enrollment::with('classroomStudent.student')->get();
+        $enrollments = Enrollment::with('ClassroomStudent.student')->get();
 
-        // Filtrar solo los estudiantes válidos
-        $students = $enrollments->filter(function ($enrollment) {
-            return $enrollment->classroomStudent && $enrollment->classroomStudent->student;
-        })->pluck('classroomStudent.student');
+        dd($enrollments);
 
-        dd($students);
-
-        return view('admin.activities.students', compact('activity', 'students'));
+        return view('admin.activities.students', compact('activity', 'enrollments'));
     }
 
     public function enrollment(Request $request)

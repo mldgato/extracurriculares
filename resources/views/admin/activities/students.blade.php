@@ -24,11 +24,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($students as $student)
+                        @foreach ($enrollments as $enrollment)
                             <tr>
-                                <td>{{ $student->codschool }}</td>
-                                <td>{{ $student->lastname  }}</td>
-                                <td>{{ $student->firstname  }}</td>
+                                <td>{{ $enrollment->ClassroomStudent->student->codschool }}</td>
+                                <td>{{ $enrollment->ClassroomStudent->student->lastname  }}</td>
+                                <td>{{ $enrollment->ClassroomStudent->student->firstname  }}</td>
                                 
                             </tr>
                         @endforeach
