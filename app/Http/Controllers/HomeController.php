@@ -125,7 +125,7 @@ class HomeController extends Controller
 
         $enrollments = Enrollment::with('ClassroomStudent.student')->get();
 
-        dd($enrollments);
+        
 
         return view('admin.activities.students', compact('activity', 'enrollments'));
     }
