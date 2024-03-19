@@ -27,10 +27,13 @@
                         @foreach ($enrollments as $enrollment)
                             <tr>
                                 <td>{{ $enrollment->ClassroomStudent->student->codschool }}</td>
-                                <td>{{ $enrollment->ClassroomStudent->student->lastname  }}</td>
-                                <td>{{ $enrollment->ClassroomStudent->student->firstname  }}</td>
-                                <td>{{ $enrollment->ClassroomStudent->classroom->level->level_name  }}</td>
-                                
+                                <td>{{ $enrollment->ClassroomStudent->student->lastname }}</td>
+                                <td>{{ $enrollment->ClassroomStudent->student->firstname }}</td>
+                                <td>{{ $enrollment->ClassroomStudent->classroom->level->level_name }}</td>
+                                <td>{{ $enrollment->ClassroomStudent->classroom->grade->grade_name }}</td>
+                                <td>{{ $enrollment->ClassroomStudent->classroom->section->section_name }}</td>
+                                <td>{{ $enrollment->getFormattedRegistrationDateAttribute }}</td>
+
                             </tr>
                         @endforeach
                     </tbody>
@@ -63,7 +66,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.0/js/buttons.html5.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            var table = new DataTable('#Enrollments_', {
+            var table = new DataTable('#Enrollments', {
                 language: {
                     url: '//cdn.datatables.net/plug-ins/2.0.1/i18n/es-ES.json',
                 },
