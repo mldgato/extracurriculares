@@ -26,25 +26,13 @@
                     <tbody>
                         @foreach ($enrollments as $enrollment)
                             <tr>
-                                <td>{{ $enrollment->student->codschool }}</td>
-                                <td>{{ $enrollment->student->lastname }}</td>
-                                <td>{{ $enrollment->student->firstname }}</td>
-                                <td>
-                                    @foreach ($enrollment->student->classroomstudents as $classroomStudent)
-                                        {{ $classroomStudent->classroom->level->level_name }}
-                                    @endforeach
-                                </td>
-                                <td>
-                                    @foreach ($enrollment->student->classroomstudents as $classroomStudent)
-                                        {{ $classroomStudent->classroom->grade->grade_name }}
-                                    @endforeach
-                                </td>
-                                <td>
-                                    @foreach ($enrollment->student->classroomstudents as $classroomStudent)
-                                        {{ $classroomStudent->classroom->section->section_name }}
-                                    @endforeach
-                                </td>
-                                <td>{{ $enrollment->formattedRegistrationDate() }}</td>
+                                <td>{{ $enrollment->classroomStudent->student->codschool }}</td>
+                                <td>{{ $enrollment->classroomStudent->student->firstname }}</td>
+                                <td>{{ $enrollment->classroomStudent->student->lastname }}</td>
+                                <td>{{ $enrollment->classroomStudent->classroom->level->level_name }}</td>
+                                <td>{{ $enrollment->classroomStudent->classroom->grade->grade_name }}</td>
+                                <td>{{ $enrollment->classroomStudent->classroom->section->section_name }}</td>
+                                <td>{{ $enrollment->registrationdate }}</td>
                             </tr>
                         @endforeach
                     </tbody>
