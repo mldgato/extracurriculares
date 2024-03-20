@@ -109,6 +109,9 @@
                     timer: 3000
                 });
             });
+            Livewire.on('refreshComponent', event => {
+                Livewire.dispatch('render');
+            });
         </script>
     @stop
 </div>
