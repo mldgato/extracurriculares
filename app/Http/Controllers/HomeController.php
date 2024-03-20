@@ -105,7 +105,10 @@ class HomeController extends Controller
 
     public function work()
     {
-        $activities = auth()->user()->activities;
+        $activityUsers = auth()->user()->activityUser;
+        $activities = $activityUsers->map(function ($activityUser) {
+            return $activityUser->activity;
+        });
         return view('admin.activities.work', compact('activities'));
     }
 
