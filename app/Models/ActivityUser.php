@@ -26,6 +26,6 @@ class ActivityUser extends Model
 
     public function enrollments()
     {
-        return $this->hasMany(Enrollment::class);
+        return $this->hasMany(Enrollment::class, 'activity_user_id');
     }
 }
