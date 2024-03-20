@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
             'email' => 'administracion@colegiodeinfantes.edu.gt',
             'password' => '123456',
         ]);
-        User::factory(10)->create();
+        /* User::factory(10)->create();
 
         $users = User::all();
         foreach ($users as $user) {
@@ -33,6 +33,6 @@ class UserSeeder extends Seeder
                 rand(1, 6),
                 rand(7, 11)
             ]);
-        }
+        } */
     }
 }
