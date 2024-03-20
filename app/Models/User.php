@@ -26,6 +26,6 @@ class User extends Authenticatable
     ];
     public function activityUser()
     {
-        return $this->hasMany(activityUser::class);
+        return $this->hasMany(ActivityUser::class);
     }
 }
