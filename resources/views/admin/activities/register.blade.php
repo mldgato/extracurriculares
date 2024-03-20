@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
 @section('content_header')
-    <h1>Registro de actividades extra curriculares</h1>
+    <h1>Registro de actividades extra curriculares- <span class="text-danger">{{ $activity->activity }}</span></h1>
 @stop
 
 @section('content')
