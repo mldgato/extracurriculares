@@ -124,12 +124,12 @@ class HomeController extends Controller
         $cycle = Cycle::where('cycle_name', $currentYear)->first();
         $userId = Auth::id();
 
-        $enrollments = Enrollment::with('classroomStudent.student')
-            ->whereHas('activityUser', function ($query) use ($userId, $cycle) {
-                $query->where('user_id', $userId)
-                    ->where('activity_id', $cycle->id);
-            })->get();
-        dd($enrollments);  
+        $enrollments = Activity::findOrFail($activity->id)
+            ->enrollments()
+            ->where('user_id', $userId)
+            ->with('student', 'student.level', 'student.grade', 'student.section')
+            ->get();
+
         return view('admin.activities.students', compact('activity', 'enrollments'));
     }
 

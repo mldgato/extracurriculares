@@ -10,13 +10,9 @@ class Activity extends Model
     use HasFactory;
 
     protected $guarded = ['id', 'create_at', 'update_at'];
-    public function users()
-    {
-        return $this->belongsToMany(User::class);
-    }
 
-    public function enrollments()
+    public function activityUser()
     {
-        return $this->hasMany(Enrollment::class);
+        return $this->hasMany(activityUser::class);
     }
 }

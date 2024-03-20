@@ -14,14 +14,17 @@ class Enrollment extends Model
     {
         return $this->belongsTo(ClassroomStudent::class);
     }
+
     public function activityUser()
     {
         return $this->belongsTo(ActivityUser::class);
     }
+
     public function attendances()
     {
         return $this->hasMany(Attendance::class);
     }
+    
     public function getFormattedRegistrationDateAttribute()
     {
         return Carbon::parse($this->registrationdate)->format('d/m/Y H:i:s');
