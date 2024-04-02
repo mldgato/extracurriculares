@@ -97,7 +97,7 @@ class HomeController extends Controller
     }
     public function profile()
     {
-        $user = Auth();
+        $user = auth()->user();
         return view('admin.users.profile', compact('user'));
     }
     public function activities()
