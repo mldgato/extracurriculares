@@ -26,13 +26,12 @@
                     <tbody>
                         @foreach ($enrollments as $enrollment)
                             <tr>
-                                <td>{{ $enrollment->ClassroomStudent->student->codschool }}</td>
-                                <td>{{ $enrollment->ClassroomStudent->student->lastname }}</td>
-                                <td>{{ $enrollment->ClassroomStudent->student->firstname }}</td>
-                                <td>{{ $enrollment->ClassroomStudent->classroom->level->level_name }}</td>
-                                <td>{{ $enrollment->ClassroomStudent->classroom->grade->grade_name }}</td>
-                                <td>{{ $enrollment->ClassroomStudent->classroom->section->section_name }}</td>
-                                <td>{{ $enrollment->formattedRegistrationDate }}</td>
+                                <td>{{ $enrollment->codschool }}</td>
+                                <td>{{ $enrollment->lastname }}</td>
+                                <td>{{ $enrollment->firstname }}</td>
+                                <td>{{ $enrollment->level_name }}</td>
+                                <td>{{ $enrollment->grade_name }}</td>
+                                <td>{{ $enrollment->section_name }}</td>
                             </tr>
                         @endforeach
                     </tbody>

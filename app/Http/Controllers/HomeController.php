@@ -125,16 +125,41 @@ class HomeController extends Controller
     {
         $currentYear = Carbon::now()->year;
         $cycle = Cycle::where('cycle_name', $currentYear)->first();
+        $cycleId = $cycle->id;
         $userId = Auth::id();
+        $activityId = $activity->id;
 
-        $activityUsers = $activity->activityUser; // Obtener los usuarios relacionados con la actividad
-
-        $enrollments = collect(); // Inicializar una colección vacía para almacenar los enrollments relevantes
-
-        foreach ($activityUsers as $activityUser) {
-            $user = $activityUser->user; // Obtener el usuario relacionado
-            $enrollments = $enrollments->merge($user->activityUser->first()->enrollments); // Agregar los enrollments del usuario a la colección
-        }
+        $enrollments = Enrollment::join('classroom_students', 'enrollments.classroom_student_id', '=', 'classroom_students.id')
+            ->join('classrooms', 'classroom_students.classroom_id', '=', 'classrooms.id')
+            ->join('cycles', 'classrooms.cycle_id', '=', 'cycles.id')
+            ->join('levels', 'classrooms.level_id', '=', 'levels.id')
+            ->join('grades', 'classrooms.grade_id', '=', 'grades.id')
+            ->join('sections', 'classrooms.section_id', '=', 'sections.id')
+            ->join('students', 'classroom_students.student_id', '=', 'students.id')
+            ->join('activity_user', 'enrollments.activity_user_id', '=', 'activity_user.id')
+            ->join('activities', 'activity_user.activity_id', '=', 'activities.id')
+            ->join('users', 'activity_user.user_id', '=', 'users.id')
+            ->where('classrooms.cycle_id', $cycleId)
+            ->where('enrollments.activity_user_id', function ($query) use ($userId, $activityId) {
+                $query->select('activity_user.id')
+                    ->from('activity_user')
+                    ->where('activity_user.user_id', $userId)
+                    ->where('activity_user.activity_id', $activityId);
+            })
+            ->orderBy('levels.order')
+            ->orderBy('grades.order')
+            ->orderBy('sections.order')
+            ->orderBy('students.lastname')
+            ->orderBy('students.firstname')
+            ->get([
+                'students.codschool',
+                'students.lastname',
+                'students.firstname',
+                'levels.level_name',
+                'grades.grade_name',
+                'sections.section_name',
+                \DB::raw('DATE_FORMAT(enrollments.registrationdate, "%d/%m/%Y %H:%i:%s") as formatted_registration_date'),
+            ]);
 
         return view('admin.activities.students', compact('activity', 'enrollments'));
     }
