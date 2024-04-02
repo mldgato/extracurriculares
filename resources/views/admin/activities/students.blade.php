@@ -32,7 +32,7 @@
                                 <td>{{ $enrollment->level_name }}</td>
                                 <td>{{ $enrollment->grade_name }}</td>
                                 <td>{{ $enrollment->section_name }}</td>
-                                <td>{{ $enrollment->registrationdate }}</td>
+                                <td>{{ date_format($enrollment->registrationdate, 'd/m/Y H:i:s') }}</td>
                             </tr>
                         @endforeach
                     </tbody>
