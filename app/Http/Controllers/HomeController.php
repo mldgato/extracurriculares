@@ -123,21 +123,19 @@ class HomeController extends Controller
 
     public function studentsList(Activity $activity)
     {
-        // Obtener el ciclo actual
         $currentYear = Carbon::now()->year;
         $cycle = Cycle::where('cycle_name', $currentYear)->first();
+        $userId = Auth::id();
 
-        // Obtener los ActivityUser relacionados con la actividad
-        $activityUsers = $activity->activityUser;
+        $activityUsers = $activity->activityUser; // Obtener los usuarios relacionados con la actividad
 
-        // Obtener los enrollments de cada ActivityUser
-        $enrollments = collect();
+        $enrollments = collect(); // Inicializar una colección vacía para almacenar los enrollments relevantes
 
         foreach ($activityUsers as $activityUser) {
-            $enrollments = $enrollments->merge($activityUser->enrollments);
+            $user = $activityUser->user; // Obtener el usuario relacionado
+            $enrollments = $enrollments->merge($user->activityUser->first()->enrollments); // Agregar los enrollments del usuario a la colección
         }
 
-        // Pasar los datos a la vista
         return view('admin.activities.students', compact('activity', 'enrollments'));
     }
 

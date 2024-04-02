@@ -33,7 +33,6 @@
                                 <td>{{ $enrollment->ClassroomStudent->classroom->grade->grade_name }}</td>
                                 <td>{{ $enrollment->ClassroomStudent->classroom->section->section_name }}</td>
                                 <td>{{ $enrollment->formattedRegistrationDate }}</td>
-
                             </tr>
                         @endforeach
                     </tbody>
