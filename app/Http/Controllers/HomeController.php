@@ -158,7 +158,7 @@ class HomeController extends Controller
                 'levels.level_name',
                 'grades.grade_name',
                 'sections.section_name',
-                \DB::raw('DATE_FORMAT(enrollments.registrationdate, "%d/%m/%Y %H:%i:%s") as formatted_registration_date'),
+                'enrollments.registrationdate'
             ]);
 
         return view('admin.activities.students', compact('activity', 'enrollments'));

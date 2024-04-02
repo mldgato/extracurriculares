@@ -32,6 +32,7 @@
                                 <td>{{ $enrollment->level_name }}</td>
                                 <td>{{ $enrollment->grade_name }}</td>
                                 <td>{{ $enrollment->section_name }}</td>
+                                <td>{{ $enrollment->registrationdate }}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -47,7 +48,7 @@
                         </tr>
                     </tfoot>
                 </table>
-            </div>
+            </div>git status
         </div>
     </div>
 @stop
