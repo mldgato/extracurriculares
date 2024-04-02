@@ -17,6 +17,12 @@
                         <div class="form-control">{{ $user->name }}</div>
                     </div>
                 </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group">
+                        <label>Apellidos:</label>
+                        <div class="form-control">{{ $user->surname }}</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
