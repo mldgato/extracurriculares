@@ -290,7 +290,13 @@ return [
     */
 
     'menu' => [
-        ['header' => 'Configuración'],
+        ['header' => 'Menú'],
+        [
+            'text'        => 'Perfil',
+            'route'         => 'admin.users.profile',
+            'icon'        => 'fas fa-user-circle fa-fw',
+            'icon_color' => 'orange',
+        ],
         [
             'text'        => 'Usuarios',
             'route'         => 'admin.users.index',

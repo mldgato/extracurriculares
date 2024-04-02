@@ -95,6 +95,11 @@ class HomeController extends Controller
     {
         return view('admin.users.index');
     }
+    public function profile()
+    {
+        $user = Auth();
+        return view('admin.users.profile', compact('user'));
+    }
     public function activities()
     {
         return view('admin.activities.index');
