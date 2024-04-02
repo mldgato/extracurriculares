@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use Illuminate\Support\Facades\Storage;
+//use Illuminate\Support\Facades\Storage;
 use App\Models\Activity;
 use App\Models\Attendance;
 use App\Models\Student;
@@ -13,7 +13,7 @@ use App\Models\Cycle;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ActivityUser;
-use App\Models\ClassroomStudent;
+//use App\Models\ClassroomStudent;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
