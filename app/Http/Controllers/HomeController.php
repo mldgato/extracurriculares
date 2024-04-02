@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ActivityUser;
 use App\Models\ClassroomStudent;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -158,7 +159,7 @@ class HomeController extends Controller
                 'levels.level_name',
                 'grades.grade_name',
                 'sections.section_name',
-                'enrollments.registrationdate'
+                DB::raw('DATE_FORMAT(enrollments.registrationdate, "%d/%m/%Y %H:%i:%s") as registration_date')
             ]);
 
         return view('admin.activities.students', compact('activity', 'enrollments'));
