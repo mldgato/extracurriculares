@@ -143,7 +143,7 @@ class ShowUsers extends Component
                     'email' => $this->email,
                 ]);
                 $this->resetFields();
-                $this->dispatch('closeModalMessaje', 'Información actualizada', 'Usuario actualizado exitosamente.', 'success', 'UpdateNewCycle');
+                $this->dispatch('closeModalMessaje', 'Información actualizada', 'Usuario actualizado exitosamente.', 'success', 'UpdateUserData');
             }
         }
     }

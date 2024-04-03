@@ -1,5 +1,5 @@
 <div wire:init="loadUsers">
-    <div wire:ignore.self class="modal fade" id="UpdateUserData" tabindex="-1" role="dialog"
+    <div wire:ignore.self class="modal fade" id="a" tabindex="-1" role="dialog"
         aria-labelledby="UpdateNewCycle" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -87,7 +87,7 @@
                                     <span class="input-group-text"><i class="fas fa-unlock-alt"></i></span>
                                 </div>
                                 <input type="password" class="form-control" id="password"
-                                    placeholder="Escriba el nombre completo del usuario" wire:model="password">
+                                    placeholder="Escriba la nueva contraseña" wire:model="password">
                             </div>
                             @error('password')
                                 <span class="text-danger error">{{ $message }}</span>
@@ -100,7 +100,7 @@
                                     <span class="input-group-text"><i class="fas fa-redo-alt"></i></span>
                                 </div>
                                 <input type="password" class="form-control" id="password_repeat"
-                                    placeholder="Escriba el nombre de la compañía" wire:model="password_repeat">
+                                    placeholder="Repita la nueva contraseña" wire:model="password_repeat">
                             </div>
                             @error('password_repeat')
                                 <span class="text-danger error">{{ $message }}</span>
