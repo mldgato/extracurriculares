@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Users;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class ShowUsers extends Component
 {
@@ -12,7 +13,8 @@ class ShowUsers extends Component
 
     protected $paginationTheme = "bootstrap";
 
-    public $name, $surname, $email, $user_id;
+    public $user, $name, $surname, $email, $user_id, $password, $password_repeat, $user_roles;
+    public $selectedRoles = [];
     public $search = '';
     public $sort = 'surname';
     public $direction = 'asc';
@@ -25,11 +27,20 @@ class ShowUsers extends Component
     ];
 
     protected $listeners = ['render', 'delete'];
-    protected $rules = [
-        'name' => 'required',
-        'surname' => 'required',
-        'email' => 'required|unique:users',
-    ];
+
+    public function mount()
+    {
+        $this->rules = $this->rules();
+    }
+
+    public function rules()
+    {
+        return [
+            'name' => 'required'
+        ];
+    }
+
+    protected array $rules = [];
 
     public function updated($propertyName)
     {
@@ -57,6 +68,7 @@ class ShowUsers extends Component
 
     public function render()
     {
+        $roles = Role::all();
         if ($this->readyToLoad) {
             $users = User::where('name', 'LIKE', '%' . $this->search . '%')
                 ->orwhere('surname', 'LIKE', '%' . $this->search . '%')
@@ -65,7 +77,14 @@ class ShowUsers extends Component
         } else {
             $users = [];
         }
-        return view('livewire.admin.users.show-users', compact('users'));
+
+        // Obtener los roles asignados al usuario actual
+        $rolesUsuario = optional($this->user)->roles ? $this->user->roles->pluck('id')->toArray() : [];
+
+        // Declarar $selectedRoles
+        $selectedRoles = $this->selectedRoles;
+
+        return view('livewire.admin.users.show-users', compact('users', 'roles', 'rolesUsuario', 'selectedRoles'));
     }
     public function loadUsers()
     {
@@ -91,31 +110,73 @@ class ShowUsers extends Component
         $this->reset([
             'name',
             'surname',
-            'email'
+            'email',
+            'password',
+            'password_repeat'
         ]);
     }
 
     public function edit($id)
     {
         $user = User::where('id', $id)->first();
+        $this->user = User::where('id', $id)->first();
         $this->user_id = $id;
         $this->name = $user->name;
         $this->surname = $user->surname;
         $this->email = $user->email;
+        $this->selectedRoles = $this->user->roles->pluck('id')->toArray();
     }
 
     public function update()
     {
-        $this->validate();
+        $validar = $this->validate([
+            'name' => 'required',
+            'email' => "required|email|unique:users,email,$this->user_id",
+        ]);
+
+        if ($validar) {
+            if ($this->user_id) {
+                $user = User::find($this->user_id);
+                $user->update([
+                    'name' => $this->name,
+                    'surname' => $this->surname,
+                    'email' => $this->email,
+                ]);
+                $this->resetFields();
+                $this->dispatch('closeModalMessaje', 'Información actualizada', 'Usuario actualizado exitosamente.', 'success', 'UpdateNewCycle');
+            }
+        }
+    }
+
+    public function updatePass()
+    {
+        $validar = $this->validate([
+            'password' => 'required|min:8',
+            'password_repeat' => 'required|same:password'
+        ]);
+
+        if ($validar) {
+            if ($this->user_id) {
+                $user = User::find($this->user_id);
+                $user->update([
+                    'password' => $this->password
+                ]);
+                $this->resetFields();
+                $this->dispatch('closeModalMessaje', 'Información actualizada', 'Usuario actualizado exitosamente.', 'success', 'UpdateUserPass');
+            }
+        }
+    }
+
+    public function updateRole()
+    {
         if ($this->user_id) {
             $user = User::find($this->user_id);
-            $user->update([
-                'name' => $this->name,
-                'surname' => $this->surname,
-                'email' => $this->email,
-            ]);
-            $this->resetFields();
-            $this->dispatch('closeModalMessaje', 'Información actualizada', 'Usuario actualizado exitosamente.', 'success', 'UpdateNewCycle');
+
+            // Verifica la existencia de los roles antes de sincronizar
+            $existingRoles = Role::whereIn('id', $this->selectedRoles)->pluck('id')->toArray();
+            $user->syncRoles($existingRoles);
+
+            $this->dispatch('closeModalMessaje', 'Información', 'Usuario actualizado exitósamente.', 'info', 'UpdateUserRole');
         }
     }
 }
