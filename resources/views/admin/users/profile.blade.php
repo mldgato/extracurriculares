@@ -24,6 +24,7 @@
                     </div>
                 </div>
             </div>
+            @livewire('admin.users.password-user')
         </div>
     </div>
 @stop
