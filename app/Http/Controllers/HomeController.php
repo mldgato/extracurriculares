@@ -136,6 +136,24 @@ class HomeController extends Controller
         return view('admin.activities.presences', compact('activities'));
     }
 
+    public function enrolled()
+    {
+        $activityUsers = auth()->user()->activityUser;
+        $activities = $activityUsers->map(function ($activityUser) {
+            return $activityUser->activity;
+        });
+        return view('admin.activities.enrolled', compact('activities'));
+    }
+
+    public function assisted()
+    {
+        $activityUsers = auth()->user()->activityUser;
+        $activities = $activityUsers->map(function ($activityUser) {
+            return $activityUser->activity;
+        });
+        return view('admin.activities.assisted', compact('activities'));
+    }
+
     public function register(Activity $activity)
     {
         return view('admin.activities.register', compact('activity'));

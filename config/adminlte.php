@@ -358,7 +358,24 @@ return [
                 [
                     'text' => 'Asistencia',
                     'route'         => 'admin.activities.presences',
-                    'icon' => 'fas fa-user-plus fa-fw',
+                    'icon' => 'fas fa-user-check fa-fw',
+                ]
+            ],
+        ],
+        [
+            'text' => 'Reportes',
+            'icon' => 'fas fa-list-alt fa-fw',
+            'icon_color' => 'pink',
+            'submenu' => [
+                [
+                    'text' => 'Inscritos',
+                    'route'         => 'admin.activities.enrolled',
+                    'icon' => 'fas fa-list-ul fa-fw',
+                ],
+                [
+                    'text' => 'Asistencia',
+                    'route'         => 'admin.activities.assisted',
+                    'icon' => 'fas fa-tasks fa-fw',
                 ]
             ],
         ],
