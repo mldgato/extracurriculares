@@ -35,8 +35,8 @@ Route::get('/admin/activities', [HomeController::class, 'activities'])->name('ad
 Route::get('/admin/activities/show/{activity}', [HomeController::class, 'show'])->name('admin.activities.show');
 /* Route::get('/admin/activities/work', [HomeController::class, 'work'])->name('admin.activities.work'); */
 
-Route::get('/admin/activities/register/{activity}', [HomeController::class, 'registrations'])->name('admin.activities.registrations');
-Route::get('/admin/activities/register/{activity}', [HomeController::class, 'presences'])->name('admin.activities.presences');
+Route::get('/admin/activities/registrations', [HomeController::class, 'registrations'])->name('admin.activities.registrations');
+Route::get('/admin/activities/presences', [HomeController::class, 'presences'])->name('admin.activities.presences');
 
 Route::get('/admin/activities/register/{activity}', [HomeController::class, 'register'])->name('admin.activities.register');
 Route::get('/admin/activities/students/{activity}', [HomeController::class, 'studentsList'])->name('admin.activities.students');
