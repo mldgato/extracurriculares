@@ -29,13 +29,20 @@ class PasswordUser extends Component
 
     public function update()
     {
-        $this->user_id = auth()->user();
+        $this->user_id = auth()->user()->id; // Obtener el ID del usuario autenticado
         $this->validate();
+
         $user = User::find($this->user_id);
-        $user->update([
-            'password' => $this->password
-        ]);
-        $this->resetFields();
-        $this->dispatch('closeModalMessaje', 'Información actualizada', 'Contraseña actualizada exitosamente.', 'success', 'UpdateNewCycle');
+
+        if ($user) { // Verificar si se encontró el usuario
+            $user->update([
+                'password' => bcrypt($this->password) // Cifrar la contraseña antes de actualizarla
+            ]);
+
+            $this->resetFields();
+            $this->dispatch('closeModalMessaje', 'Información actualizada', 'Contraseña actualizada exitosamente.', 'success', 'UpdateNewCycle');
+        } else {
+            // Manejar el caso en el que no se encuentre el usuario
+        }
     }
 }
