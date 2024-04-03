@@ -382,13 +382,13 @@ return [
                     'text' => 'Inscritos',
                     'route'         => 'admin.activities.enrolled',
                     'icon' => 'fas fa-list-ul fa-fw',
-                    'can'         => 'admin.activities.enrolled',
+                    /* 'can'         => 'admin.activities.enrolled', */
                 ],
                 [
                     'text' => 'Asistencia',
                     'route'         => 'admin.activities.assisted',
                     'icon' => 'fas fa-tasks fa-fw',
-                    'can'         => 'admin.activities.assisted',
+                    /* 'can'         => 'admin.activities.assisted', */
                 ]
             ],
         ],

@@ -13,6 +13,7 @@ use App\Models\Cycle;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ActivityUser;
+use App\Models\ClassroomStudent;
 //use App\Models\ClassroomStudent;
 use Illuminate\Support\Facades\DB;
 
@@ -270,48 +271,55 @@ class HomeController extends Controller
 
     public function registerAttendance(Request $request)
     {
-        try {
-            $codschool = $request->input('codschool');
-            $activity = Activity::find($request->input('activity'));
-            $student = Student::where('codschool', $codschool)->first();
+        $currentYear = Carbon::now()->year;
+        $cycle = Cycle::where('cycle_name', $currentYear)->first();
+        $cycleId = $cycle->id;
+        $codschool = $request->input('codschool');
+        $activity = Activity::find($request->input('activity'));
+        $student = Student::where('codschool', $codschool)->first();
+        $user = Auth::id();
 
-            $currentYear = Carbon::now()->year;
-            $cycle = Cycle::where('cycle_name', $currentYear)->first();
+        if ($student) {
+            $classroomStudentId = Student::findOrFail($student->id)
+                ->classroomStudents()
+                ->whereHas('classroom', function ($query) use ($cycleId) {
+                    $query->where('cycle_id', $cycleId);
+                })
+                ->pluck('id')
+                ->first();
+            if ($classroomStudentId) {
+                $activityUserId = ActivityUser::where('activity_id', $activity->id)
+                    ->where('user_id', $user)
+                    ->pluck('id')
+                    ->first();
+                if ($activityUserId) {
+                    $enrollment = Enrollment::where('classroom_student_id', $classroomStudentId)
+                        ->where('activity_user_id', $activityUserId)
+                        ->where('status', '1')
+                        ->first();
+                    if ($enrollment) {
+                        $dateNow = date('Y-m-d');
+                        $timeNow = date('H:i:s');
 
-            $enrollment = Enrollment::where([
-                'student_id' => $student->id,
-                'activity_id' => $activity->id,
-                'cycle_id' => $cycle->id,
-            ])->first();
-
-            if ($enrollment) {
-                $attendanceDate = date('Y-m-d');
-                $enrollmentId = $enrollment->id;
-                $existingAttendance = Attendance::where([
-                    'enrollment_id' => $enrollmentId,
-                    'attendance_date' => $attendanceDate,
-                ])->first();
-
-                if (!$existingAttendance) {
-                    // La fecha de asistencia no existe en la base de datos, crea el registro
-                    $attendanceTime = date('H:i:s');
-                    Attendance::create([
-                        'enrollment_id' => $enrollmentId,
-                        'user_id' => auth()->user()->id,
-                        'attendance_date' => $attendanceDate,
-                        'attendance_time' => $attendanceTime,
-                    ]);
-
-                    return response()->make("1", 200, ['Content-Type' => 'text/plain']);
+                        Attendance::create(
+                            [
+                                'enrollment_id' => $enrollment->id,
+                                'attendance_date' => $dateNow,
+                                'attendance_time' => $timeNow
+                            ]
+                        );
+                        return response()->make('1', 200, ['Content-Type' => 'text/plain']);
+                    } else {
+                        return response()->make('No se puede registrar la asistencia, el alumno no está inscrito', 200, ['Content-Type' => 'text/plain']);
+                    }
                 } else {
-                    return response()->make("La asistencia ya está registrada para esta fecha", 200, ['Content-Type' => 'text/plain']);
+                    return response()->make('No tiene una actividad asignada', 200, ['Content-Type' => 'text/plain']);
                 }
             } else {
-                return response()->make("No está inscrito", 200, ['Content-Type' => 'text/plain']);
+                return response()->make('El Estudiante no está asignado a un grado en el año actual', 200, ['Content-Type' => 'text/plain']);
             }
-        } catch (\Exception $e) {
-            // Manejar la excepción aquí, puedes registrarla, imprimir un mensaje de error, etc.
-            return response()->make($e->getMessage(), 500, ['Content-Type' => 'text/plain']);
+        } else {
+            return response()->make('El Estudiante no existe', 200, ['Content-Type' => 'text/plain']);
         }
     }
 
