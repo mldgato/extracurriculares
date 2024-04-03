@@ -48,7 +48,7 @@
                         </tr>
                     </tfoot>
                 </table>
-            </div>git status
+            </div>
         </div>
     </div>
 @stop

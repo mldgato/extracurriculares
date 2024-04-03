@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
             'surname' => 'Dardón López',
             'email' => 'mdardon@colegiodeinfantes.edu.gt',
             'password' => 'Alejandro31$',
-        ]);
+        ])->assignRole('Directivo');
         User::create([
             'name' => 'Oscar Adolfo',
             'surname' => 'Orozco y Orozco',
@@ -113,6 +113,12 @@ class UserSeeder extends Seeder
             'name' => 'Jaime Armando',
             'surname' => 'Díaz',
             'email' => 'jadiaz@colegiodeinfantes.edu.gt',
+            'password' => 'Infantes24',
+        ]);
+        User::create([
+            'name' => 'Angel',
+            'surname' => 'martínez',
+            'email' => 'redes@colegiodeinfantes.edu.gt',
             'password' => 'Infantes24',
         ]);
     }

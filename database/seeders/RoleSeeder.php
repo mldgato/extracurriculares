@@ -43,8 +43,15 @@ class RoleSeeder extends Seeder
 
         Permission::create(['name' => 'admin.activities.index'])->syncRoles([$role1]);
         Permission::create(['name' => 'admin.activities.show'])->syncRoles([$role1]);
-        Permission::create(['name' => 'admin.activities.show'])->syncRoles([$role1]);
 
+        Permission::create(['name' => 'admin.activities.registrations'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'admin.activities.presences'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'admin.activities.enrolled'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'admin.activities.assisted'])->syncRoles([$role1, $role2, $role3]);
+
+        Permission::create(['name' => 'admin.activities.register'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'admin.activities.students'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'admin.activities.attendance'])->syncRoles([$role1, $role3]);
 
     }
 }
