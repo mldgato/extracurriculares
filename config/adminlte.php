@@ -296,63 +296,63 @@ return [
             'route'         => 'admin.users.profile',
             'icon'        => 'fas fa-user-circle fa-fw',
             'icon_color' => 'orange',
-            'can' => 'admin.users.profile',
+            /* 'can' => 'admin.users.profile', */
         ],
         [
             'text'        => 'Usuarios',
             'route'         => 'admin.users.index',
             'icon'        => 'fas fa-users fa-fw',
             'icon_color' => 'purple',
-            'can'         => 'admin.users.profile',
+            /* 'can'         => 'admin.users.profile', */
         ],
         [
             'text'        => 'Ciclos',
             'route'         => 'admin.cycles.index',
             'icon'        => 'fas fa-calendar-alt fa-fw',
             'icon_color' => 'primary',
-            'can'         => 'admin.cycles.index',
+            /* 'can'         => 'admin.cycles.index', */
         ],
         [
             'text'        => 'Niveles',
             'route'         => 'admin.levels.index',
             'icon' => 'fas fa-forward fa-fw',
             'icon_color' => 'warning',
-            'can'         => 'admin.levels.index',
+            /* 'can'         => 'admin.levels.index', */
         ],
         [
             'text' => 'Grados',
             'route'         => 'admin.grades.index',
             'icon' => 'fas fa-graduation-cap fa-fw',
             'icon_color' => 'info',
-            'can'         => 'admin.grades.index',
+            /* 'can'         => 'admin.grades.index', */
         ],
         [
             'text' => 'Secciones',
             'route'         => 'admin.sections.index',
             'icon' => 'fas fa-grip-horizontal fa-fw',
             'icon_color' => 'danger',
-            'can'         => 'admin.sections.index',
+            /* 'can'         => 'admin.sections.index', */
         ],
         [
             'text' => 'Asignación de grados',
             'route'         => 'admin.classroom.index',
             'icon' => 'fas fa-th-list fa-fw',
             'icon_color' => 'secundary',
-            'can'         => 'admin.classroom.index',
+            /* 'can'         => 'admin.classroom.index', */
         ],
         [
             'text' => 'Estudiantes',
             'route'         => 'admin.students.index',
             'icon' => 'fas fa-child fa-fw',
             'icon_color' => 'info',
-            'can'         => 'admin.students.index',
+            /* 'can'         => 'admin.students.index', */
         ],
         [
             'text' => 'Actividades',
             'route'         => 'admin.activities.index',
             'icon' => 'fas fa-drum fa-fw',
             'icon_color' => 'orange',
-            'can'         => 'admin.activities.index',
+            /* 'can'         => 'admin.activities.index', */
         ],
         [
             'text' => 'Registro de Actividades',
@@ -363,13 +363,13 @@ return [
                     'text' => 'Matriculación',
                     'route'         => 'admin.activities.registrations',
                     'icon' => 'fas fa-user-plus fa-fw',
-                    'can'         => 'admin.activities.registrations',
+                    /* 'can'         => 'admin.activities.registrations', */
                 ],
                 [
                     'text' => 'Asistencia',
                     'route'         => 'admin.activities.presences',
                     'icon' => 'fas fa-user-check fa-fw',
-                    'can'         => 'admin.activities.presences',
+                    /* 'can'         => 'admin.activities.presences', */
                 ]
             ],
         ],
