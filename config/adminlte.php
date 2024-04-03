@@ -347,9 +347,20 @@ return [
         ],
         [
             'text' => 'Registro de Actividades',
-            'route'         => 'admin.activities.work',
-            'icon' => 'fas fa-user-plus fa-fw',
+            'icon' => 'fas fa-clipboard-list fa-fw',
             'icon_color' => 'purple',
+            'submenu' => [
+                [
+                    'text' => 'Matriculación',
+                    'route'         => 'admin.activities.registrations',
+                    'icon' => 'fas fa-user-plus fa-fw',
+                ],
+                [
+                    'text' => 'Asistencia',
+                    'route'         => 'admin.activities.presences',
+                    'icon' => 'fas fa-user-plus fa-fw',
+                ]
+            ],
         ],
         // Navbar items:
         /* [
