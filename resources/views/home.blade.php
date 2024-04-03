@@ -5,7 +5,7 @@
 @stop
 
 @section('content')
-    <p>Welcome to this beautiful admin panel.</p>
+    <p>Seleccione una opción del menú <strong><i class="fas fa-bars"></i></strong></p>
 @stop
 
 @section('css')
