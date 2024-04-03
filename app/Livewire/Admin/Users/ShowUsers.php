@@ -27,7 +27,7 @@ class ShowUsers extends Component
     protected $listeners = ['render', 'delete'];
     protected $rules = [
         'name' => 'required',
-        'surname' => 'surname',
+        'surname' => 'required',
         'email' => 'required|unique:users',
     ];
 

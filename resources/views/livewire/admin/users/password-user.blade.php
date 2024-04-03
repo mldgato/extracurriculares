@@ -50,4 +50,38 @@
             </div>
         </div>
     </form>
+    @section('js')
+        <script type="text/javascript">
+            Livewire.on('deleteCycle', cycleId => {
+                Swal.fire({
+                    title: 'Eiminar registro',
+                    html: "<p><strong>¿Está seguro que quiere eliminar el ciclo?</strong></p><p>Tome en cuenta que no se podrá eliminar si el ciclo se encuentra en una asignación.</p>",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, elimiar!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Livewire.dispatchTo('admin.activities.activity-info', 'delete', {
+                            cycle: cycleId
+                        });
+                    }
+                });
+            });
+            Livewire.on('closeModalMessaje', (title, message, type, mymodal) => {
+                if (title[3] != 'null') {
+                    $('#' + title[3]).modal('hide');
+                }
+                Swal.fire({
+                    position: 'top-end',
+                    icon: title[2],
+                    title: title[0],
+                    text: title[1],
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            });
+        </script>
+    @stop
 </div>
