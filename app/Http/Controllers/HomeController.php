@@ -19,21 +19,11 @@ use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
         return view('home');
@@ -246,15 +236,21 @@ class HomeController extends Controller
                                 'registrationdate' => $datetimenow
                             ]
                         );
-
-                        Attendance::create(
-                            [
-                                'enrollment_id' => $enrollment->id,
-                                'attendance_date' => $dateNow,
-                                'attendance_time' => $timeNow
-                            ]
-                        );
-                        return response()->make('1', 200, ['Content-Type' => 'text/plain']);
+                        $attendance = Attendance::where('enrollment_id', $enrollment->id)
+                            ->where('attendance_date', $dateNow)
+                            ->first();
+                        if (!$attendance) {
+                            Attendance::create(
+                                [
+                                    'enrollment_id' => $enrollment->id,
+                                    'attendance_date' => $dateNow,
+                                    'attendance_time' => $timeNow
+                                ]
+                            );
+                            return response()->make('1', 200, ['Content-Type' => 'text/plain']);
+                        } else {
+                            return response()->make('El Estudiante ya se ha registrado el día de hoy', 200, ['Content-Type' => 'text/plain']);
+                        }   
                     } else {
                         return response()->make('El Estudiante no está registrado a una actividad', 200, ['Content-Type' => 'text/plain']);
                     }
