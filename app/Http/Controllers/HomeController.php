@@ -237,7 +237,7 @@ class HomeController extends Controller
                             ]
                         );
                         $attendance = Attendance::where('enrollment_id', $enrollment->id)
-                            ->where('attendance_date', $dateNow)
+                            ->whereDate('attendance_date', $dateNow) // Utiliza whereDate para comparar solo la parte de fecha
                             ->first();
                         if (!$attendance) {
                             Attendance::create(
@@ -250,7 +250,7 @@ class HomeController extends Controller
                             return response()->make('1', 200, ['Content-Type' => 'text/plain']);
                         } else {
                             return response()->make('El Estudiante ya se ha registrado el día de hoy', 200, ['Content-Type' => 'text/plain']);
-                        }   
+                        }
                     } else {
                         return response()->make('El Estudiante no está registrado a una actividad', 200, ['Content-Type' => 'text/plain']);
                     }
