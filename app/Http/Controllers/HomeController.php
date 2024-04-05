@@ -294,17 +294,24 @@ class HomeController extends Controller
                         ->where('status', '1')
                         ->first();
                     if ($enrollment) {
-                        $dateNow = date('Y-m-d');
-                        $timeNow = date('H:i:s');
+                        $dateNow = Carbon::now()->toDateString();
+                        $timeNow = Carbon::now()->toTimeString();
 
-                        Attendance::create(
-                            [
+                        // Verificar si ya existe una asistencia para este estudiante en la misma fecha
+                        $attendance = Attendance::where('enrollment_id', $enrollment->id)
+                            ->whereDate('attendance_date', $dateNow)
+                            ->first();
+
+                        if (!$attendance) {
+                            Attendance::create([
                                 'enrollment_id' => $enrollment->id,
                                 'attendance_date' => $dateNow,
                                 'attendance_time' => $timeNow
-                            ]
-                        );
-                        return response()->make('1', 200, ['Content-Type' => 'text/plain']);
+                            ]);
+                            return response()->make('1', 200, ['Content-Type' => 'text/plain']);
+                        } else {
+                            return response()->make('La asistencia para este estudiante ya ha sido registrada hoy', 200, ['Content-Type' => 'text/plain']);
+                        }
                     } else {
                         return response()->make('No se puede registrar la asistencia, el alumno no está inscrito', 200, ['Content-Type' => 'text/plain']);
                     }
@@ -318,6 +325,7 @@ class HomeController extends Controller
             return response()->make('El Estudiante no existe', 200, ['Content-Type' => 'text/plain']);
         }
     }
+
 
 
     public function qrgenerator()
