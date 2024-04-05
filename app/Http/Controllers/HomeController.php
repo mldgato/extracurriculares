@@ -288,7 +288,7 @@ class HomeController extends Controller
                     ->where('status', '1')
                     ->first(); //Necesito validar esto antes de pasar a la siguiente consulta
 
-                if (!$theEnrollment) {
+                if ($theEnrollment) {
                     $activityUser = ActivityUser::where('id', $theEnrollment->activity_user_id)
                         ->first(); //Necesito validar esto antes de pasar a la siguiente consulta
                     $theUser = $activityUser->user_id;
