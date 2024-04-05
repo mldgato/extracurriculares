@@ -173,10 +173,9 @@ class HomeController extends Controller
             ->join('activities', 'activity_user.activity_id', '=', 'activities.id')
             ->join('users', 'activity_user.user_id', '=', 'users.id')
             ->where('classrooms.cycle_id', $cycleId)
-            ->where('enrollments.activity_user_id', function ($query) use ($userId, $activityId) {
+            ->where('enrollments.activity_user_id', function ($query) use ($activityId) {
                 $query->select('activity_user.id')
                     ->from('activity_user')
-                    ->where('activity_user.user_id', $userId)
                     ->where('activity_user.activity_id', $activityId);
             })
             ->orderBy('levels.order')
