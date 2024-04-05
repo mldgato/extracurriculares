@@ -267,75 +267,70 @@ class HomeController extends Controller
 
     public function registerAttendance(Request $request)
     {
+        // Validar los datos de entrada
+        $request->validate([
+            'codschool' => 'required',
+            'activity' => 'required|exists:activities,id',
+        ]);
+
+        // Obtener el año actual
         $currentYear = Carbon::now()->year;
-        $cycle = Cycle::where('cycle_name', $currentYear)->first();
+
+        // Buscar el ciclo escolar actual
+        $cycle = Cycle::where('cycle_name', $currentYear)->firstOrFail();
         $cycleId = $cycle->id;
-        $codschool = $request->input('codschool');
-        $activity = Activity::find($request->input('activity'));
-        $student = Student::where('codschool', $codschool)->first();
-        /* $user = Auth::id(); */
 
-        if ($student) {
-            $classroomStudentId = Student::findOrFail($student->id)
-                ->classroomStudents()
-                ->whereHas('classroom', function ($query) use ($cycleId) {
-                    $query->where('cycle_id', $cycleId);
-                })
-                ->pluck('id')
-                ->first();
-            if ($classroomStudentId) {
+        // Buscar al estudiante por su código
+        $student = Student::where('codschool', $request->input('codschool'))->first();
 
-                $theEnrollment = Enrollment::where('classroom_student_id', $classroomStudentId)
-                    ->where('status', '1')
-                    ->first();
-
-                $activityUser = ActivityUser::where('id', $theEnrollment->activity_user_id)
-                    ->first();
-
-                $theUser = $activityUser->user_id;
-
-
-                $activityUserId = ActivityUser::where('activity_id', $activity->id)
-                    ->where('user_id', $theUser)
-                    ->pluck('id')
-                    ->first();
-                if ($activityUserId) {
-                    $enrollment = Enrollment::where('classroom_student_id', $classroomStudentId)
-                        ->where('activity_user_id', $activityUserId)
-                        ->where('status', '1')
-                        ->first();
-                    if ($enrollment) {
-                        $dateNow = Carbon::now()->toDateString();
-                        $timeNow = Carbon::now()->toTimeString();
-
-                        // Verificar si ya existe una asistencia para este estudiante en la misma fecha
-                        $attendance = Attendance::where('enrollment_id', $enrollment->id)
-                            ->whereDate('attendance_date', $dateNow)
-                            ->first();
-
-                        if (!$attendance) {
-                            Attendance::create([
-                                'enrollment_id' => $enrollment->id,
-                                'attendance_date' => $dateNow,
-                                'attendance_time' => $timeNow
-                            ]);
-                            return response()->make('1', 200, ['Content-Type' => 'text/plain']);
-                        } else {
-                            return response()->make('La asistencia para este estudiante ya ha sido registrada hoy', 200, ['Content-Type' => 'text/plain']);
-                        }
-                    } else {
-                        return response()->make('No se puede registrar la asistencia, el alumno no está inscrito', 200, ['Content-Type' => 'text/plain']);
-                    }
-                } else {
-                    return response()->make('No tiene una actividad asignada', 200, ['Content-Type' => 'text/plain']);
-                }
-            } else {
-                return response()->make('El Estudiante no está asignado a un grado en el año actual', 200, ['Content-Type' => 'text/plain']);
-            }
-        } else {
+        if (!$student) {
             return response()->make('El Estudiante no existe', 200, ['Content-Type' => 'text/plain']);
         }
+
+        // Buscar el registro de la clase del estudiante en el ciclo actual
+        $classroomStudent = $student->classroomStudents()
+            ->whereHas('classroom', function ($query) use ($cycleId) {
+                $query->where('cycle_id', $cycleId);
+            })->first();
+
+        if (!$classroomStudent) {
+            return response()->make('El Estudiante no está asignado a un grado en el año actual', 200, ['Content-Type' => 'text/plain']);
+        }
+
+        // Buscar la inscripción del estudiante en la actividad
+        $activityUser = $classroomStudent->activityUsers()->where('activity_id', $request->input('activity'))->first();
+
+        if (!$activityUser) {
+            return response()->make('No tiene una actividad asignada', 200, ['Content-Type' => 'text/plain']);
+        }
+
+        // Buscar la inscripción en la actividad del estudiante
+        $enrollment = $activityUser->enrollment()->where('status', 1)->first();
+
+        if (!$enrollment) {
+            return response()->make('No se puede registrar la asistencia, el alumno no está inscrito', 200, ['Content-Type' => 'text/plain']);
+        }
+
+        // Verificar si ya existe una asistencia para este estudiante en la misma fecha
+        $dateNow = Carbon::now()->toDateString();
+        $attendance = Attendance::where('enrollment_id', $enrollment->id)
+            ->whereDate('attendance_date', $dateNow)
+            ->first();
+
+        if ($attendance) {
+            return response()->make('La asistencia para este estudiante ya ha sido registrada hoy', 200, ['Content-Type' => 'text/plain']);
+        }
+
+        // Registrar la asistencia
+        Attendance::create([
+            'enrollment_id' => $enrollment->id,
+            'attendance_date' => $dateNow,
+            'attendance_time' => Carbon::now()->toTimeString()
+        ]);
+
+        return response()->make('1', 200, ['Content-Type' => 'text/plain']);
     }
+
 
 
 
