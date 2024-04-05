@@ -290,7 +290,7 @@ class HomeController extends Controller
                     ->first();
                 if ($activityUserId) {
                     $enrollment = Enrollment::where('classroom_student_id', $classroomStudentId)
-                        /* ->where('activity_user_id', $activityUserId) */
+                        ->where('activity_user_id', $activityUserId)
                         ->where('status', '1')
                         ->first();
                     if ($enrollment) {
