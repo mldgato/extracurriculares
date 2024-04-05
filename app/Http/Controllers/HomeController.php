@@ -173,11 +173,7 @@ class HomeController extends Controller
             ->join('activities', 'activity_user.activity_id', '=', 'activities.id')
             ->join('users', 'activity_user.user_id', '=', 'users.id')
             ->where('classrooms.cycle_id', $cycleId)
-            ->where('enrollments.activity_user_id', function ($query) use ($activityId) {
-                $query->select('activity_user.id')
-                    ->from('activity_user')
-                    ->where('activity_user.activity_id', $activityId);
-            })
+            ->where('activity_user.activity_id', $activityId) // Filtrar por la actividad_id deseada
             ->orderBy('levels.order')
             ->orderBy('grades.order')
             ->orderBy('sections.order')
@@ -192,6 +188,7 @@ class HomeController extends Controller
                 'sections.section_name',
                 DB::raw('DATE_FORMAT(enrollments.registrationdate, "%d/%m/%Y %H:%i:%s") as registration_date')
             ]);
+
 
         return view('admin.activities.students', compact('activity', 'enrollments'));
     }
