@@ -273,7 +273,7 @@ class HomeController extends Controller
         $codschool = $request->input('codschool');
         $activity = Activity::find($request->input('activity'));
         $student = Student::where('codschool', $codschool)->first();
-        $user = Auth::id();
+        /* $user = Auth::id(); */
 
         if ($student) {
             $classroomStudentId = Student::findOrFail($student->id)
@@ -284,8 +284,19 @@ class HomeController extends Controller
                 ->pluck('id')
                 ->first();
             if ($classroomStudentId) {
+
+                $theEnrollment = Enrollment::where('classroom_student_id', $classroomStudentId)
+                    ->where('status', '1')
+                    ->first();
+
+                $activityUser = ActivityUser::where('id', $theEnrollment->activity_user_id)
+                    ->first();
+
+                $theUser = $activityUser->user_id;
+
+
                 $activityUserId = ActivityUser::where('activity_id', $activity->id)
-                    ->where('user_id', $user)
+                    ->where('user_id', $theUser)
                     ->pluck('id')
                     ->first();
                 if ($activityUserId) {
