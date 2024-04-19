@@ -184,7 +184,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form autocomplete="off">
                         @csrf
                         <div class="form-group">
                             <label for="name">Nombres:</label>
@@ -197,20 +197,6 @@
                                     placeholder="Escriba el nombre del usuario" wire:model="name" />
                             </div>
                             @error('name')
-                                <span class="text-danger error">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="surname">Apellidos:</label>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1"><i
-                                            class="far fa-user"></i></span>
-                                </div>
-                                <input type="text" class="form-control" id="surname"
-                                    placeholder="Escriba el nombre del usuario" wire:model="surname" />
-                            </div>
-                            @error('surname')
                                 <span class="text-danger error">{{ $message }}</span>
                             @enderror
                         </div>
@@ -294,7 +280,7 @@
                         <!-- Button -->
                         <button type="button" class="btn btn-outline-primary btn-lg ml-2" data-toggle="modal"
                             data-target="#CreateNewCycle">
-                            <i class="fas fa-plus-circle"></i> Nuevo ciclo
+                            <i class="fas fa-plus-circle"></i> Nuevo usuario
                         </button>
                     </div>
                 </div>
