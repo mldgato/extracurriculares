@@ -184,22 +184,20 @@ class ShowUsers extends Component
     {
         $validar = $this->validate([
             'name' => 'required',
-            'surname' => 'required',
+            'surname' => 'required', // Agrega 'required' aquí
             'email' => 'required|email',
             'password' => 'required|min:8',
             'password_repeat' => 'required|same:password'
         ]);
         if ($validar) {
-            User::create(
-                [
-                    'name' => $this->name,
-                    'surname' => $this->surname,
-                    'email' => $this->email,
-                    'password' => $this->password,
-                ]
-            );
+            User::create([
+                'name' => $this->name,
+                'surname' => $this->surname, // Agrega esta línea
+                'email' => $this->email,
+                'password' => $this->password,
+            ]);
         }
         $this->resetFields();
-        $this->dispatch('closeModalMessaje', 'Información guardada', 'Ciclo creado exitosamente.', 'success', 'CreateNewCycle');
+        $this->dispatch('closeModalMessaje', 'Información guardada', 'Usuario creado exitosamente.', 'success', 'CreateNewCycle');
     }
 }
