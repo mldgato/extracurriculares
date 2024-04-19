@@ -1,6 +1,6 @@
 <div wire:init="loadUsers">
-    <div wire:ignore.self class="modal fade" id="a" tabindex="-1" role="dialog"
-        aria-labelledby="UpdateNewCycle" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="a" tabindex="-1" role="dialog" aria-labelledby="UpdateNewCycle"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -168,6 +168,119 @@
                             wire:target="updateRole"><i class="fas fa-exchange-alt"></i> Actualizar</span><span
                             wire:loading wire:target="updateRole"><i class="fas fa-spinner fa-pulse"></i>
                             Actualizando</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div wire:ignore.self class="modal fade" id="CreateNewCycle" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" role="dialog" aria-labelledby="CreateNewCycleLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="CreateNewCycleLabel">Crear nuevo usuario</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true close-btn">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        @csrf
+                        <div class="form-group">
+                            <label for="name">Nombres:</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i
+                                            class="fas fa-user"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="name"
+                                    placeholder="Escriba el nombre del usuario" wire:model="name" />
+                            </div>
+                            @error('name')
+                                <span class="text-danger error">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="surname">Apellidos:</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i
+                                            class="far fa-user"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="surname"
+                                    placeholder="Escriba el nombre del usuario" wire:model="surname" />
+                            </div>
+                            @error('surname')
+                                <span class="text-danger error">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="surname">Apellidos:</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i
+                                            class="far fa-user"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="surname"
+                                    placeholder="Escriba el nombre del usuario" wire:model="surname" />
+                            </div>
+                            @error('surname')
+                                <span class="text-danger error">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i
+                                            class="fas fa-envelope"></i></span>
+                                </div>
+                                <input type="email" class="form-control" id="email"
+                                    placeholder="Escriba el nombre del usuario" wire:model="email" />
+                            </div>
+                            @error('email')
+                                <span class="text-danger error">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Contraseña:</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-unlock-alt"></i></span>
+                                </div>
+                                <input type="password" class="form-control" id="password"
+                                    placeholder="Escriba la nueva contraseña" wire:model="password">
+                            </div>
+                            @error('password')
+                                <span class="text-danger error">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="password_repeat">Repetir:</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-redo-alt"></i></span>
+                                </div>
+                                <input type="password" class="form-control" id="password_repeat"
+                                    placeholder="Repita la nueva contraseña" wire:model="password_repeat">
+                            </div>
+                            @error('password_repeat')
+                                <span class="text-danger error">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger close-btn" data-dismiss="modal"
+                        wire:click="resetFields"><i class="fas fa-window-close"></i>
+                        Cerrar</button>
+
+                    <button type="button" class="btn btn-success" wire:click="save" wire:loading.attr="disabled"
+                        wire:loading.class.remove="btn-success" wire:loading.class="btn btn-warning"
+                        wire:target="save"><span wire:loading.remove wire:target="save"><i class="fas fa-save"></i>
+                            Guardar</span><span wire:loading wire:target="save"><i
+                                class="fas fa-spinner fa-pulse"></i>
+                            Guardando</span></button>
                 </div>
             </div>
         </div>

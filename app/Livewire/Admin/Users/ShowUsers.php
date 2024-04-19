@@ -26,7 +26,7 @@ class ShowUsers extends Component
         'search' => ['except' => '']
     ];
 
-    protected $listeners = ['render', 'delete'];
+    protected $listeners = ['render', 'delete', 'save'];
 
     public function mount()
     {
@@ -178,5 +178,28 @@ class ShowUsers extends Component
 
             $this->dispatch('closeModalMessaje', 'Información', 'Usuario actualizado exitósamente.', 'info', 'UpdateUserRole');
         }
+    }
+
+    public function save()
+    {
+        $validar = $this->validate([
+            'name' => 'required',
+            'surname' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8',
+            'password_repeat' => 'required|same:password'
+        ]);
+        if ($validar) {
+            User::create(
+                [
+                    'name' => $this->name,
+                    'surname' => $this->surname,
+                    'email' => $this->email,
+                    'password' => $this->password,
+                ]
+            );
+        }
+        $this->resetFields();
+        $this->dispatch('closeModalMessaje', 'Información guardada', 'Ciclo creado exitosamente.', 'success', 'CreateNewCycle');
     }
 }
