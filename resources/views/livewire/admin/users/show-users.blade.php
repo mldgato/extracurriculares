@@ -291,9 +291,11 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="d-flex justify-content-end">
-                        {{-- <a href="{{ route('admin.users.create') }}" class="btn btn-outline-info btn-lg">
-                            <i class="fas fa-user-plus fa-fw"></i> Nuevo usuario
-                        </a> --}}
+                        <!-- Button -->
+                        <button type="button" class="btn btn-outline-primary btn-lg ml-2" data-toggle="modal"
+                            data-target="#CreateNewCycle">
+                            <i class="fas fa-plus-circle"></i> Nuevo ciclo
+                        </button>
                     </div>
                 </div>
             </div>
