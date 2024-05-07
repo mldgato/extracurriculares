@@ -263,15 +263,15 @@ class HomeController extends Controller
 
     public function registerAttendance(Request $request)
     {
-        $currentYear = Carbon::now()->year; //Año Actual
-        $cycle = Cycle::where('cycle_name', $currentYear)->first(); //Consultamos los datos del ciclo en base al año actual: $currentYear
-        $cycleId = $cycle->id; // Obtenemos el id del ciclo actual
-        $codschool = $request->input('codschool'); //Carné del alumno que viene desde el request
-        $activity = Activity::find($request->input('activity')); //Id de la actividad que se está tomando asistencia
-        $student = Student::where('codschool', $codschool)->first(); //Obtenemos los datos del alumno tomando de referencia el carné
-        $userId = Auth::id();
+        $currentYear = Carbon::now()->year;
+        $cycle = Cycle::where('cycle_name', $currentYear)->first();
+        $cycleId = $cycle->id;
+        $codschool = $request->input('codschool');
+        $activity = Activity::find($request->input('activity'));
+        $student = Student::where('codschool', $codschool)->first();
+        $user = Auth::id();
 
-        if ($student) { //Si el estudiante existe
+        if ($student) {
             $classroomStudentId = Student::findOrFail($student->id)
                 ->classroomStudents()
                 ->whereHas('classroom', function ($query) use ($cycleId) {
@@ -280,56 +280,23 @@ class HomeController extends Controller
                 ->pluck('id')
                 ->first();
             if ($classroomStudentId) {
-                $activity_user_id = ActivityUser::where('user_id', $userId)
-                    ->where('activity_id', $activity->id)
-                    ->first();
-                $theEnrollment = Enrollment::where('classroom_student_id', $classroomStudentId)
-                    ->where('activity_user_id', $activity_user_id->id)
-                    ->where('status', '1')
+                $activityUserId = ActivityUser::where('activity_id', $activity->id)
+                    ->where('user_id', $user)
                     ->pluck('id')
-                    ->first(); //Necesito validar esto antes de pasar a la siguiente consulta
-                return response()->make('El theEnrollment es: ' . $theEnrollment, 200, ['Content-Type' => 'text/plain']);
-                /* if ($theEnrollment) {
-                    $activityUser = ActivityUser::where('id', $theEnrollment->activity_user_id)
-                        ->first(); //Necesito validar esto antes de pasar a la siguiente consulta
-                    $theUser = $activityUser->user_id;
-                    $activityUserId = ActivityUser::where('activity_id', $activity->id)
-                        ->where('user_id', $theUser)
-                        ->pluck('id')
+                    ->first();
+                if ($activityUserId) {
+                    $enrollment = Enrollment::where('classroom_student_id', $classroomStudentId)
+                        ->where('activity_user_id', $activityUserId)
+                        ->where('status', '1')
                         ->first();
-                    if ($activityUserId) {
-                        $enrollment = Enrollment::where('classroom_student_id', $classroomStudentId)
-                            ->where('activity_user_id', $activityUserId)
-                            ->where('status', '1')
-                            ->first();
-                        if ($enrollment) {
-                            $dateNow = Carbon::now()->toDateString();
-                            $timeNow = Carbon::now()->toTimeString();
-
-                            // Verificar si ya existe una asistencia para este estudiante en la misma fecha
-                            $attendance = Attendance::where('enrollment_id', $enrollment->id)
-                                ->whereDate('attendance_date', $dateNow)
-                                ->first();
-
-                            if (!$attendance) {
-                                Attendance::create([
-                                    'enrollment_id' => $enrollment->id,
-                                    'attendance_date' => $dateNow,
-                                    'attendance_time' => $timeNow
-                                ]);
-                                return response()->make('1', 200, ['Content-Type' => 'text/plain']);
-                            } else {
-                                return response()->make('La asistencia para este estudiante ya ha sido registrada hoy', 200, ['Content-Type' => 'text/plain']);
-                            }
-                        } else {
-                            return response()->make('No se puede registrar la asistencia, el alumno no está inscrito', 200, ['Content-Type' => 'text/plain']);
-                        }
+                    if ($enrollment) {
+                        return response()->make('El enrollment es: ' . $enrollment, 200, ['Content-Type' => 'text/plain']);
                     } else {
-                        return response()->make('No tiene una actividad asignada', 200, ['Content-Type' => 'text/plain']);
+                        return response()->make('El estudiante no está inscrito en la actividad extraaula', 200, ['Content-Type' => 'text/plain']);
                     }
                 } else {
-                    return response()->make('El estudiante no está inscrito en la actividad extraaula', 200, ['Content-Type' => 'text/plain']);
-                } */
+                    return response()->make('No tiene una actividad asignada', 200, ['Content-Type' => 'text/plain']);
+                }
             } else {
                 return response()->make('El Estudiante no está asignado a un grado en el año actual', 200, ['Content-Type' => 'text/plain']);
             }
