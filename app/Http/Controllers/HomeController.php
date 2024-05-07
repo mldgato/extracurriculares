@@ -285,15 +285,7 @@ class HomeController extends Controller
                     ->pluck('id')
                     ->first();
                 if ($activityUserId) {
-                    $enrollment = Enrollment::where('classroom_student_id', $classroomStudentId)
-                        ->where('activity_user_id', $activityUserId)
-                        ->where('status', '1')
-                        ->first();
-                    if ($enrollment) {
-                        return response()->make('El enrollment es: ' . $enrollment, 200, ['Content-Type' => 'text/plain']);
-                    } else {
-                        return response()->make('El estudiante no está inscrito en la actividad extraaula', 200, ['Content-Type' => 'text/plain']);
-                    }
+                    return response()->make('activityUserId es: ' . $activityUserId, 200, ['Content-Type' => 'text/plain']);
                 } else {
                     return response()->make('No tiene una actividad asignada', 200, ['Content-Type' => 'text/plain']);
                 }
