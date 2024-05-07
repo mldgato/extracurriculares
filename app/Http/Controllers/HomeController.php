@@ -281,7 +281,6 @@ class HomeController extends Controller
                 ->first();
             if ($classroomStudentId) {
                 $activityUserId = ActivityUser::where('activity_id', $activity->id)
-                    ->where('user_id', $user)
                     ->pluck('id')
                     ->first();
                 if ($activityUserId) {
