@@ -287,7 +287,7 @@ class HomeController extends Controller
                     ->where('activity_user_id', $activity_user_id)
                     ->where('status', '1')
                     ->first(); //Necesito validar esto antes de pasar a la siguiente consulta
-                return response()->make('El userId es: ' . $userId, 200, ['Content-Type' => 'text/plain']);
+                return response()->make('El activity es: ' . $activity, 200, ['Content-Type' => 'text/plain']);
                 /* if ($theEnrollment) {
                     $activityUser = ActivityUser::where('id', $theEnrollment->activity_user_id)
                         ->first(); //Necesito validar esto antes de pasar a la siguiente consulta
