@@ -269,6 +269,7 @@ class HomeController extends Controller
         $codschool = $request->input('codschool'); //Carné del alumno que viene desde el request
         $activity = Activity::find($request->input('activity')); //Id de la actividad que se está tomando asistencia
         $student = Student::where('codschool', $codschool)->first(); //Obtenemos los datos del alumno tomando de referencia el carné
+        $userId = Auth::id();
 
         if ($student) { //Si el estudiante existe
             $classroomStudentId = Student::findOrFail($student->id)
@@ -279,10 +280,14 @@ class HomeController extends Controller
                 ->pluck('id')
                 ->first();
             if ($classroomStudentId) {
+                $activity_user_id = ActivityUser::where('user_id', $userId)
+                    ->where('activity_id', $activity)
+                    ->first();
                 $theEnrollment = Enrollment::where('classroom_student_id', $classroomStudentId)
+                    ->where('activity_user_id', $activity_user_id)
                     ->where('status', '1')
                     ->first(); //Necesito validar esto antes de pasar a la siguiente consulta
-                return response()->make('El theEnrollment es: '. $theEnrollment, 200, ['Content-Type' => 'text/plain']);
+                return response()->make('El theEnrollment es: ' . $theEnrollment, 200, ['Content-Type' => 'text/plain']);
                 /* if ($theEnrollment) {
                     $activityUser = ActivityUser::where('id', $theEnrollment->activity_user_id)
                         ->first(); //Necesito validar esto antes de pasar a la siguiente consulta
