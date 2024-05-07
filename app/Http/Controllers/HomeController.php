@@ -282,12 +282,14 @@ class HomeController extends Controller
             if ($classroomStudentId) {
                 $activity_user_id = ActivityUser::where('user_id', $userId)
                     ->where('activity_id', $activity)
+                    ->pluck('id')
                     ->first();
                 $theEnrollment = Enrollment::where('classroom_student_id', $classroomStudentId)
                     ->where('activity_user_id', $activity_user_id)
                     ->where('status', '1')
+                    ->pluck('id')
                     ->first(); //Necesito validar esto antes de pasar a la siguiente consulta
-                return response()->make('El activity es: ' . $activity, 200, ['Content-Type' => 'text/plain']);
+                return response()->make('El theEnrollment es: ' . $theEnrollment, 200, ['Content-Type' => 'text/plain']);
                 /* if ($theEnrollment) {
                     $activityUser = ActivityUser::where('id', $theEnrollment->activity_user_id)
                         ->first(); //Necesito validar esto antes de pasar a la siguiente consulta
