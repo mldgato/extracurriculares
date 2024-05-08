@@ -154,6 +154,11 @@ class HomeController extends Controller
         return view('admin.activities.attendance', compact('activity'));
     }
 
+    public function attendancetest(Activity $activity)
+    {
+        return view('admin.activities.attendancetest', compact('activity'));
+    }
+
     public function studentsList(Activity $activity)
     {
         $currentYear = Carbon::now()->year;
@@ -280,67 +285,61 @@ class HomeController extends Controller
                 ->pluck('id')
                 ->first();
             if ($classroomStudentId) {
-                $activityUserId = ActivityUser::where('activity_id', $activity->id)
-                    ->pluck('id')
-                    ->first();
-                if ($activityUserId) {
-                    $theEnrollment = Enrollment::where('classroom_student_id', $classroomStudentId)
-                        ->where('status', '1')
-                        ->first(); //Necesito validar esto antes de pasar a la siguiente consulta
 
-                    if ($theEnrollment) {
-                        $activityUser = ActivityUser::where('id', $theEnrollment->activity_user_id)
-                            ->first(); //Necesito validar esto antes de pasar a la siguiente consulta
-                        $theUser = $activityUser->user_id;
-                        $activityUserId = ActivityUser::where('activity_id', $activity->id)
-                            ->where('user_id', $theUser)
-                            ->pluck('id')
-                            ->first();
-                        if ($activityUserId) {
-                            $enrollment = Enrollment::where('classroom_student_id', $classroomStudentId)
-                                ->where('activity_user_id', $activityUserId)
-                                ->where('status', '1')
-                                ->first();
-                            if ($enrollment) {
-                                $dateNow = Carbon::now()->toDateString();
-                                $timeNow = Carbon::now()->toTimeString();
+                $enrollments = Enrollment::where('classroom_student_id', $classroomStudentId)->get();
+                $TheEnrollment = "";
+                foreach ($enrollments as $enrollment) {
+                    $activityUser = ActivityUser::where('activity_id', $activity->id)
+                        ->pluck('id')
+                        ->first();
+                    if ($enrollment->activity_user_id == $activityUser) {
+                        $TheEnrollment = $enrollment->id;
+                    }
+                }
+                if ($TheEnrollment != "") {
+                    $dateNow = Carbon::now()->toDateString();
+                    $timeNow = Carbon::now()->toTimeString();
 
-                                // Verificar si ya existe una asistencia para este estudiante en la misma fecha
-                                $attendance = Attendance::where('enrollment_id', $enrollment->id)
-                                    ->whereDate('attendance_date', $dateNow)
-                                    ->first();
+                    // Verificar si ya existe una asistencia para este estudiante en la misma fecha
+                    $attendance = Attendance::where('enrollment_id', $TheEnrollment)
+                        ->whereDate('attendance_date', $dateNow)
+                        ->first();
 
-                                if (!$attendance) {
-                                    Attendance::create([
-                                        'enrollment_id' => $enrollment->id,
-                                        'attendance_date' => $dateNow,
-                                        'attendance_time' => $timeNow
-                                    ]);
-                                    return response()->make('1', 200, ['Content-Type' => 'text/plain']);
-                                } else {
-                                    return response()->make('La asistencia para este estudiante ya ha sido registrada hoy', 200, ['Content-Type' => 'text/plain']);
-                                }
-                            } else {
-                                return response()->make('No se puede registrar la asistencia, el alumno no está inscrito', 200, ['Content-Type' => 'text/plain']);
-                            }
-                        } else {
-                            return response()->make('No tiene una actividad asignada', 200, ['Content-Type' => 'text/plain']);
-                        }
+                    if (!$attendance) {
+                        Attendance::create([
+                            'enrollment_id' => $TheEnrollment,
+                            'attendance_date' => $dateNow,
+                            'attendance_time' => $timeNow
+                        ]);
+                        return response()->make('1', 200, ['Content-Type' => 'text/plain']);
+                        /* $result = 'Asistencia Registrada';
+                        return view('resultado', compact('result')); */
                     } else {
-                        return response()->make('El estudiante no está inscrito en la actividad extraaula', 200, ['Content-Type' => 'text/plain']);
+                        return response()->make('La asistencia para este estudiante ya ha sido registrada hoy', 200, ['Content-Type' => 'text/plain']);
+                        /* $result = 'La asistencia para este estudiante ya ha sido registrada hoy';
+                        return view('resultado', compact('result')); */
                     }
                 } else {
-                    return response()->make('No tiene una actividad asignada', 200, ['Content-Type' => 'text/plain']);
+                    return response()->make('No se puede registrar la asistencia, el alumno no está inscrito', 200, ['Content-Type' => 'text/plain']);
+                    /* $result = 'No se puede registrar la asistencia, el alumno no está inscrito';
+                    return view('resultado', compact('result')); */
                 }
             } else {
                 return response()->make('El Estudiante no está asignado a un grado en el año actual', 200, ['Content-Type' => 'text/plain']);
+                /* $result = 'El Estudiante no está asignado a un grado en el año actual';
+                return view('resultado', compact('result')); */
             }
         } else {
             return response()->make('El Estudiante no existe', 200, ['Content-Type' => 'text/plain']);
+            /* $result = 'El Estudiante no existe';
+            return view('resultado', compact('result')); */
         }
     }
 
-
+    public function resultado($result)
+    {
+        return view('resultado', compact('result'));
+    }
 
     public function qrgenerator()
     {

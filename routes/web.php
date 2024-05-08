@@ -10,6 +10,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/resultado/{result}', [HomeController::class, 'resultado'])->name('resultado');
 
 Route::get('/admin/cycles', [HomeController::class, 'cycles'])->name('admin.cycles.index');
 Route::get('/admin/cycles/order', [HomeController::class, 'orderCycles'])->name('admin.cycles.order');
@@ -43,6 +44,7 @@ Route::get('/admin/activities/assisted', [HomeController::class, 'assisted'])->n
 Route::get('/admin/activities/register/{activity}', [HomeController::class, 'register'])->name('admin.activities.register');
 Route::get('/admin/activities/students/{activity}', [HomeController::class, 'studentsList'])->name('admin.activities.students');
 Route::get('/admin/activities/attendance/{activity}', [HomeController::class, 'attendance'])->name('admin.activities.attendance');
+Route::get('/admin/activities/attendancetest/{activity}', [HomeController::class, 'attendancetest'])->name('admin.activities.attendancetest');
 
 Route::post('/admin/activities/enrollment', [HomeController::class, 'enrollment'])->name('admin.activities.enrollment');
 Route::post('/admin/activities/registerAttendance', [HomeController::class, 'registerAttendance'])->name('admin.activities.registerAttendance');
