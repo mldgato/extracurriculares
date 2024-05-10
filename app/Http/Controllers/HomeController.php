@@ -16,6 +16,7 @@ use App\Models\ActivityUser;
 use App\Models\ClassroomStudent;
 //use App\Models\ClassroomStudent;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 
 class HomeController extends Controller
 {
@@ -164,7 +165,6 @@ class HomeController extends Controller
         $currentYear = Carbon::now()->year;
         $cycle = Cycle::where('cycle_name', $currentYear)->first();
         $cycleId = $cycle->id;
-        $userId = Auth::id();
         $activityId = $activity->id;
 
         $enrollments = Enrollment::join('classroom_students', 'enrollments.classroom_student_id', '=', 'classroom_students.id')
@@ -340,6 +340,103 @@ class HomeController extends Controller
     {
         return view('resultado', compact('result'));
     }
+
+    public function report(Activity $activity)
+    {
+        $cycles = Cycle::all();
+        return view('admin.activities.report', compact('activity', 'cycles'));
+    }
+
+    public function viewReport(Request $request)
+    {
+        // Obtener el mes y año deseados
+        $month = $request->input('month');
+        $activity = Activity::find($request->input('activity'));
+        $cycle = Cycle::find($request->input('cycle'));
+
+        // Crear una instancia de Carbon con el primer día del mes
+        $startOfMonth = Carbon::createFromDate($cycle->cycle_name, $month, 1);
+
+        // Obtener el último día del mes correctamente
+        $endOfMonth = $startOfMonth->copy()->endOfMonth();
+
+        // Inicializar una colección para almacenar las fechas del mes
+        $dates = Collection::make();
+
+        // Generar las fechas del mes usando un bucle for
+        for ($date = $startOfMonth; $date->lte($endOfMonth); $date->addDay()) {
+            $dates->push($date->copy()->format('Y-m-d'));
+        }
+
+        $enrollments = Enrollment::join('classroom_students', 'enrollments.classroom_student_id', '=', 'classroom_students.id')
+            ->join('classrooms', 'classroom_students.classroom_id', '=', 'classrooms.id')
+            ->join('cycles', 'classrooms.cycle_id', '=', 'cycles.id')
+            ->join('levels', 'classrooms.level_id', '=', 'levels.id')
+            ->join('grades', 'classrooms.grade_id', '=', 'grades.id')
+            ->join('sections', 'classrooms.section_id', '=', 'sections.id')
+            ->join('students', 'classroom_students.student_id', '=', 'students.id')
+            ->join('activity_user', 'enrollments.activity_user_id', '=', 'activity_user.id')
+            ->join('activities', 'activity_user.activity_id', '=', 'activities.id')
+            ->join('users', 'activity_user.user_id', '=', 'users.id')
+            ->where('classrooms.cycle_id', $cycle->id)
+            ->where('activity_user.activity_id', $activity->id) // Filtrar por la actividad_id deseada
+            ->orderBy('levels.order')
+            ->orderBy('grades.order')
+            ->orderBy('sections.order')
+            ->orderBy('students.lastname')
+            ->orderBy('students.firstname')
+            ->get([
+                'enrollments.id',
+                'students.codschool',
+                'students.lastname',
+                'students.firstname',
+                'levels.level_name',
+                'grades.grade_name',
+                'sections.section_name'
+            ]);
+
+        // Inicializar un array para almacenar los resultados formateados
+        $formattedEnrollments = [];
+
+        // Iterar sobre las inscripciones
+        foreach ($enrollments as $enrollment) {
+            // Inicializar un array para almacenar la información de la inscripción
+            $formattedEnrollment = [
+                'id' => $enrollment->id,
+                'codschool' => $enrollment->codschool,
+                'lastname' => $enrollment->lastname,
+                'firstname' => $enrollment->firstname,
+                'level_name' => $enrollment->level_name,
+                'grade_name' => $enrollment->grade_name,
+                'section_name' => $enrollment->section_name,
+            ];
+
+            // Agregar las fechas del mes como claves con valores vacíos
+            foreach ($dates as $date) {
+                $attendance = Attendance::where('enrollment_id', $enrollment->id)
+                    ->where('attendance_date', $date)
+                    ->first();
+                if ($attendance) {
+                    $formattedEnrollment[$date] = "SI";
+                } else {
+                    $formattedEnrollment[$date] = "NO";
+                }
+            }
+
+            // Agregar el array formateado al array de resultados
+            $formattedEnrollments[] = $formattedEnrollment;
+        }
+
+        // Ahora $formattedEnrollments contiene los datos formateados que necesitas
+        // Puedes usarlo en tu aplicación como necesites
+        return view('admin.activities.theReport', compact('dates', 'formattedEnrollments'));
+    }
+
+
+
+
+
+
 
     public function qrgenerator()
     {
